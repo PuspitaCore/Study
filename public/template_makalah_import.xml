@@ -4,8 +4,26 @@
     <title>JUDUL MAKALAH</title>
     <subtitle>Makalah Akademik</subtitle>
     <course>Nama Mata Kuliah</course>
+    <lecturer>Nama Dosen Pengampu</lecturer>
     <institution>STIESIA</institution>
+    <city>Surabaya</city>
+    <year>2026</year>
+    <coverTitle>RINGKASAN MATA KULIAH</coverTitle>
+    <authors>
+      <author>
+        <id>Nomor Induk Mahasiswa</id>
+        <name>Nama Mahasiswa</name>
+      </author>
+    </authors>
   </meta>
+
+  <assets>
+    <asset id="institution_logo" type="logo" name="" src="" />
+  </assets>
+
+  <settings>
+    <cover show="true" logoWidth="42" logoColor="original" />
+  </settings>
 
   <content>
     <heading level="1">BAB I PENDAHULUAN</heading>

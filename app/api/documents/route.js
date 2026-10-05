@@ -1,7 +1,4 @@
-import { PrismaClient } from '../../../generated/prisma/client';
-
-const prisma = globalThis.prisma ?? new PrismaClient();
-if (process.env.NODE_ENV !== 'production') globalThis.prisma = prisma;
+import { prisma } from '../../../lib/prisma';
 
 export async function GET() {
   const documents = await prisma.document.findMany({ orderBy: { updatedAt: 'desc' } });
