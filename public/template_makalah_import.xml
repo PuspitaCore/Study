@@ -9,6 +9,7 @@
     <city>Surabaya</city>
     <year>2026</year>
     <coverTitle>RINGKASAN MATA KULIAH</coverTitle>
+    <purpose>Disusun untuk memenuhi tugas mata kuliah</purpose>
     <authors>
       <author>
         <id>Nomor Induk Mahasiswa</id>
@@ -22,7 +23,8 @@
   </assets>
 
   <settings>
-    <cover show="true" logoWidth="42" logoColor="original" />
+    <cover show="true" logoWidth="42" logoColor="original" titleSize="16" logoGap="8" />
+    <pagination heading1PageBreak="true" />
   </settings>
 
   <content>
@@ -55,6 +57,8 @@
       <item>Poin pertama</item>
       <item>Poin kedua</item>
     </list>
+    <pagebreak />
+    <heading level="1">DAFTAR PUSTAKA</heading>
   </content>
 
   <references>

@@ -153,22 +153,30 @@
     padding:var(--margin-top) var(--margin-right) var(--margin-bottom) var(--margin-left)
   }
   .academic-cover{
-    min-height:var(--paper-min-height);display:flex;flex-direction:column;align-items:center;
-    text-align:center;break-after:page;page-break-after:always;line-height:1.35
+    width:100%;height:var(--paper-min-height);padding:22mm 25mm 18mm;
+    display:grid;grid-template-rows:auto 1fr auto;align-items:start;text-align:center;
+    break-after:page;page-break-after:always;line-height:1.35;position:relative
   }
-  .cover-kicker{font-size:17pt;font-weight:700;text-transform:uppercase;margin:0 0 18mm}
-  .cover-main-title{font-size:16pt;font-weight:700;text-transform:uppercase;max-width:155mm;margin:0 0 11mm}
-  .cover-purpose{font-size:12pt;margin:0 0 8mm}
-  .cover-course{font-size:13pt;margin:0 0 8mm}
-  .cover-lecturer{font-size:12pt;font-weight:700;margin:0 0 10mm}
-  .cover-logo{display:block;object-fit:contain;margin:0 auto 10mm;max-height:52mm}
+  .cover-header{width:100%;display:flex;flex-direction:column;align-items:center}
+  .cover-kicker{font-size:17pt;font-weight:700;text-transform:uppercase;margin:0 0 10mm}
+  .cover-main-title{font-weight:700;text-transform:uppercase;max-width:155mm;margin:0 0 8mm;line-height:1.35}
+  .cover-purpose{font-size:12pt;margin:0 0 5mm}
+  .cover-course{font-size:13pt;margin:0 0 6mm}
+  .cover-lecturer{font-size:12pt;font-weight:700;margin:0}
+  .cover-center{width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6mm 0 4mm}
+  .cover-logo{display:block;object-fit:contain;margin:0 auto var(--cover-logo-gap,8mm);max-height:50mm}
   .cover-logo-placeholder{
     width:42mm;height:42mm;border:1px dashed #999;display:grid;place-items:center;
-    color:#777;font:10pt Arial,sans-serif;margin:0 auto 10mm
+    color:#777;font:10pt Arial,sans-serif;margin:0 auto var(--cover-logo-gap,8mm)
   }
-  .cover-authors-title{font-size:12pt;font-weight:700;margin-bottom:5mm}
-  .cover-authors{display:grid;grid-template-columns:max-content minmax(45mm,auto);gap:4mm 10mm;text-align:left;font-size:12pt}
-  .cover-institution{margin-top:auto;font-size:14pt;font-weight:700;text-transform:uppercase;line-height:1.7}
+  .cover-authors-title{font-size:12pt;font-weight:700;margin-bottom:4mm}
+  .cover-authors{width:min(118mm,100%);display:grid;grid-template-columns:38mm minmax(0,1fr);gap:3mm 7mm;text-align:left;font-size:12pt;line-height:1.35}
+  .cover-author-id{text-align:right;font-variant-numeric:tabular-nums}
+  .cover-author-name{text-align:left}
+  .cover-institution{width:100%;font-size:14pt;font-weight:700;text-transform:uppercase;line-height:1.65;align-self:end}
+  .academic-cover.cover-overflow{box-shadow:inset 0 0 0 2px #b42318}
+  .cover-overflow-note{display:none;position:absolute;right:8mm;bottom:6mm;color:#b42318;font:700 9pt Arial,sans-serif}
+  .academic-cover.cover-overflow .cover-overflow-note{display:block}
   .document-body{min-height:var(--paper-min-height)}
   .paper .title{text-align:center;font-size:14pt;font-weight:700;text-transform:uppercase;margin:0 0 28px}
   .paper .subtitle{text-align:center;margin:-18px 0 26px;font-size:12pt}
@@ -201,6 +209,7 @@
   .paper blockquote{margin:10px 0 10px 18px;padding-left:12px;border-left:2px solid #666}
   .paper .page-break{break-before:page;page-break-before:always;height:0}
   .paper .references p{text-indent:0;padding-left:1.25cm;text-indent:-1.25cm;margin-bottom:6px}
+  .paper .references{margin-top:8px}
 
   .settings-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
   .range-row{display:grid;grid-template-columns:1fr 90px;gap:10px;align-items:end}
@@ -254,7 +263,9 @@
       font-family:"Times New Roman", Times, serif
     }
     .academic-cover,.document-body{padding:0}
-    .academic-cover{min-height:calc(297mm - 60mm)}
+    .academic-cover{height:calc(297mm - 60mm);grid-template-rows:auto 1fr auto}
+    .cover-logo-placeholder,.cover-overflow-note{display:none!important}
+    .academic-cover.cover-overflow{box-shadow:none}
   }
 </style>
 </head>
@@ -328,6 +339,8 @@
     &lt;institution&gt;STIESIA&lt;/institution&gt;
     &lt;city&gt;Surabaya&lt;/city&gt;
     &lt;year&gt;2026&lt;/year&gt;
+    &lt;coverTitle&gt;RINGKASAN MATA KULIAH&lt;/coverTitle&gt;
+    &lt;purpose&gt;Disusun untuk memenuhi tugas mata kuliah&lt;/purpose&gt;
     &lt;authors&gt;
       &lt;author&gt;&lt;id&gt;NIM&lt;/id&gt;&lt;name&gt;Nama&lt;/name&gt;&lt;/author&gt;
     &lt;/authors&gt;
@@ -337,7 +350,8 @@
     &lt;asset id="institution_logo" type="logo" src="" /&gt;
   &lt;/assets&gt;
   &lt;settings&gt;
-    &lt;cover show="true" logoWidth="42" logoColor="original" /&gt;
+    &lt;cover show="true" logoWidth="42" logoColor="original" titleSize="16" logoGap="8" /&gt;
+    &lt;pagination heading1PageBreak="true" /&gt;
   &lt;/settings&gt;
 
   &lt;content&gt;
@@ -414,6 +428,9 @@
                 </label>
                 <label class="field">Judul bagian atas cover
                   <input id="metaCoverTitle" placeholder="RINGKASAN MATA KULIAH" />
+                </label>
+                <label class="field">Tujuan penulisan pada cover
+                  <input id="metaPurpose" placeholder="Disusun untuk memenuhi tugas mata kuliah" />
                 </label>
               </div>
               <label class="field" style="margin-top:12px">Daftar Penyusun
@@ -579,7 +596,16 @@
               <label class="field">Mode warna
                 <select id="logoColorMode"><option value="original">Warna asli</option><option value="grayscale">Grayscale</option></select>
               </label>
+              <div class="grid-2">
+                <label class="field">Ukuran judul utama
+                  <select id="coverTitleSize"><option value="14">14 pt</option><option value="16" selected>16 pt</option><option value="18">18 pt</option></select>
+                </label>
+                <label class="field">Jarak setelah logo
+                  <select id="logoGap"><option value="5">5 mm</option><option value="8" selected>8 mm</option><option value="11">11 mm</option></select>
+                </label>
+              </div>
               <label class="row" style="font-size:12px"><input id="showCover" type="checkbox" checked> Tampilkan halaman cover</label>
+              <label class="row" style="font-size:12px"><input id="h1PageBreak" type="checkbox" checked> Heading level 1 selalu mulai halaman baru</label>
             </div>
           </div>
         </div>
@@ -615,9 +641,11 @@
       city: "Surabaya",
       year: String(new Date().getFullYear()),
       coverTitle: "RINGKASAN MATA KULIAH",
+      purpose: "Disusun untuk memenuhi tugas mata kuliah",
       authors: []
     },
-    cover: {show:true,logoSrc:"",logoName:"",logoWidth:42,logoColor:"original"},
+    cover: {show:true,logoSrc:"",logoName:"",logoWidth:42,logoColor:"original",titleSize:16,logoGap:8},
+    heading1PageBreak: true,
     blocks: [],
     references: []
   };
@@ -633,12 +661,16 @@
     <city>Surabaya</city>
     <year>2026</year>
     <coverTitle>RINGKASAN MATA KULIAH</coverTitle>
+    <purpose>Disusun untuk memenuhi tugas mata kuliah</purpose>
     <authors>
       <author><id>26109400831</id><name>Moh Rendra Baihaqqi</name></author>
       <author><id>26109400859</id><name>Evan Wibowo</name></author>
     </authors>
   </meta>
-  <settings><cover show="true" logoWidth="42" logoColor="original" /></settings>
+  <settings>
+    <cover show="true" logoWidth="42" logoColor="original" titleSize="16" logoGap="8" />
+    <pagination heading1PageBreak="true" />
+  </settings>
   <content>
     <heading level="1">BAB I PENDAHULUAN</heading>
     <heading level="2">1.1 Latar Belakang</heading>
@@ -773,6 +805,7 @@
       city: childText(meta,"city",""),
       year: childText(meta,"year",String(new Date().getFullYear())),
       coverTitle: childText(meta,"coverTitle","RINGKASAN MATA KULIAH"),
+      purpose: childText(meta,"purpose","Disusun untuk memenuhi tugas mata kuliah"),
       authors: [...(meta?.querySelectorAll(":scope > authors > author") || [])].map(author => ({
         id: childText(author,"id",""), name: childText(author,"name","")
       }))
@@ -780,13 +813,17 @@
 
     const logoAsset = paper.querySelector(':scope > assets > asset[type="logo"]');
     const coverSettings = paper.querySelector(":scope > settings > cover, :scope > meta > settings > cover");
+    const paginationSettings = paper.querySelector(":scope > settings > pagination, :scope > meta > settings > pagination");
     state.cover = {
       show: coverSettings?.getAttribute("show") !== "false",
       logoSrc: logoAsset?.getAttribute("src") || "",
       logoName: logoAsset?.getAttribute("name") || logoAsset?.getAttribute("id") || "",
       logoWidth: Math.max(25, Math.min(60, Number(coverSettings?.getAttribute("logoWidth") || 42))),
-      logoColor: coverSettings?.getAttribute("logoColor") === "grayscale" ? "grayscale" : "original"
+      logoColor: coverSettings?.getAttribute("logoColor") === "grayscale" ? "grayscale" : "original",
+      titleSize: Math.max(14, Math.min(18, Number(coverSettings?.getAttribute("titleSize") || 16))),
+      logoGap: Math.max(5, Math.min(11, Number(coverSettings?.getAttribute("logoGap") || 8)))
     };
+    state.heading1PageBreak = paginationSettings?.getAttribute("heading1PageBreak") !== "false";
 
     state.blocks = [];
     const content = paper.querySelector(":scope > content, :scope > document");
@@ -841,6 +878,7 @@
     $("#metaCity").value = state.meta.city || "";
     $("#metaYear").value = state.meta.year || "";
     $("#metaCoverTitle").value = state.meta.coverTitle || "";
+    $("#metaPurpose").value = state.meta.purpose || "";
     $("#metaAuthors").value = (state.meta.authors || []).map(a => `${a.id}${a.id && a.name ? " | " : ""}${a.name}`).join("\n");
     hydrateCoverInputs();
   }
@@ -850,6 +888,9 @@
     $("#logoWidth").value = state.cover.logoWidth;
     $("#logoWidthNumber").value = state.cover.logoWidth;
     $("#logoColorMode").value = state.cover.logoColor;
+    $("#coverTitleSize").value = String(state.cover.titleSize);
+    $("#logoGap").value = String(state.cover.logoGap);
+    $("#h1PageBreak").checked = state.heading1PageBreak;
     const preview = $("#logoPreview");
     if(/^(data:image\/|https?:\/\/|\/)/i.test(state.cover.logoSrc || "")){
       preview.innerHTML = `<img src="${escapeHtml(state.cover.logoSrc)}" alt="Preview logo">`;
@@ -858,9 +899,9 @@
     }
   }
 
-  ["metaTitle","metaSubtitle","metaCourse","metaInstitution","metaLecturer","metaCity","metaYear","metaCoverTitle"].forEach(id => {
+  ["metaTitle","metaSubtitle","metaCourse","metaInstitution","metaLecturer","metaCity","metaYear","metaCoverTitle","metaPurpose"].forEach(id => {
     $("#" + id).addEventListener("input", e => {
-      const map = {metaTitle:"title",metaSubtitle:"subtitle",metaCourse:"course",metaInstitution:"institution",metaLecturer:"lecturer",metaCity:"city",metaYear:"year",metaCoverTitle:"coverTitle"};
+      const map = {metaTitle:"title",metaSubtitle:"subtitle",metaCourse:"course",metaInstitution:"institution",metaLecturer:"lecturer",metaCity:"city",metaYear:"year",metaCoverTitle:"coverTitle",metaPurpose:"purpose"};
       state.meta[map[id]] = e.target.value;
       renderPreview();
       syncXmlOutput();
@@ -1089,60 +1130,86 @@
   function renderCover(){
     if(!state.cover.show) return "";
     const authors = (state.meta.authors || []).map(a =>
-      `<span>${escapeHtml(a.id)}</span><span>${escapeHtml(a.name)}</span>`
+      `<span class="cover-author-id">${escapeHtml(a.id)}</span><span class="cover-author-name">${escapeHtml(a.name)}</span>`
     ).join("");
     const canRenderLogo = /^(data:image\/|https?:\/\/|\/)/i.test(state.cover.logoSrc || "");
     const logo = canRenderLogo
       ? `<img class="cover-logo" src="${escapeHtml(state.cover.logoSrc)}" alt="Logo institusi" style="width:${state.cover.logoWidth}mm;${state.cover.logoColor === "grayscale" ? "filter:grayscale(1)" : ""}">`
       : `<div class="cover-logo-placeholder">${state.cover.logoSrc ? "Upload ulang logo" : "Logo institusi"}</div>`;
-    return `<section class="academic-cover">
-      <div class="cover-kicker">${escapeHtml(state.meta.coverTitle || "RINGKASAN MATA KULIAH")}</div>
-      <div class="cover-main-title">${escapeHtml(state.meta.title || "JUDUL MAKALAH")}</div>
-      <div class="cover-purpose">Disusun untuk memenuhi tugas mata kuliah</div>
-      <div class="cover-course">${escapeHtml(state.meta.course || "")}</div>
-      <div class="cover-lecturer">Dosen Pengampu: ${escapeHtml(state.meta.lecturer || "")}</div>
-      ${logo}
-      <div class="cover-authors-title">Disusun Oleh:</div>
-      <div class="cover-authors">${authors}</div>
+    return `<section class="academic-cover" style="--cover-logo-gap:${state.cover.logoGap}mm">
+      <div class="cover-header">
+        <div class="cover-kicker">${escapeHtml(state.meta.coverTitle || "RINGKASAN MATA KULIAH")}</div>
+        <div class="cover-main-title" style="font-size:${state.cover.titleSize}pt">${escapeHtml(state.meta.title || "JUDUL MAKALAH")}</div>
+        <div class="cover-purpose">${escapeHtml(state.meta.purpose || "Disusun untuk memenuhi tugas mata kuliah")}</div>
+        <div class="cover-course">${escapeHtml(state.meta.course || "")}</div>
+        <div class="cover-lecturer">Dosen Pengampu: ${escapeHtml(state.meta.lecturer || "")}</div>
+      </div>
+      <div class="cover-center">
+        ${logo}
+        <div class="cover-authors-title">Disusun Oleh:</div>
+        <div class="cover-authors">${authors}</div>
+      </div>
       <div class="cover-institution">${escapeHtml(state.meta.institution || "")}<br>${escapeHtml(state.meta.city || "")}<br>${escapeHtml(state.meta.year || "")}</div>
+      <div class="cover-overflow-note">Cover melebihi satu halaman</div>
     </section>`;
   }
 
   function renderPreview(){
     const p = $("#paperPreview");
     let html = "";
-    if(state.meta.title) html += `<div class="title">${escapeHtml(state.meta.title)}</div>`;
-    if(state.meta.subtitle) html += `<div class="subtitle">${escapeHtml(state.meta.subtitle)}</div>`;
-    if(state.meta.course || state.meta.institution){
+    let hasBodyContent = false;
+    let lastWasPageBreak = false;
+    if(!state.cover.show && state.meta.title) html += `<div class="title">${escapeHtml(state.meta.title)}</div>`;
+    if(!state.cover.show && state.meta.subtitle) html += `<div class="subtitle">${escapeHtml(state.meta.subtitle)}</div>`;
+    if(!state.cover.show && (state.meta.course || state.meta.institution)){
       const line = [state.meta.course,state.meta.institution].filter(Boolean).join(" — ");
       html += `<p class="no-indent" style="text-align:center;margin-bottom:22px">${escapeHtml(line)}</p>`;
     }
 
     state.blocks.forEach(b => {
       if(b.type === "heading"){
-        if(b.breakBefore) html += `<div class="page-break"></div>`;
+        const needsBreak = b.breakBefore || (state.heading1PageBreak && b.level === 1 && hasBodyContent);
+        if(needsBreak && !lastWasPageBreak) html += `<div class="page-break"></div>`;
         html += `<h${b.level}>${escapeHtml(b.text)}</h${b.level}>`;
+        hasBodyContent = true; lastWasPageBreak = false;
       }else if(b.type === "paragraph"){
         html += `<p class="${b.noIndent?"no-indent":""}">${escapeHtml(b.text)}</p>`;
+        hasBodyContent = true; lastWasPageBreak = false;
       }else if(b.type === "blockquote"){
         html += `<blockquote>${escapeHtml(b.text)}</blockquote>`;
+        hasBodyContent = true; lastWasPageBreak = false;
       }else if(b.type === "list"){
         const tag = b.listType === "number" ? "ol" : "ul";
         html += `<${tag}>${b.items.map(x=>`<li>${escapeHtml(x)}</li>`).join("")}</${tag}>`;
+        hasBodyContent = true; lastWasPageBreak = false;
       }else if(b.type === "table"){
         html += renderTable(b);
+        hasBodyContent = true; lastWasPageBreak = false;
       }else if(b.type === "pagebreak"){
-        html += `<div class="page-break"></div>`;
+        if(!lastWasPageBreak) html += `<div class="page-break"></div>`;
+        lastWasPageBreak = true;
       }
     });
 
+    const hasReferencesHeading = state.blocks.some(b => b.type === "heading" && b.level === 1 && /^(daftar pustaka|daftar rujukan)$/i.test(b.text.trim()));
     if(state.references.length){
-      html += `<h1>DAFTAR PUSTAKA</h1><div class="references">`;
+      if(!hasReferencesHeading){
+        if(!lastWasPageBreak && hasBodyContent) html += `<div class="page-break"></div>`;
+        html += `<h1>DAFTAR PUSTAKA</h1>`;
+      }
+      html += `<div class="references">`;
       state.references.forEach(r => html += `<p>${escapeHtml(r)}</p>`);
       html += `</div>`;
     }
     const body = html || `<p class="no-indent" style="text-align:center;color:#666">Belum ada isi dokumen.</p>`;
     p.innerHTML = renderCover() + `<section class="document-body">${body}</section>`;
+    requestAnimationFrame(() => {
+      const cover = p.querySelector(".academic-cover");
+      if(!cover) return;
+      const overflowing = cover.scrollHeight > cover.clientHeight + 2;
+      cover.classList.toggle("cover-overflow", overflowing);
+      if(overflowing) setStatus("Cover melebihi satu halaman");
+    });
   }
 
   function buildXml(){
@@ -1160,6 +1227,7 @@
     add(2, `<city>${escapeXml(state.meta.city)}</city>`);
     add(2, `<year>${escapeXml(state.meta.year)}</year>`);
     add(2, `<coverTitle>${escapeXml(state.meta.coverTitle)}</coverTitle>`);
+    add(2, `<purpose>${escapeXml(state.meta.purpose)}</purpose>`);
     if(state.meta.authors.length){
       add(2, `<authors>`);
       state.meta.authors.forEach(author => {
@@ -1175,7 +1243,8 @@
     add(2, `<asset id="institution_logo" type="logo" name="${escapeXml(state.cover.logoName)}" src="${escapeXml(state.cover.logoSrc)}" />`);
     add(1, `</assets>`);
     add(1, `<settings>`);
-    add(2, `<cover show="${state.cover.show}" logoWidth="${state.cover.logoWidth}" logoColor="${state.cover.logoColor}" />`);
+    add(2, `<cover show="${state.cover.show}" logoWidth="${state.cover.logoWidth}" logoColor="${state.cover.logoColor}" titleSize="${state.cover.titleSize}" logoGap="${state.cover.logoGap}" />`);
+    add(2, `<pagination heading1PageBreak="${state.heading1PageBreak}" />`);
     add(1, `</settings>`);
     add(1, `<content>`);
 
@@ -1221,6 +1290,13 @@
         add(2, `</table>`);
       }
     });
+
+    const hasReferencesHeading = state.blocks.some(b => b.type === "heading" && b.level === 1 && /^(daftar pustaka|daftar rujukan)$/i.test(b.text.trim()));
+    if(state.references.length && !hasReferencesHeading){
+      const lastBlock = state.blocks[state.blocks.length - 1];
+      if(lastBlock?.type !== "pagebreak") add(2, `<pagebreak />`);
+      add(2, `<heading level="1">DAFTAR PUSTAKA</heading>`);
+    }
 
     add(1, `</content>`);
     if(state.references.length){
@@ -1305,8 +1381,9 @@
   });
 
   $("#btnReset").addEventListener("click", ()=>{
-    state.meta = {title:"Judul Makalah",subtitle:"",course:"",institution:"STIESIA",lecturer:"",city:"Surabaya",year:String(new Date().getFullYear()),coverTitle:"RINGKASAN MATA KULIAH",authors:[]};
-    state.cover = {show:true,logoSrc:"",logoName:"",logoWidth:42,logoColor:"original"};
+    state.meta = {title:"Judul Makalah",subtitle:"",course:"",institution:"STIESIA",lecturer:"",city:"Surabaya",year:String(new Date().getFullYear()),coverTitle:"RINGKASAN MATA KULIAH",purpose:"Disusun untuk memenuhi tugas mata kuliah",authors:[]};
+    state.cover = {show:true,logoSrc:"",logoName:"",logoWidth:42,logoColor:"original",titleSize:16,logoGap:8};
+    state.heading1PageBreak = true;
     state.blocks = [];
     state.references = [];
     $("#xmlPaste").value = "";
@@ -1370,8 +1447,17 @@
   $("#logoColorMode").addEventListener("change", e => {
     state.cover.logoColor = e.target.value; renderPreview(); syncXmlOutput();
   });
+  $("#coverTitleSize").addEventListener("change", e => {
+    state.cover.titleSize = Number(e.target.value) || 16; renderPreview(); syncXmlOutput();
+  });
+  $("#logoGap").addEventListener("change", e => {
+    state.cover.logoGap = Number(e.target.value) || 8; renderPreview(); syncXmlOutput();
+  });
   $("#showCover").addEventListener("change", e => {
     state.cover.show = e.target.checked; renderPreview(); syncXmlOutput();
+  });
+  $("#h1PageBreak").addEventListener("change", e => {
+    state.heading1PageBreak = e.target.checked; renderPreview(); syncXmlOutput();
   });
 
   $("#btnFormatNumbers").addEventListener("click", ()=>{
