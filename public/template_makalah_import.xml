@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<paper>
+  <meta>
+    <title>JUDUL MAKALAH</title>
+    <subtitle>Makalah Akademik</subtitle>
+    <course>Nama Mata Kuliah</course>
+    <institution>STIESIA</institution>
+  </meta>
+
+  <content>
+    <heading level="1">BAB I PENDAHULUAN</heading>
+    <heading level="2">1.1 Latar Belakang</heading>
+    <paragraph>Isi paragraf ditulis di sini.</paragraph>
+
+    <table caption="Tabel 1. Judul Tabel" source="Data diolah, 2026">
+      <thead>
+        <row>
+          <cell>Keterangan</cell>
+          <cell>2024</cell>
+          <cell>2025</cell>
+        </row>
+      </thead>
+      <tbody>
+        <row>
+          <cell>Pendapatan</cell>
+          <cell type="number">10000000</cell>
+          <cell type="number">12000000</cell>
+        </row>
+      </tbody>
+    </table>
+
+    <heading level="1" breakBefore="true">BAB II PEMBAHASAN</heading>
+    <heading level="2">2.1 Pembahasan</heading>
+    <paragraph>Isi pembahasan ditulis di sini.</paragraph>
+
+    <list type="bullet">
+      <item>Poin pertama</item>
+      <item>Poin kedua</item>
+    </list>
+  </content>
+
+  <references>
+    <reference>Nama Penulis. (Tahun). Judul Referensi.</reference>
+  </references>
+</paper>

@@ -1,0 +1,1122 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RipiDoc Studio v2 — Academic Document Compiler</title>
+<style>
+:root{
+  --ui-bg:#ececec;
+  --ui-panel:#f8f8f8;
+  --ui-panel-2:#ffffff;
+  --ui-text:#202124;
+  --ui-muted:#6f7378;
+  --ui-line:#d7d7d7;
+  --ui-dark:#20252b;
+  --ui-dark-2:#30363d;
+  --ui-accent:#425466;
+  --ui-success:#3b7259;
+  --shadow:0 1px 7px rgba(0,0,0,.16);
+
+  --page-width:210mm;
+  --page-height:297mm;
+  --margin-top:30mm;
+  --margin-right:30mm;
+  --margin-bottom:30mm;
+  --margin-left:40mm;
+  --doc-font:"Times New Roman", Times, serif;
+  --doc-size:12pt;
+  --doc-line:1.5;
+  --doc-indent:1.25cm;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:var(--ui-text);
+  background:var(--ui-bg);
+  overflow:hidden
+}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.app{height:100vh;display:grid;grid-template-rows:58px 1fr}
+.topbar{
+  display:flex;align-items:center;gap:12px;padding:0 15px;
+  background:var(--ui-dark);color:#fff;border-bottom:1px solid #111;
+}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.1px;white-space:nowrap}
+.brand-mark{
+  width:31px;height:31px;border:1px solid #aeb4ba;border-radius:7px;
+  display:grid;place-items:center;font-weight:900;background:#fff;color:#20252b
+}
+.project{
+  min-width:210px;max-width:340px;overflow:hidden;text-overflow:ellipsis;
+  white-space:nowrap;font-weight:650;font-size:13px;color:#eceff1
+}
+.top-spacer{flex:1}
+.view-switch{
+  display:flex;align-items:center;background:#161a1e;border:1px solid #41474e;border-radius:7px;padding:3px
+}
+.view-switch button{
+  border:0;background:transparent;color:#cfd3d7;padding:6px 9px;border-radius:5px;font-size:12px
+}
+.view-switch button.active{background:#f4f4f4;color:#202124}
+.topbar select{
+  border:1px solid #555d65;background:#2a3036;color:white;border-radius:7px;padding:7px 9px;font-size:12px
+}
+.btn{
+  border:1px solid transparent;border-radius:7px;padding:7px 11px;font-weight:650;font-size:12px
+}
+.btn.primary{background:#f3f3f3;color:#202124;border-color:#d1d1d1}
+.btn.dark{background:#31373d;color:#fff;border-color:#50565d}
+.btn.soft{background:#fff;color:#222;border-color:var(--ui-line)}
+.btn.block{width:100%}
+.workspace{display:grid;grid-template-columns:60px 1fr;min-height:0}
+.rail{
+  background:#2b3035;border-right:1px solid #15191d;padding:8px 6px;
+  display:flex;flex-direction:column;gap:6px
+}
+.rail button{
+  min-height:43px;border:0;border-radius:7px;background:transparent;color:#c5cacf;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:16px
+}
+.rail button span{font-size:8px;text-transform:uppercase;letter-spacing:.03em}
+.rail button.active,.rail button:hover{background:#444a50;color:#fff}
+.rail .bottom{margin-top:auto}
+.stage{min-width:0;min-height:0;display:grid;grid-template-rows:40px 1fr}
+.subbar{
+  display:flex;align-items:center;gap:14px;padding:0 12px;background:#fafafa;
+  border-bottom:1px solid var(--ui-line);font-size:11px
+}
+.metric{display:flex;align-items:center;gap:5px;color:var(--ui-muted)}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--ui-success)}
+.grow{flex:1}
+.tag{
+  background:#fff;border:1px solid var(--ui-line);border-radius:20px;padding:3px 8px;color:#555
+}
+.layout{
+  min-height:0;display:grid;
+  grid-template-columns:258px minmax(360px,.92fr) minmax(520px,1.32fr)
+}
+.pane{
+  min-width:0;min-height:0;background:var(--ui-panel);border-right:1px solid var(--ui-line);overflow:auto
+}
+.pane:last-child{border-right:0}
+.pane-head{
+  height:44px;display:flex;align-items:center;gap:8px;padding:0 12px;border-bottom:1px solid var(--ui-line);
+  font-size:11px;font-weight:800;letter-spacing:.03em;position:sticky;top:0;background:rgba(248,248,248,.96);
+  backdrop-filter:blur(7px);z-index:6
+}
+.pane-head .right{margin-left:auto}
+.outline{padding:8px}
+.outline button{
+  width:100%;text-align:left;border:0;background:transparent;padding:7px 8px;border-radius:6px;
+  color:#25282c;font-size:12px;line-height:1.35
+}
+.outline button:hover{background:#e9e9e9}
+.outline button[data-level="2"]{padding-left:22px;color:#4b4f54}
+.outline button[data-level="3"]{padding-left:36px;color:#696d72}
+.panel{padding:13px}
+.panel-title{
+  font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.045em;margin:5px 0 12px;color:#444
+}
+.panel-subtitle{font-size:11px;font-weight:800;margin:18px 0 8px;color:#555}
+.field{margin-bottom:11px}
+.field label{display:block;font-size:10px;font-weight:750;margin-bottom:5px;color:#555}
+.field input,.field select,.field textarea{
+  width:100%;border:1px solid #cfcfcf;border-radius:6px;padding:8px 9px;background:#fff;color:#202124;font-size:12px
+}
+.field textarea{min-height:88px;resize:vertical;line-height:1.45}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.check{
+  display:flex;align-items:flex-start;gap:7px;font-size:11px;color:#444;margin:8px 0;line-height:1.35
+}
+.check input{margin-top:2px}
+.help{font-size:10px;line-height:1.5;color:#777;margin:5px 0 10px}
+.divider{height:1px;background:var(--ui-line);margin:14px 0}
+.editor-wrap{height:calc(100% - 44px);display:grid;grid-template-rows:auto 1fr}
+.editor-tools{
+  display:flex;flex-wrap:wrap;gap:5px;padding:7px 9px;border-bottom:1px solid var(--ui-line);
+  position:sticky;top:44px;background:#f8f8f8;z-index:5
+}
+.editor-tools button{
+  border:1px solid #d0d0d0;background:white;border-radius:5px;padding:5px 7px;color:#444;font-size:11px
+}
+#source{
+  width:100%;height:100%;resize:none;border:0;outline:none;padding:17px 19px;background:#fff;color:#24292f;
+  font:13px/1.65 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;tab-size:2
+}
+.preview-toolbar{
+  display:flex;align-items:center;gap:6px;margin-left:auto;font-weight:500;letter-spacing:0
+}
+.preview-toolbar button{
+  width:27px;height:27px;border:1px solid #ccc;border-radius:5px;background:#fff
+}
+.preview-toolbar select{border:1px solid #ccc;border-radius:5px;background:#fff;padding:4px 6px;font-size:11px}
+.preview-bg{
+  padding:24px 18px 50px;background:#e5e5e5;min-height:100%;
+  transform-origin:top center
+}
+.page-wrap{margin:0 auto 26px;display:flex;flex-direction:column;align-items:center}
+.page-label{font-size:10px;color:#777;margin-top:7px}
+.document-page{
+  width:var(--page-width);height:var(--page-height);background:#fff;color:#000;box-shadow:var(--shadow);
+  padding:var(--margin-top) var(--margin-right) var(--margin-bottom) var(--margin-left);
+  font-family:var(--doc-font);font-size:var(--doc-size);line-height:var(--doc-line);
+  overflow:hidden;position:relative
+}
+.document-page.landscape{
+  width:297mm;height:210mm
+}
+.document-page .page-content{height:100%;overflow:hidden}
+.document-page p{
+  margin:0;text-align:justify;text-indent:var(--doc-indent)
+}
+.document-page p + p{margin-top:0}
+.document-page h1,.document-page h2,.document-page h3{
+  color:#000;font-family:var(--doc-font);font-style:normal
+}
+.document-page h1{
+  font-size:14pt;line-height:1.25;font-weight:bold;margin:0 0 10pt;text-align:left
+}
+.document-page h2{
+  font-size:12pt;line-height:1.25;font-weight:bold;margin:11pt 0 5pt;text-align:left
+}
+.document-page h3{
+  font-size:12pt;line-height:1.25;font-weight:bold;margin:9pt 0 4pt;text-align:left
+}
+.document-page h1 + p,.document-page h2 + p,.document-page h3 + p,
+.document-page .block-title + p{ text-indent:0 }
+.document-page ul,.document-page ol{margin:5pt 0 8pt;padding-left:24pt}
+.document-page li{padding-left:2pt;text-align:justify}
+.document-page table{
+  width:100%;border-collapse:collapse;margin:9pt 0 11pt;font-family:var(--doc-font);font-size:10pt;line-height:1.25
+}
+.document-page th,.document-page td{border:1px solid #000;padding:4.5pt 5pt;vertical-align:top}
+.document-page th{font-weight:bold;text-align:center;background:transparent}
+.document-page .equation{
+  text-align:center;margin:11pt 0;font-family:"Cambria Math","Times New Roman",serif;font-style:italic;text-indent:0
+}
+.document-page .semantic-block{margin:9pt 0 10pt;padding:0;border:0;background:transparent}
+.document-page .block-title{font-weight:bold;margin:0 0 3pt}
+.document-page .semantic-block p{text-indent:0}
+.document-page .toc{margin:0 0 14pt}
+.document-page .toc-title{text-align:center;font-weight:bold;font-size:14pt;margin:0 0 12pt}
+.document-page .toc-row{
+  display:grid;grid-template-columns:auto 1fr auto;gap:6pt;align-items:end;margin:3pt 0;
+  font-size:11pt;text-indent:0
+}
+.document-page .toc-row .dots{border-bottom:1px dotted #333;transform:translateY(-3px)}
+.document-page .toc-row.level2{padding-left:14pt}
+.document-page .toc-row.level3{padding-left:28pt}
+.document-page .caption{text-align:center;text-indent:0;font-size:10pt;margin:4pt 0}
+.document-page .source-note{text-align:left;text-indent:0;font-size:9.5pt;margin-top:3pt}
+.document-page .manual-break-marker{display:none}
+.cover-page{
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+  font-family:"Times New Roman",Times,serif
+}
+.cover-page .cover-title{
+  font-size:14pt;font-weight:bold;text-transform:uppercase;line-height:1.45;margin:0
+}
+.cover-page .cover-sub{font-size:12pt;margin-top:18pt;line-height:1.5}
+.cover-page .lecturer{font-size:12pt;font-weight:bold;margin-top:8pt;line-height:1.5}
+.cover-logo{
+  width:40mm;height:40mm;object-fit:contain;margin:18pt 0 18pt
+}
+.logo-placeholder{
+  width:38mm;height:38mm;margin:18pt 0;border:1px solid #555;border-radius:50%;
+  display:grid;place-items:center;font-family:Arial,sans-serif;font-size:10pt;color:#666
+}
+.cover-authors-title{font-size:12pt;font-weight:bold;margin-bottom:8pt}
+.cover-authors{
+  display:grid;grid-template-columns:auto auto;column-gap:18pt;row-gap:4pt;text-align:left;font-size:12pt
+}
+.cover-institution{
+  margin-top:auto;font-weight:bold;text-transform:uppercase;line-height:1.5;font-size:12pt
+}
+.page-number{
+  position:absolute;left:0;right:0;bottom:12mm;text-align:center;font-family:"Times New Roman",Times,serif;font-size:10pt
+}
+.page-number.right{text-align:right;padding-right:var(--margin-right)}
+.page-number.left{text-align:left;padding-left:var(--margin-left)}
+.asset-card{
+  border:1px solid var(--ui-line);background:#fff;border-radius:8px;padding:10px
+}
+.logo-preview-box{
+  min-height:125px;border:1px dashed #bbb;background:#fafafa;display:grid;place-items:center;margin-bottom:9px
+}
+.logo-preview-box img{max-width:100%;max-height:110px;object-fit:contain}
+.logo-preview-box .empty{font-size:11px;color:#888;text-align:center}
+.asset-actions{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.import-drop{
+  border:1px dashed #aaa;background:#fff;border-radius:8px;padding:24px 10px;text-align:center;font-size:12px;color:#555
+}
+.import-drop.drag{border-color:#555;background:#f1f1f1}
+.import-drop strong{display:block;color:#222;margin-bottom:5px}
+.import-result{
+  border:1px solid #d1d1d1;background:#fff;padding:9px;border-radius:6px;font-size:10px;color:#555;line-height:1.5;margin-top:9px
+}
+.export-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.export-card{
+  border:1px solid var(--ui-line);background:#fff;border-radius:7px;padding:10px;text-align:left;color:#222
+}
+.export-card b{display:block;margin-bottom:3px;font-size:12px}
+.export-card span{font-size:9px;color:#777}
+.break-chip{
+  display:inline-flex;border:1px solid #aaa;border-radius:4px;background:#f5f5f5;color:#555;padding:1px 5px;font-size:10px
+}
+.hidden{display:none!important}
+.view-editor .layout{grid-template-columns:1fr}
+.view-editor #leftPane,.view-editor #previewPane{display:none}
+.view-preview .layout{grid-template-columns:1fr}
+.view-preview #leftPane,.view-preview #editorPane{display:none}
+.view-outline .layout{grid-template-columns:300px 1fr}
+.view-outline #editorPane{display:none}
+.toast{
+  position:fixed;right:16px;bottom:16px;background:#20252b;color:white;padding:10px 13px;border-radius:7px;
+  box-shadow:0 5px 18px rgba(0,0,0,.22);opacity:0;transform:translateY(10px);pointer-events:none;transition:.2s;z-index:100
+}
+.toast.show{opacity:1;transform:translateY(0)}
+#measureRoot{
+  position:fixed;left:-20000px;top:0;visibility:hidden;pointer-events:none;z-index:-10
+}
+.warning{font-size:10px;color:#684d20;background:#fffaf0;border:1px solid #eadcc1;border-radius:6px;padding:7px 8px;margin:7px 0}
+@media(max-width:1120px){
+  .layout{grid-template-columns:235px 1fr}
+  #previewPane{display:none}
+  .view-preview #previewPane{display:block}
+}
+@media print{
+  body{overflow:visible;background:#fff}
+  .topbar,.rail,.subbar,#leftPane,#editorPane,.pane-head,.toast{display:none!important}
+  .app,.workspace,.stage,.layout{display:block;height:auto}
+  #previewPane{display:block!important;overflow:visible}
+  .preview-bg{padding:0;background:#fff}
+  .page-wrap{margin:0;display:block}
+  .page-label{display:none}
+  .document-page{box-shadow:none;margin:0;page-break-after:always}
+  .document-page.landscape{page:landscapePage}
+  .document-page:last-child{page-break-after:auto}
+  @page{size:A4;margin:0}
+  @page landscapePage{size:A4 landscape;margin:0}
+}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <header class="topbar">
+    <div class="brand"><div class="brand-mark">R</div>RipiDoc Studio <small style="font-weight:500;color:#aeb4ba">v2</small></div>
+    <div class="project" id="projectName">Academic Document</div>
+    <select id="templateSelect" title="Template">
+      <option value="academic">Academic Formal</option>
+      <option value="stiesia">STIESIA Academic</option>
+      <option value="journal">Journal Minimal</option>
+    </select>
+    <div class="top-spacer"></div>
+    <div class="view-switch" id="viewSwitch">
+      <button data-view="split" class="active">Split</button>
+      <button data-view="editor">Editor</button>
+      <button data-view="preview">Preview</button>
+      <button data-view="outline">Outline</button>
+    </div>
+    <button class="btn dark" id="saveBtn">Save</button>
+    <button class="btn primary" id="exportBtn">Export</button>
+  </header>
+
+  <div class="workspace">
+    <nav class="rail">
+      <button class="active" data-panel="content">☰<span>Outline</span></button>
+      <button data-panel="import">⇧<span>Import</span></button>
+      <button data-panel="meta">▤<span>Data</span></button>
+      <button data-panel="assets">▧<span>Assets</span></button>
+      <button data-panel="document">⚙<span>Document</span></button>
+      <button data-panel="refs">⌘<span>Refs</span></button>
+      <button data-panel="exports">⇩<span>Export</span></button>
+      <button class="bottom" id="resetBtn">↺<span>Reset</span></button>
+    </nav>
+
+    <main class="stage">
+      <div class="subbar">
+        <div class="metric"><span class="dot"></span><span id="statusText">Ready</span></div>
+        <div class="metric"><b id="wordCount">0</b>&nbsp;words</div>
+        <div class="metric"><b id="headingCount">0</b>&nbsp;headings</div>
+        <div class="metric"><b id="pageCount">0</b>&nbsp;pages</div>
+        <div class="grow"></div>
+        <span class="tag">Markdown → AST → Academic Pages</span>
+      </div>
+
+      <div class="layout">
+        <aside class="pane" id="leftPane">
+          <div class="pane-head" id="leftTitle">DOCUMENT OUTLINE</div>
+
+          <div id="outlinePanel">
+            <div id="outline" class="outline"></div>
+          </div>
+
+          <div id="importPanel" class="panel hidden">
+            <div class="panel-title">Import Markdown</div>
+            <div class="import-drop" id="dropZone">
+              <strong>Drop file Markdown di sini</strong>
+              .md · .markdown · .txt<br><br>
+              <button class="btn soft" id="browseMdBtn">Browse File</button>
+              <input id="mdFileInput" type="file" accept=".md,.markdown,.txt,text/markdown,text/plain" hidden>
+            </div>
+            <div id="importResult" class="import-result hidden"></div>
+
+            <div class="panel-subtitle">Import Mode</div>
+            <div class="field">
+              <select id="importMode">
+                <option value="native">Native Markdown — tanpa AI</option>
+                <option value="assist">AI-assisted restructuring — note only</option>
+              </select>
+            </div>
+
+            <div class="panel-subtitle">AI Import Note</div>
+            <div class="field">
+              <textarea id="importNote">Gunakan seluruh isi dokumen sebagai sumber utama. Jangan mengurangi isi substantif. Rapikan struktur menjadi makalah akademik, buat heading dan subheading yang logis agar masuk daftar isi, pertahankan tabel, rumus, angka, nama, contoh, dan referensi. Jangan membuat fakta atau referensi baru. Jika informasi tidak tersedia, tandai sebagai missing atau needs_review. Styling visual tidak perlu ditulis karena akan diatur oleh RipiDoc renderer.</textarea>
+            </div>
+            <button class="btn soft block" id="copyImportNote">Copy Import Note</button>
+            <p class="help">Untuk file Markdown yang sudah terstruktur, gunakan Native Markdown. AI hanya diperlukan bila struktur sumber masih berantakan.</p>
+          </div>
+
+          <div id="metaPanel" class="panel hidden">
+            <div class="panel-title">Document Metadata</div>
+            <div class="field"><label>Judul</label><input id="metaTitle"></div>
+            <div class="field"><label>Mata Kuliah</label><input id="metaCourse"></div>
+            <div class="field"><label>Dosen</label><input id="metaLecturer"></div>
+            <div class="field"><label>Program / Institusi</label><input id="metaInstitution"></div>
+            <div class="field-row">
+              <div class="field"><label>Kota</label><input id="metaCity"></div>
+              <div class="field"><label>Tahun</label><input id="metaYear"></div>
+            </div>
+            <div class="field"><label>Anggota — format NPM | Nama</label><textarea id="metaAuthors"></textarea></div>
+            <p class="help">Perubahan di sini otomatis disinkronkan ke YAML frontmatter Markdown.</p>
+          </div>
+
+          <div id="assetsPanel" class="panel hidden">
+            <div class="panel-title">Asset Manager</div>
+            <div class="asset-card">
+              <div class="field"><label>Institution Logo</label></div>
+              <div class="logo-preview-box" id="logoPreview">
+                <div class="empty">Belum ada logo<br>PNG / JPG / SVG</div>
+              </div>
+              <div class="asset-actions">
+                <button class="btn soft" id="uploadLogoBtn">Upload</button>
+                <button class="btn soft" id="removeLogoBtn">Remove</button>
+              </div>
+              <input id="logoFileInput" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" hidden>
+              <div class="divider"></div>
+              <div class="field"><label>Lebar logo</label><input id="logoWidth" type="range" min="20" max="65" value="40"><div class="help"><span id="logoWidthValue">40</span> mm</div></div>
+              <div class="field"><label>Penempatan</label>
+                <select id="logoPosition">
+                  <option value="cover">Cover only</option>
+                  <option value="none">Hide logo</option>
+                </select>
+              </div>
+              <label class="check"><input type="checkbox" id="logoGray"> <span>Grayscale saat dicetak</span></label>
+            </div>
+            <div class="panel-subtitle">Planned Assets</div>
+            <p class="help">Figure, chart, signature, cover image, faculty logo, dan source image dapat menggunakan Asset Manager yang sama.</p>
+          </div>
+
+          <div id="documentPanel" class="panel hidden">
+            <div class="panel-title">Document Settings</div>
+
+            <div class="panel-subtitle">Page</div>
+            <div class="field"><label>Paper</label><select id="paperSize"><option value="a4">A4</option></select></div>
+            <div class="field-row">
+              <div class="field"><label>Top (cm)</label><input id="mTop" type="number" value="3" step=".1" min="1"></div>
+              <div class="field"><label>Right (cm)</label><input id="mRight" type="number" value="3" step=".1" min="1"></div>
+              <div class="field"><label>Bottom (cm)</label><input id="mBottom" type="number" value="3" step=".1" min="1"></div>
+              <div class="field"><label>Left (cm)</label><input id="mLeft" type="number" value="4" step=".1" min="1"></div>
+            </div>
+
+            <div class="panel-subtitle">Typography</div>
+            <div class="field"><label>Body font</label>
+              <select id="docFont">
+                <option value='"Times New Roman", Times, serif'>Times New Roman</option>
+                <option value='Georgia, serif'>Georgia</option>
+              </select>
+            </div>
+            <div class="field-row">
+              <div class="field"><label>Size (pt)</label><input id="docSize" type="number" min="9" max="14" step=".5" value="12"></div>
+              <div class="field"><label>Line spacing</label><select id="lineSpace"><option>1</option><option>1.15</option><option selected>1.5</option><option>2</option></select></div>
+            </div>
+            <div class="field"><label>First-line indent (cm)</label><input id="indentSize" type="number" min="0" max="2" step=".05" value="1.25"></div>
+
+            <div class="panel-subtitle">Pagination</div>
+            <label class="check"><input type="checkbox" id="coverOwnPage" checked> <span>Cover selalu halaman sendiri</span></label>
+            <label class="check"><input type="checkbox" id="h1Break" checked> <span>Heading level 1 mulai halaman baru</span></label>
+            <label class="check"><input type="checkbox" id="keepHeading" checked> <span>Keep heading with next block</span></label>
+            <label class="check"><input type="checkbox" id="showToc" checked> <span>Generate daftar isi otomatis</span></label>
+            <div class="warning">Manual break gunakan <b>:::pagebreak</b>. Landscape section gunakan <b>:::section orientation="landscape"</b>.</div>
+
+            <div class="panel-subtitle">Page Number</div>
+            <label class="check"><input type="checkbox" id="showPageNumber" checked> <span>Tampilkan nomor halaman</span></label>
+            <div class="field"><label>Posisi</label>
+              <select id="pageNoPos"><option value="center">Bottom center</option><option value="right">Bottom right</option><option value="left">Bottom left</option></select>
+            </div>
+            <div class="field-row">
+              <div class="field"><label>Mulai isi dari</label><input id="pageStart" type="number" value="1" min="1"></div>
+              <div class="field"><label>Cover</label><select id="coverNumber"><option value="hide">Hidden</option><option value="show">Show</option></select></div>
+            </div>
+          </div>
+
+          <div id="refsPanel" class="panel hidden">
+            <div class="panel-title">References</div>
+            <div class="field"><label>Citation style</label><select><option>APA 7</option><option>Harvard</option><option>IEEE</option></select></div>
+            <p class="help">Prototype mendeteksi heading “Daftar Pustaka / Daftar Rujukan”. Versi berikut dapat memakai citation key seperti <code>[@chava2014]</code> dan BibTeX.</p>
+            <button class="btn soft block" onclick="toast('Reference audit akan menjadi modul terpisah')">Run Reference Audit</button>
+          </div>
+
+          <div id="exportPanel" class="panel hidden">
+            <div class="panel-title">Export</div>
+            <div class="export-grid">
+              <button class="export-card" onclick="window.print()"><b>PDF</b><span>Print paginated pages</span></button>
+              <button class="export-card" onclick="downloadMarkdown()"><b>Markdown</b><span>Source document</span></button>
+              <button class="export-card" onclick="downloadJSON()"><b>JSON</b><span>Document AST</span></button>
+              <button class="export-card" onclick="downloadHTML()"><b>HTML</b><span>Standalone preview</span></button>
+            </div>
+            <div class="panel-subtitle">Next renderer</div>
+            <p class="help">DOCX native styles · Notion · Google Docs · PPT outline · handout.</p>
+          </div>
+        </aside>
+
+        <section class="pane" id="editorPane">
+          <div class="pane-head">SOURCE — MARKDOWN / RIPIMARK</div>
+          <div class="editor-wrap">
+            <div class="editor-tools">
+              <button data-insert="# ">H1</button>
+              <button data-insert="## ">H2</button>
+              <button data-insert="### ">H3</button>
+              <button data-wrap="**">Bold</button>
+              <button data-insert="| Kolom A | Kolom B |\n|---|---:|\n| Data | 100 |\n">Table</button>
+              <button data-insert="$$\nEVA = NOPAT - (WACC × Invested Capital)\n$$\n">Equation</button>
+              <button data-insert=":::example title=&quot;Contoh&quot;\nIsi contoh...\n:::\n">Example</button>
+              <button data-insert=":::pagebreak\n:::\n">Page Break</button>
+              <button data-insert=":::section orientation=&quot;landscape&quot;\n:::\n">Landscape</button>
+              <button data-insert=":::section orientation=&quot;portrait&quot;\n:::\n">Portrait</button>
+            </div>
+            <textarea id="source" spellcheck="false"></textarea>
+          </div>
+        </section>
+
+        <section class="pane" id="previewPane">
+          <div class="pane-head">
+            PAGINATED ACADEMIC PREVIEW
+            <div class="preview-toolbar">
+              <button id="zoomOut">−</button>
+              <select id="zoomSelect"><option value=".65">65%</option><option value=".8">80%</option><option value="1" selected>100%</option><option value="1.15">115%</option></select>
+              <button id="zoomIn">+</button>
+            </div>
+          </div>
+          <div class="preview-bg" id="preview"></div>
+        </section>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div id="measureRoot"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const DEFAULT = `---
+title: Pengukuran Kinerja Perusahaan Keseluruhan
+course: Manajemen Keuangan Lanjutan
+lecturer: Prof. Dr. Wahidahwati, SE., M.Si. Ak., CA.
+institution: Pendidikan Program Profesi Akuntan — STIESIA
+city: Surabaya
+year: 2026
+template: Academic Formal
+authors:
+  - 26109400831 | Moh Rendra Baihaqqi
+  - 26109400859 | Evan Wibowo
+  - 26109400862 | Novan Ario Ramadhan
+  - 26109400910 | Fahmi Mayasari
+  - 26109400917 | Puspita Dewi Rahmawati
+  - 26109400918 | Deni Aprillianto
+---
+
+# Pengukuran Kinerja Perusahaan Keseluruhan
+
+## Pembagian Topik
+
+| No. | Topik | Penanggung Jawab |
+|---:|---|---|
+| 1 | TSR | Puspita Dewi Rahmawati |
+| 2 | WAI | Moh Rendra Baihaqqi |
+| 3 | MVA | Fahmi Mayasari |
+| 4 | ER | Evan Wibowo |
+| 5 | MBR | Novan Ario Ramadhan |
+| 6 | Studi Kasus Flinder Valves and Control Inc. | Deni Aprilianto |
+
+## 1. Total Shareholder Return (TSR)
+
+### 1.1 Pengertian
+
+Total Shareholder Return mengukur tingkat pengembalian total yang diterima pemegang saham dari perubahan harga saham dan dividen selama suatu periode.
+
+### 1.2 Rumus
+
+$$
+TSR = (P₁ - P₀ + D) / P₀
+$$
+
+:::definition title="Definisi"
+TSR menggabungkan capital gain atau capital loss dengan dividen untuk melihat return ekonomi yang diterima pemegang saham.
+:::
+
+### 1.3 Contoh Perhitungan
+
+:::example title="Contoh 1. Perhitungan TSR"
+Harga saham awal Rp1.000, harga saham akhir Rp1.120, dan dividen Rp50 per saham.
+
+TSR = (1.120 - 1.000 + 50) / 1.000 = 17%
+:::
+
+:::pagebreak
+:::
+
+## 2. Wealth Added Index (WAI)
+
+### 2.1 Konsep
+
+WAI membandingkan penciptaan kekayaan aktual dengan tingkat pengembalian minimum yang disyaratkan investor.
+
+## 3. Market Value Added (MVA)
+
+MVA melihat selisih antara nilai pasar perusahaan dan modal yang telah ditanamkan investor.
+
+:::note title="Catatan"
+Konten ini adalah data demo untuk menguji compiler. Styling akademik ditentukan oleh renderer, bukan oleh Markdown.
+:::
+
+:::section orientation="landscape"
+:::
+
+## 4. Contoh Tabel Lebar
+
+| Indikator | Periode 1 | Periode 2 | Periode 3 | Periode 4 | Periode 5 | Interpretasi |
+|---|---:|---:|---:|---:|---:|---|
+| TSR | 12% | 14% | 10% | 17% | 15% | Return pemegang saham |
+| MVA | 100 | 120 | 135 | 150 | 175 | Nilai pasar atas modal |
+
+:::section orientation="portrait"
+:::
+
+## 5. Market-to-Book Ratio (MBR)
+
+MBR membandingkan nilai pasar ekuitas dengan nilai bukunya.
+
+# Kesimpulan
+
+Ukuran kinerja perusahaan sebaiknya dibaca secara terpadu karena masing-masing indikator menangkap dimensi penciptaan nilai yang berbeda.
+
+# Daftar Pustaka
+
+- Arnold, G. (2008). *Corporate Financial Management*.
+- Brigham, E. F., & Ehrhardt, M. C. (2005). *Financial Management: Theory and Practice*.
+- Bruner, R. F. (2010). *Case Studies in Finance*.
+`;
+
+const state = {
+  logoData: localStorage.getItem('ripidoc-logo') || '',
+  logoWidth: +(localStorage.getItem('ripidoc-logo-width') || 40),
+  zoom:1
+};
+
+const source = document.getElementById('source');
+const preview = document.getElementById('preview');
+const outline = document.getElementById('outline');
+source.value = localStorage.getItem('ripidoc-source-v2') || DEFAULT;
+
+function esc(s=''){
+  return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))
+}
+function inline(s=''){
+  s=esc(s);
+  s=s.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
+  s=s.replace(/\*(.+?)\*/g,'<em>$1</em>');
+  s=s.replace(/`([^`]+)`/g,'<code>$1</code>');
+  return s;
+}
+function idify(text=''){
+  return text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')
+}
+function parseFrontmatter(text){
+  const m=text.match(/^---\s*\n([\s\S]*?)\n---\s*\n?/);
+  const meta={};
+  if(!m) return {meta,body:text,hasFrontmatter:false};
+  const lines=m[1].split('\n'); let current=null;
+  for(const line of lines){
+    const item=line.match(/^\s*-\s+(.*)$/);
+    if(item && current==='authors'){
+      meta.authors ||= []; meta.authors.push(item[1].trim()); continue;
+    }
+    const kv=line.match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
+    if(kv){
+      current=kv[1];
+      meta[current]=current==='authors'?[]:kv[2].trim();
+    }
+  }
+  return {meta,body:text.slice(m[0].length),hasFrontmatter:true};
+}
+function parseMarkdown(md){
+  const lines=md.replace(/\r/g,'').split('\n');
+  const nodes=[]; let i=0;
+  while(i<lines.length){
+    const l=lines[i];
+    if(!l.trim()){i++;continue}
+
+    if(/^:::pagebreak\s*$/.test(l.trim())){
+      i++;
+      if(i<lines.length && /^:::\s*$/.test(lines[i].trim())) i++;
+      nodes.push({type:'pagebreak'}); continue;
+    }
+
+    const sec=l.trim().match(/^:::section(?:\s+orientation=["']?(portrait|landscape)["']?)?\s*$/i);
+    if(sec){
+      const orientation=(sec[1]||'portrait').toLowerCase();
+      i++;
+      if(i<lines.length && /^:::\s*$/.test(lines[i].trim())) i++;
+      nodes.push({type:'section',orientation}); continue;
+    }
+
+    const blockStart=l.match(/^:::(definition|example|note|case)(?:\s+title=["']([^"']+)["'])?\s*$/i);
+    if(blockStart){
+      const kind=blockStart[1].toLowerCase(),title=blockStart[2]||kind;
+      i++;const buf=[];
+      while(i<lines.length && !/^:::\s*$/.test(lines[i].trim())){buf.push(lines[i]);i++}
+      if(i<lines.length)i++;
+      nodes.push({type:'block',kind,title,content:buf.join('\n').trim()});continue;
+    }
+
+    if(l.trim()==='$$'){
+      i++;const buf=[];
+      while(i<lines.length && lines[i].trim()!=='$$'){buf.push(lines[i]);i++}
+      if(i<lines.length)i++;
+      nodes.push({type:'equation',content:buf.join(' ').trim()});continue;
+    }
+
+    const h=l.match(/^(#{1,3})\s+(.+)$/);
+    if(h){nodes.push({type:'heading',level:h[1].length,text:h[2].trim(),id:idify(h[2].trim())});i++;continue}
+
+    if(/^\|.*\|\s*$/.test(l) && i+1<lines.length && /^\|?\s*:?-+/.test(lines[i+1])){
+      const split=x=>x.trim().replace(/^\||\|$/g,'').split('|').map(v=>v.trim());
+      const header=split(l); i+=2;const rows=[];
+      while(i<lines.length && /^\|.*\|\s*$/.test(lines[i])){rows.push(split(lines[i]));i++}
+      nodes.push({type:'table',header,rows});continue;
+    }
+
+    if(/^[-*]\s+/.test(l)){
+      const items=[];
+      while(i<lines.length && /^[-*]\s+/.test(lines[i])){items.push(lines[i].replace(/^[-*]\s+/,''));i++}
+      nodes.push({type:'ul',items});continue;
+    }
+
+    if(/^\d+\.\s+/.test(l)){
+      const items=[];
+      while(i<lines.length && /^\d+\.\s+/.test(lines[i])){items.push(lines[i].replace(/^\d+\.\s+/,''));i++}
+      nodes.push({type:'ol',items});continue;
+    }
+
+    const buf=[l]; i++;
+    while(i<lines.length && lines[i].trim()
+      && !/^(#{1,3})\s+/.test(lines[i])
+      && !/^:::(pagebreak|section|definition|example|note|case)/i.test(lines[i].trim())
+      && lines[i].trim()!=='$$'
+      && !(/^\|.*\|\s*$/.test(lines[i]) && i+1<lines.length && /^\|?\s*:?-+/.test(lines[i+1]))
+      && !/^[-*]\s+/.test(lines[i]) && !/^\d+\.\s+/.test(lines[i])){
+      buf.push(lines[i]);i++;
+    }
+    nodes.push({type:'paragraph',text:buf.join(' ')});
+  }
+  return nodes;
+}
+function nodeHtml(n){
+  if(n.type==='heading') return `<h${n.level} id="${n.id}">${inline(n.text)}</h${n.level}>`;
+  if(n.type==='paragraph') return `<p>${inline(n.text)}</p>`;
+  if(n.type==='equation') return `<div class="equation">${inline(n.content)}</div>`;
+  if(n.type==='ul'||n.type==='ol') return `<${n.type}>${n.items.map(x=>`<li>${inline(x)}</li>`).join('')}</${n.type}>`;
+  if(n.type==='table'){
+    return `<table><thead><tr>${n.header.map(x=>`<th>${inline(x)}</th>`).join('')}</tr></thead><tbody>${
+      n.rows.map(r=>`<tr>${r.map(x=>`<td>${inline(x)}</td>`).join('')}</tr>`).join('')
+    }</tbody></table>`;
+  }
+  if(n.type==='block'){
+    return `<div class="semantic-block ${n.kind}"><div class="block-title">${inline(n.title)}</div><p>${
+      inline(n.content).replace(/\n\n/g,'</p><p>').replace(/\n/g,'<br>')
+    }</p></div>`;
+  }
+  return '';
+}
+function tocHtml(headings){
+  return `<div class="toc"><div class="toc-title">DAFTAR ISI</div>${
+    headings.map((h,i)=>`<div class="toc-row level${h.level}"><span>${inline(h.text)}</span><span class="dots"></span><span>${i+1}</span></div>`).join('')
+  }</div>`;
+}
+function coverHtml(meta){
+  const authors=(meta.authors||[]).map(a=>{
+    const parts=a.split('|').map(x=>x.trim());
+    return `<div>${esc(parts[0]||'')}</div><div>${esc(parts[1]||parts[0]||'')}</div>`;
+  }).join('');
+  const logoVisible=document.getElementById('logoPosition').value!=='none';
+  const gray=document.getElementById('logoGray').checked?'filter:grayscale(1);':'';
+  const logo=logoVisible
+    ? (state.logoData
+      ? `<img class="cover-logo" style="width:${state.logoWidth}mm;${gray}" src="${state.logoData}" alt="Institution logo">`
+      : `<div class="logo-placeholder" style="width:${state.logoWidth}mm;height:${state.logoWidth}mm">LOGO</div>`)
+    : `<div style="height:20mm"></div>`;
+  return `<div class="page-content cover-page">
+    <div class="cover-title">RINGKASAN MATA KULIAH<br><br>${esc(meta.title||'JUDUL MAKALAH')}</div>
+    <div class="cover-sub">Disusun untuk memenuhi tugas mata kuliah<br>${esc(meta.course||'')}</div>
+    <div class="lecturer">Dosen Pengampu:<br>${esc(meta.lecturer||'')}</div>
+    ${logo}
+    <div class="cover-authors-title">Disusun Oleh:</div>
+    <div class="cover-authors">${authors}</div>
+    <div class="cover-institution">${esc(meta.institution||'')}<br>${esc(meta.city||'')}<br>${esc(meta.year||'')}</div>
+  </div>`;
+}
+function cssSettings(){
+  const root=document.documentElement;
+  root.style.setProperty('--margin-top',document.getElementById('mTop').value+'cm');
+  root.style.setProperty('--margin-right',document.getElementById('mRight').value+'cm');
+  root.style.setProperty('--margin-bottom',document.getElementById('mBottom').value+'cm');
+  root.style.setProperty('--margin-left',document.getElementById('mLeft').value+'cm');
+  root.style.setProperty('--doc-font',document.getElementById('docFont').value);
+  root.style.setProperty('--doc-size',document.getElementById('docSize').value+'pt');
+  root.style.setProperty('--doc-line',document.getElementById('lineSpace').value);
+  root.style.setProperty('--doc-indent',document.getElementById('indentSize').value+'cm');
+}
+function makeMeasurePage(orientation){
+  const page=document.createElement('div');
+  page.className='document-page '+(orientation==='landscape'?'landscape':'');
+  const content=document.createElement('div');
+  content.className='page-content';
+  page.appendChild(content);
+  document.getElementById('measureRoot').appendChild(page);
+  return {page,content};
+}
+function overflows(content){
+  return content.scrollHeight > content.clientHeight + 1;
+}
+function paginateNodes(nodes,heads){
+  document.getElementById('measureRoot').innerHTML='';
+  const pages=[];
+  let orientation='portrait';
+  let current=makeMeasurePage(orientation);
+  let hasContent=false;
+
+  function commit(){
+    if(hasContent){
+      pages.push({orientation,html:current.content.innerHTML});
+      current.page.remove();
+      current=makeMeasurePage(orientation);
+      hasContent=false;
+    }
+  }
+  function newOrientation(o){
+    commit();
+    current.page.remove();
+    orientation=o;
+    current=makeMeasurePage(orientation);
+  }
+
+  if(document.getElementById('showToc').checked){
+    const temp=document.createElement('div');
+    temp.innerHTML=tocHtml(heads);
+    current.content.appendChild(temp.firstElementChild);
+    hasContent=true;
+  }
+
+  for(let idx=0;idx<nodes.length;idx++){
+    const n=nodes[idx];
+
+    if(n.type==='pagebreak'){commit();continue}
+    if(n.type==='section'){newOrientation(n.orientation);continue}
+
+    const h1Break=document.getElementById('h1Break').checked;
+    if(n.type==='heading' && n.level===1 && h1Break && hasContent){
+      commit();
+    }
+
+    const holder=document.createElement('div');
+    holder.innerHTML=nodeHtml(n);
+    const el=holder.firstElementChild;
+    if(!el) continue;
+
+    current.content.appendChild(el);
+    if(overflows(current.content)){
+      current.content.removeChild(el);
+      if(hasContent) commit();
+      current.content.appendChild(el);
+    }
+    hasContent=true;
+
+    if(document.getElementById('keepHeading').checked && n.type==='heading' && idx+1<nodes.length){
+      const nxt=nodes[idx+1];
+      if(!['pagebreak','section'].includes(nxt.type)){
+        const test=document.createElement('div');
+        test.innerHTML=nodeHtml(nxt);
+        const nextEl=test.firstElementChild;
+        if(nextEl){
+          current.content.appendChild(nextEl);
+          const bad=overflows(current.content);
+          current.content.removeChild(nextEl);
+          if(bad){
+            current.content.removeChild(el);
+            commit();
+            current.content.appendChild(el);
+            hasContent=true;
+          }
+        }
+      }
+    }
+  }
+  commit();
+  if(current.page.isConnected) current.page.remove();
+  return pages;
+}
+function render(){
+  cssSettings();
+  const parsed=parseFrontmatter(source.value);
+  const meta=parsed.meta;
+  const nodes=parseMarkdown(parsed.body);
+  const heads=nodes.filter(n=>n.type==='heading');
+
+  document.getElementById('wordCount').textContent=(parsed.body.match(/\b[\wÀ-ÿ'-]+\b/g)||[]).length;
+  document.getElementById('headingCount').textContent=heads.length;
+  document.getElementById('projectName').textContent=meta.title||'Academic Document';
+
+  const pages=paginateNodes(nodes,heads);
+
+  const wrappers=[];
+  let logicalNo=+document.getElementById('pageStart').value||1;
+  const showNo=document.getElementById('showPageNumber').checked;
+  const pos=document.getElementById('pageNoPos').value;
+
+  const coverNo=document.getElementById('coverNumber').value==='show' && showNo
+    ? `<div class="page-number ${pos}">1</div>`:'';
+
+  wrappers.push(`<div class="page-wrap"><section class="document-page">${coverHtml(meta)}${coverNo}</section><div class="page-label">Cover</div></div>`);
+
+  pages.forEach((p,i)=>{
+    const number=showNo?`<div class="page-number ${pos}">${logicalNo+i}</div>`:'';
+    wrappers.push(`<div class="page-wrap"><section class="document-page ${p.orientation==='landscape'?'landscape':''}"><div class="page-content">${p.html}</div>${number}</section><div class="page-label">Page ${i+1}</div></div>`);
+  });
+  preview.innerHTML=wrappers.join('');
+  document.getElementById('pageCount').textContent=wrappers.length;
+
+  outline.innerHTML=heads.map(h=>`<button data-level="${h.level}" data-target="${h.id}">${esc(h.text)}</button>`).join('');
+  outline.querySelectorAll('button').forEach(b=>b.onclick=()=>{
+    const target=preview.querySelector('#'+CSS.escape(b.dataset.target));
+    target?.scrollIntoView({behavior:'smooth',block:'center'});
+  });
+
+  syncMeta(meta);
+  renderLogoPreview();
+  applyZoom();
+}
+function syncMeta(meta){
+  const map={metaTitle:'title',metaCourse:'course',metaLecturer:'lecturer',metaInstitution:'institution',metaCity:'city',metaYear:'year'};
+  for(const [id,key] of Object.entries(map)){
+    const el=document.getElementById(id);
+    if(document.activeElement!==el) el.value=meta[key]||'';
+  }
+  const a=document.getElementById('metaAuthors');
+  if(document.activeElement!==a) a.value=(meta.authors||[]).join('\n');
+}
+function updateFrontmatterFromMeta(){
+  const parsed=parseFrontmatter(source.value);
+  const body=parsed.body;
+  const meta={
+    title:document.getElementById('metaTitle').value,
+    course:document.getElementById('metaCourse').value,
+    lecturer:document.getElementById('metaLecturer').value,
+    institution:document.getElementById('metaInstitution').value,
+    city:document.getElementById('metaCity').value,
+    year:document.getElementById('metaYear').value,
+    authors:document.getElementById('metaAuthors').value.split('\n').map(x=>x.trim()).filter(Boolean)
+  };
+  let fm='---\n';
+  ['title','course','lecturer','institution','city','year'].forEach(k=>fm+=`${k}: ${meta[k]||''}\n`);
+  fm+='template: Academic Formal\nauthors:\n'+meta.authors.map(x=>'  - '+x).join('\n')+'\n---\n\n';
+  source.value=fm+body.trimStart();
+  scheduleRender();
+}
+function scheduleRender(){
+  document.getElementById('statusText').textContent='Rendering…';
+  clearTimeout(scheduleRender.t);
+  scheduleRender.t=setTimeout(()=>{
+    render();
+    document.getElementById('statusText').textContent='Ready';
+  },140);
+}
+function renderLogoPreview(){
+  const box=document.getElementById('logoPreview');
+  if(state.logoData){
+    box.innerHTML=`<img src="${state.logoData}" alt="Logo preview">`;
+  }else{
+    box.innerHTML='<div class="empty">Belum ada logo<br>PNG / JPG / SVG</div>';
+  }
+  document.getElementById('logoWidth').value=state.logoWidth;
+  document.getElementById('logoWidthValue').textContent=state.logoWidth;
+}
+function applyZoom(){
+  preview.style.zoom=state.zoom;
+  document.getElementById('zoomSelect').value=String(state.zoom);
+}
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2200);
+}
+function showPanel(name){
+  const ids=['outlinePanel','importPanel','metaPanel','assetsPanel','documentPanel','refsPanel','exportPanel'];
+  ids.forEach(id=>document.getElementById(id).classList.add('hidden'));
+  const map={content:'outlinePanel',import:'importPanel',meta:'metaPanel',assets:'assetsPanel',document:'documentPanel',refs:'refsPanel',exports:'exportPanel'};
+  document.getElementById(map[name]).classList.remove('hidden');
+  document.getElementById('leftTitle').textContent={
+    content:'DOCUMENT OUTLINE',import:'IMPORT',meta:'DOCUMENT DATA',assets:'ASSET MANAGER',document:'DOCUMENT SETTINGS',refs:'REFERENCES',exports:'EXPORT'
+  }[name];
+}
+document.querySelectorAll('.rail button[data-panel]').forEach(btn=>btn.onclick=()=>{
+  document.querySelectorAll('.rail button[data-panel]').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');showPanel(btn.dataset.panel);
+});
+document.querySelectorAll('#viewSwitch button').forEach(btn=>btn.onclick=()=>{
+  document.querySelectorAll('#viewSwitch button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const app=document.getElementById('app');
+  app.className='app '+(btn.dataset.view==='split'?'':`view-${btn.dataset.view}`);
+});
+document.querySelectorAll('.editor-tools button').forEach(btn=>btn.onclick=()=>{
+  const start=source.selectionStart,end=source.selectionEnd;
+  const before=source.value.slice(0,start),selected=source.value.slice(start,end),after=source.value.slice(end);
+  if(btn.dataset.wrap){
+    source.value=before+btn.dataset.wrap+selected+btn.dataset.wrap+after;
+    source.selectionStart=start+btn.dataset.wrap.length;source.selectionEnd=end+btn.dataset.wrap.length;
+  }else{
+    const ins=btn.dataset.insert||'';
+    source.value=before+ins+selected+after;
+    source.selectionStart=source.selectionEnd=start+ins.length;
+  }
+  source.focus();scheduleRender();
+});
+source.addEventListener('input',scheduleRender);
+
+['metaTitle','metaCourse','metaLecturer','metaInstitution','metaCity','metaYear','metaAuthors'].forEach(id=>{
+  document.getElementById(id).addEventListener('input',updateFrontmatterFromMeta);
+});
+['mTop','mRight','mBottom','mLeft','docFont','docSize','lineSpace','indentSize','h1Break','keepHeading','showToc','showPageNumber','pageNoPos','pageStart','coverNumber','logoPosition','logoGray'].forEach(id=>{
+  document.getElementById(id).addEventListener('input',scheduleRender);
+  document.getElementById(id).addEventListener('change',scheduleRender);
+});
+
+document.getElementById('uploadLogoBtn').onclick=()=>document.getElementById('logoFileInput').click();
+document.getElementById('logoFileInput').onchange=e=>{
+  const file=e.target.files?.[0];if(!file)return;
+  if(file.size>3*1024*1024){toast('Logo maksimal 3 MB untuk prototype');return}
+  const reader=new FileReader();
+  reader.onload=()=>{
+    state.logoData=reader.result;
+    localStorage.setItem('ripidoc-logo',state.logoData);
+    render();toast('Logo berhasil dimuat');
+  };
+  reader.readAsDataURL(file);
+};
+document.getElementById('removeLogoBtn').onclick=()=>{
+  state.logoData='';localStorage.removeItem('ripidoc-logo');render();toast('Logo dihapus');
+};
+document.getElementById('logoWidth').oninput=e=>{
+  state.logoWidth=+e.target.value;
+  document.getElementById('logoWidthValue').textContent=state.logoWidth;
+  localStorage.setItem('ripidoc-logo-width',state.logoWidth);
+  scheduleRender();
+};
+
+const drop=document.getElementById('dropZone');
+document.getElementById('browseMdBtn').onclick=()=>document.getElementById('mdFileInput').click();
+document.getElementById('mdFileInput').onchange=e=>importMarkdownFile(e.target.files?.[0]);
+['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('drag')}));
+['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('drag')}));
+drop.addEventListener('drop',e=>importMarkdownFile(e.dataTransfer.files?.[0]));
+
+function importMarkdownFile(file){
+  if(!file)return;
+  const ok=/\.(md|markdown|txt)$/i.test(file.name);
+  if(!ok){toast('Gunakan file .md, .markdown, atau .txt');return}
+  const reader=new FileReader();
+  reader.onload=()=>{
+    source.value=String(reader.result||'');
+    const parsed=parseFrontmatter(source.value);
+    const nodes=parseMarkdown(parsed.body);
+    const heads=nodes.filter(n=>n.type==='heading');
+    const tables=nodes.filter(n=>n.type==='table');
+    const equations=nodes.filter(n=>n.type==='equation');
+    const missing=[];
+    ['title','course','lecturer','institution','year'].forEach(k=>{if(!parsed.meta[k])missing.push(k)});
+    const result=document.getElementById('importResult');
+    result.classList.remove('hidden');
+    result.innerHTML=`<b>${esc(file.name)}</b><br>${heads.length} headings · ${tables.length} tables · ${equations.length} equations<br>${
+      parsed.hasFrontmatter?'Frontmatter detected':'No frontmatter detected'
+    }${missing.length?`<br><b>Missing:</b> ${missing.join(', ')}`:''}`;
+    render();
+    if(missing.length){
+      toast('Markdown diimpor. Metadata masih perlu dilengkapi.');
+    }else toast('Markdown berhasil diimpor');
+  };
+  reader.readAsText(file);
+}
+document.getElementById('copyImportNote').onclick=async()=>{
+  const v=document.getElementById('importNote').value;
+  try{await navigator.clipboard.writeText(v);toast('Import note disalin')}catch{toast('Browser tidak mengizinkan clipboard')}
+};
+
+document.getElementById('saveBtn').onclick=async()=>{
+  localStorage.setItem('ripidoc-source-v2',source.value);
+  localStorage.setItem('ripidoc-logo-width',state.logoWidth);
+  window.parent.postMessage({type:'ripidoc-save',payload:{title:parseFrontmatter(source.value).meta.title || 'Untitled RipiDoc',source:source.value}}, '*');
+  toast('Project dikirim ke SQLite');
+};
+document.getElementById('resetBtn').onclick=()=>{
+  if(confirm('Reset source dan logo ke demo awal?')){
+    localStorage.removeItem('ripidoc-source-v2');
+    localStorage.removeItem('ripidoc-logo');
+    source.value=DEFAULT;state.logoData='';state.logoWidth=40;render();toast('Demo di-reset');
+  }
+};
+document.getElementById('exportBtn').onclick=()=>{
+  document.querySelector('.rail button[data-panel="exports"]').click();
+  toast('Pilih format export di panel kiri');
+};
+
+document.getElementById('zoomSelect').onchange=e=>{state.zoom=+e.target.value;applyZoom()};
+document.getElementById('zoomOut').onclick=()=>{
+  const vals=[.65,.8,1,1.15];let i=vals.indexOf(state.zoom);state.zoom=vals[Math.max(0,i-1)];applyZoom()
+};
+document.getElementById('zoomIn').onclick=()=>{
+  const vals=[.65,.8,1,1.15];let i=vals.indexOf(state.zoom);state.zoom=vals[Math.min(vals.length-1,i+1)];applyZoom()
+};
+
+function download(name,type,data){
+  const blob=new Blob([data],{type});const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),800);
+}
+function downloadMarkdown(){download('makalah.rmdoc.md','text/markdown;charset=utf-8',source.value)}
+function downloadJSON(){
+  const p=parseFrontmatter(source.value);
+  download('makalah.ripidoc.json','application/json;charset=utf-8',JSON.stringify({meta:p.meta,nodes:parseMarkdown(p.body)},null,2));
+}
+function downloadHTML(){
+  const pages=[...preview.querySelectorAll('.document-page')].map(x=>x.outerHTML).join('\n');
+  const css=`body{margin:0;background:#fff}.document-page{box-sizing:border-box;width:210mm;height:297mm;padding:30mm 30mm 30mm 40mm;font-family:"Times New Roman",Times,serif;font-size:12pt;line-height:1.5;overflow:hidden;page-break-after:always;position:relative}.document-page.landscape{width:297mm;height:210mm}.document-page p{text-align:justify;text-indent:1.25cm;margin:0}.document-page h1{font-size:14pt}.document-page h2,.document-page h3{font-size:12pt}.document-page table{width:100%;border-collapse:collapse;font-size:10pt}.document-page th,.document-page td{border:1px solid #000;padding:5pt}.equation{text-align:center;margin:11pt 0}.page-number{position:absolute;left:0;right:0;bottom:12mm;text-align:center;font-size:10pt}@media print{@page{size:A4;margin:0}.document-page{page-break-after:always}}`;
+  download('makalah.html','text/html;charset=utf-8',`<!doctype html><html><head><meta charset="utf-8"><title>Makalah</title><style>${css}</style></head><body>${pages}</body></html>`);
+}
+render();
+</script>
+</body>
+</html>
