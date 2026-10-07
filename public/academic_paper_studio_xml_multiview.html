@@ -4,19 +4,30 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Academic Paper Studio — XML Multiview</title>
+<script src="/vendor/pdf-lib.min.js"></script>
+<script src="/vendor/pdf.min.js"></script>
 <style>
   :root{
-    --app-bg:#f3f4f6;
-    --panel:#ffffff;
-    --line:#d9dde5;
-    --line-strong:#b9c0cc;
-    --text:#171717;
-    --muted:#68707d;
-    --soft:#f8f9fb;
-    --accent:#24324a;
-    --accent-soft:#e9edf4;
-    --danger:#8f1d1d;
-    --ok:#245f3b;
+    --app-bg:#f7f4ef;
+    --panel:#fffdf8;
+    --line:rgba(36,78,122,.14);
+    --line-strong:rgba(36,78,122,.28);
+    --text:#1e2c3a;
+    --muted:#6f7b86;
+    --soft:#f4f8fa;
+    --accent:#244e7a;
+    --accent-soft:#bfd8ee;
+    --danger:#a84a4a;
+    --ok:#147b5c;
+    --nav:#244e7a;
+    --nav-hover:rgba(255,253,248,.16);
+    --nav-active:rgba(255,253,248,.22);
+    --nav-text:#edf6fb;
+    --nav-muted:#bfd8ee;
+    --highlight:#f3aaa0;
+    --coral:#e46f6a;
+    --sky:#7faed6;
+    --shadow:0 24px 70px rgba(36,78,122,.14);
 
     --paper-width:210mm;
     --paper-min-height:297mm;
@@ -33,82 +44,172 @@
   }
 
   *{box-sizing:border-box}
+  [hidden]{display:none!important}
   html,body{margin:0;min-height:100%;background:var(--app-bg);color:var(--text)}
+  body{background:radial-gradient(circle at 15% 8%,rgba(127,174,214,.20),transparent 28rem),radial-gradient(circle at 90% 22%,rgba(228,111,106,.13),transparent 23rem),radial-gradient(circle at 55% 75%,rgba(127,174,214,.12),transparent 28rem),var(--app-bg)}
   body{font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif}
 
   button,input,textarea,select{font:inherit}
   button{cursor:pointer}
-  .app{min-height:100vh;display:grid;grid-template-columns:260px 1fr}
+  .app{min-height:100vh;display:grid;grid-template-columns:225px minmax(0,1fr)}
   .sidebar{
-    position:sticky;top:0;height:100vh;background:#111827;color:#fff;padding:22px 16px;
-    display:flex;flex-direction:column;gap:18px;border-right:1px solid #0b1220;
+    position:sticky;top:0;height:100vh;background:linear-gradient(165deg,#244e7a,#2f6697);color:#fff;padding:27px 16px 18px;
+    display:flex;flex-direction:column;gap:0;overflow-y:auto;overflow-x:hidden;
   }
-  .brand{padding:0 8px 8px}
-  .brand h1{font-size:17px;margin:0 0 5px;letter-spacing:.02em}
-  .brand p{font-size:12px;color:#aab3c2;margin:0;line-height:1.45}
-  .nav{display:grid;gap:7px}
+  .sidebar:before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.23;background:repeating-radial-gradient(ellipse at 15% 110%,transparent 0 30px,rgba(255,253,248,.34) 31px 32px,transparent 33px 58px)}
+  .sidebar > *{position:relative;z-index:1}
+  .brand{display:flex;align-items:center;gap:10px;padding:0 12px;color:#fff}
+  .brand-mark{width:42px;height:42px;border-radius:15px;background:radial-gradient(circle at 70% 20%,rgba(228,111,106,.45),transparent 38%),linear-gradient(135deg,rgba(36,78,122,.95),rgba(127,174,214,.84));color:#fffdf8;display:grid;place-items:center;font-size:22px;font-weight:850;letter-spacing:-3px;padding-right:3px;box-shadow:0 12px 26px rgba(11,42,68,.25)}
+  .brand h1{font-size:22px;margin:0;letter-spacing:.08em;line-height:1}
+  .sidebar-toggle{margin-left:auto;width:30px;height:30px;padding:0;border:1px solid rgba(191,216,238,.48);border-radius:9px;background:rgba(255,253,248,.1);color:var(--nav-text);font-size:21px;line-height:1;transition:background .16s ease,transform .16s ease}
+  .sidebar-toggle:hover{background:var(--nav-hover);color:#fff}
+  .subbrand{padding:7px 12px 25px;color:#d6e7f4;font-size:10px;letter-spacing:2px}
+  .nav-label{padding:0 12px 8px;color:var(--nav-muted);font-size:10px;font-weight:700;letter-spacing:1.6px}
+  .nav{display:grid;gap:3px}
   .nav button{
-    text-align:left;border:0;border-radius:10px;padding:11px 12px;background:transparent;color:#c9d1dd;
-    display:flex;gap:10px;align-items:center
+    text-align:left;border:0;border-radius:8px;padding:10px 12px;background:transparent;color:var(--nav-text);
+    display:flex;gap:10px;align-items:center;font-size:12px
   }
-  .nav button:hover{background:#1f2937;color:#fff}
-  .nav button.active{background:#eef2ff;color:#111827;font-weight:700}
+  .nav button:hover{background:var(--nav-hover);color:#fff}
+  .nav button.active{background:var(--nav-active);color:#fff;font-weight:700}
   .nav .num{
-    width:23px;height:23px;border-radius:7px;background:rgba(255,255,255,.1);
+    width:23px;height:23px;border:1px solid #536079;border-radius:7px;
     display:grid;place-items:center;font-size:11px;flex:0 0 auto
   }
-  .nav button.active .num{background:#dce4f3}
-  .sidebar-foot{margin-top:auto;border-top:1px solid #263142;padding:14px 8px 0;font-size:11px;color:#94a0b2;line-height:1.55}
+  .nav button.active .num{background:var(--highlight);color:var(--accent);border-color:var(--highlight)}
+  .product-nav{display:grid;gap:3px}
+  .product-menu{display:grid;gap:5px}
+  .product-nav > .product-menu > button{
+    position:relative;border:0;border-radius:8px;padding:11px 12px;background:transparent;color:var(--nav-text);
+    font-size:12px;font-weight:700;text-align:left;display:flex;align-items:center;justify-content:space-between
+  }
+  .product-nav > .product-menu > button:hover{background:var(--nav-hover);color:#fff}
+  .product-nav > .product-menu > button.active{background:var(--nav-active);color:#fff}
+  .product-nav > .product-menu > button.active:before{content:"";position:absolute;left:0;width:3px;height:20px;border-radius:4px;background:var(--highlight)}
+  .nav-caret{font-size:14px;line-height:1;transition:transform .16s ease}
+  .product-nav button.active .nav-caret{transform:rotate(180deg)}
+  .product-subnav{margin:0 0 5px 12px;padding-left:8px;border-left:1px solid rgba(191,216,238,.44);gap:3px}
+  .product-subnav button{border-color:transparent;border-radius:7px;padding:8px 9px;font-size:12px;font-weight:600}
+  .product-subnav button .num{width:20px;height:20px;border-radius:6px}
+  .sidebar-foot{margin-top:auto;border-top:1px solid rgba(191,216,238,.35);padding:14px 10px 0;font-size:11px;color:#d6e7f4;line-height:1.55}
+
+  @media(min-width:1051px){
+    .app.sidebar-collapsed{grid-template-columns:72px minmax(0,1fr)}
+    .app.sidebar-collapsed .sidebar{padding-left:10px;padding-right:10px}
+    .app.sidebar-collapsed .brand{justify-content:center;padding:0}
+    .app.sidebar-collapsed .brand h1,.app.sidebar-collapsed .subbrand,.app.sidebar-collapsed .nav-label,.app.sidebar-collapsed .sidebar-foot{display:none}
+    .app.sidebar-collapsed .sidebar-toggle{margin-left:0;transform:rotate(180deg)}
+    .app.sidebar-collapsed .product-nav > .product-menu > button{justify-content:center;padding-left:8px;padding-right:8px}
+    .app.sidebar-collapsed .product-nav > .product-menu > button > span:first-child{font-size:0}
+    .app.sidebar-collapsed .product-nav > .product-menu > button > span:first-child::after{content:attr(data-short);font-size:13px;font-weight:800}
+    .app.sidebar-collapsed .product-nav .nav-caret,.app.sidebar-collapsed .product-subnav{display:none!important}
+  }
 
   .main{min-width:0}
   .topbar{
-    height:66px;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);
+    min-height:72px;background:rgba(255,253,248,.82);backdrop-filter:blur(18px);
     border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;
-    padding:0 24px;position:sticky;top:0;z-index:20
+    padding:14px 30px;position:sticky;top:0;z-index:20;gap:14px
   }
-  .topbar-left h2{font-size:17px;margin:0}
-  .topbar-left p{font-size:12px;color:var(--muted);margin:3px 0 0}
+  .topbar-left h2{font-size:17px;letter-spacing:-.3px;margin:0}
+  .topbar-left p{font-size:11px;color:var(--muted);margin:3px 0 0}
   .toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
   .btn{
-    border:1px solid var(--line-strong);background:#fff;color:#1f2937;border-radius:9px;padding:8px 11px;font-weight:650;font-size:12px
+    border:1px solid var(--line);background:rgba(255,253,248,.88);color:var(--accent);border-radius:999px;padding:9px 15px;font-weight:750;font-size:12px;min-height:37px
   }
-  .btn:hover{background:#f8fafc}
-  .btn.primary{background:#18243a;color:#fff;border-color:#18243a}
-  .btn.danger{color:var(--danger)}
+  .btn:hover{background:#fffdf8;border-color:var(--line-strong);transform:translateY(-1px)}
+  .btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .btn.primary:hover{background:#1c4066;border-color:#1c4066}
+  .btn.danger{color:var(--danger);background:#fff1ed}
   .btn.ghost{border-color:transparent;background:transparent}
   .status-pill{
-    padding:7px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--muted);font-size:11px
+    padding:7px 10px;border:1px solid var(--line);border-radius:999px;background:rgba(255,253,248,.76);color:var(--muted);font-size:11px
   }
 
-  .workspace{padding:24px;max-width:1500px;margin:0 auto}
+  .workspace{padding:28px 30px 45px;max-width:1650px;margin:0 auto}
+  .product-workspace{display:none}
+  .product-workspace.active{display:block}
   .view{display:none}
   .view.active{display:block}
   .section-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;margin-bottom:18px}
-  .section-head h3{margin:0;font-size:24px;letter-spacing:-.02em}
-  .section-head p{margin:7px 0 0;color:var(--muted);max-width:780px;line-height:1.55;font-size:13px}
+  .section-head h3{margin:0;font-family:Georgia,"Times New Roman",serif;font-size:27px;font-weight:500;letter-spacing:-.8px;color:var(--accent)}
+  .section-head p{margin:7px 0 0;color:var(--muted);max-width:780px;line-height:1.55;font-size:12px}
 
   .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
   .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 2px 10px rgba(18,28,45,.03)}
+  .card{background:rgba(255,253,248,.86);border:1px solid var(--line);border-radius:18px;padding:21px;box-shadow:0 12px 30px rgba(23,38,56,.05)}
   .card h4{margin:0 0 12px;font-size:14px}
   .card p.help{font-size:12px;color:var(--muted);line-height:1.5;margin:-4px 0 12px}
 
-  label.field{display:grid;gap:6px;font-size:12px;font-weight:700;color:#303744}
+  label.field{display:grid;gap:6px;font-size:12px;font-weight:700;color:#33475e}
   .field input,.field textarea,.field select{
-    border:1px solid var(--line-strong);border-radius:9px;padding:10px 11px;background:#fff;color:#111827;width:100%
+    border:1px solid var(--line-strong);border-radius:12px;padding:10px 11px;background:#fffdf8;color:var(--text);width:100%
   }
   .field textarea{min-height:120px;resize:vertical}
   .field small{font-weight:400;color:var(--muted)}
   .stack{display:grid;gap:12px}
   .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-  .notice{border:1px solid #cdd6e5;background:#f6f8fc;border-radius:11px;padding:12px 14px;font-size:12px;color:#445069;line-height:1.55}
-  .notice.ok{border-color:#bbd8c6;background:#f3faf5;color:#245f3b}
-  .notice.error{border-color:#e8bdbd;background:#fff7f7;color:#8f1d1d}
+  .notice{border:1px solid var(--line);background:rgba(191,216,238,.22);border-radius:14px;padding:12px 14px;font-size:12px;color:#445069;line-height:1.55}
+  .notice.ok{border-color:#bbd8c6;background:#f3faf5;color:var(--ok)}
+  .notice.error{border-color:#edc2bb;background:#fff1ed;color:var(--danger)}
+  .slides-empty{
+    max-width:720px;margin:56px auto;background:radial-gradient(circle at 78% 18%,rgba(243,170,160,.30),transparent 34%),linear-gradient(145deg,rgba(255,253,248,.96),rgba(191,216,238,.52));border:1px solid var(--line);border-radius:28px;
+    padding:38px;text-align:center;box-shadow:var(--shadow)
+  }
+  .slides-empty .slides-icon{
+    width:72px;height:56px;margin:0 auto 16px;border-radius:50%;background:rgba(255,253,248,.65);color:var(--accent);
+    display:grid;place-items:center;font-size:24px;font-weight:800
+  }
+  .slides-empty h3{margin:0;font-size:22px}
+  .slides-empty p{max-width:520px;margin:10px auto 0;color:var(--muted);font-size:13px;line-height:1.6}
+  .standard-studio{display:grid;gap:18px}
+  .standard-intro{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;flex-wrap:wrap}
+  .standard-intro h3{margin:0;color:var(--accent);font-family:Georgia,"Times New Roman",serif;font-size:27px;font-weight:500}
+  .standard-intro p{max-width:650px;margin:7px 0 0;color:var(--muted);font-size:12px;line-height:1.6}
+  .standard-layout{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:18px;align-items:start}
+  .presentation-frame{overflow:hidden;background:#fff9f1;border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow)}
+  .presentation-frame iframe{display:block;width:100%;aspect-ratio:16 / 9;border:0;background:#fff9f1}
+  .presentation-caption{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-top:1px solid var(--line);font-size:11px;color:var(--muted)}
+  .presentation-caption strong{color:var(--accent);font-size:12px}
+  .asset-library{display:grid;gap:10px}
+  .asset-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+  .asset-library h4{margin:0;color:var(--accent);font-size:14px}
+  .asset-library > p{margin:-3px 0 2px;color:var(--muted);font-size:11px;line-height:1.5}
+  .asset-card{display:grid;grid-template-columns:70px 1fr;align-items:center;gap:10px;padding:9px;border:1px solid var(--line);border-radius:15px;background:rgba(255,253,248,.84);color:inherit;text-decoration:none}
+  .asset-card:hover{border-color:var(--sky);box-shadow:0 8px 18px rgba(23,38,56,.07)}
+  .asset-card img{display:block;width:70px;height:58px;object-fit:contain}
+  .asset-card strong{display:block;color:var(--accent);font-size:12px}
+  .asset-card span{display:block;margin-top:3px;color:var(--muted);font-size:10px;line-height:1.4}
+  .standard-workbench{display:grid;grid-template-columns:minmax(330px,.8fr) minmax(0,1.2fr);gap:18px;align-items:start}
+  .standard-settings{display:grid;gap:18px;min-width:0}
+  .standard-import-grid{display:grid;gap:18px;align-items:start}
+  .standard-panel{background:rgba(255,253,248,.86);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 12px 30px rgba(23,38,56,.05)}
+  .standard-panel h4{margin:0 0 5px;color:var(--accent);font-size:14px}
+  .standard-panel > p{margin:0 0 13px;color:var(--muted);font-size:11px;line-height:1.5}
+  .slide-xml{display:block;width:100%;min-height:330px;resize:vertical;border:1px solid var(--line-strong);border-radius:12px;padding:12px;background:#17283a;color:#eaf5ff;font:11px/1.55 "SFMono-Regular",Consolas,monospace}
+  .standard-rules{display:grid;gap:8px;max-height:390px;overflow:auto;padding-right:3px}
+  .standard-rule{border:1px solid var(--line);border-radius:12px;padding:10px;background:rgba(191,216,238,.14)}
+  .standard-rule strong{display:block;color:var(--accent);font-size:12px;text-transform:capitalize}
+  .standard-rule span{display:block;margin-top:3px;color:var(--muted);font-size:10px;line-height:1.45}
+  .standard-feedback{display:none;margin-top:18px;border-radius:14px;padding:13px 15px;font-size:12px;line-height:1.55}
+  .standard-feedback.show{display:block}.standard-feedback.ok{background:#f3faf5;border:1px solid #bbd8c6;color:var(--ok)}.standard-feedback.warn{background:#fff7e8;border:1px solid #efd19a;color:#8a611d}.standard-feedback.error{background:#fff1ed;border:1px solid #edc2bb;color:var(--danger)}
+  .standard-feedback ul{margin:7px 0 0;padding-left:18px}.standard-feedback li+li{margin-top:3px}
+  .standard-preview{overflow:hidden;border:1px solid var(--line);border-radius:20px;background:#fff9f1;box-shadow:var(--shadow);position:sticky;top:96px}
+  .standard-preview iframe{display:block;width:100%;aspect-ratio:16 / 9;border:0;background:#fff9f1}
+  .standard-preview-foot{padding:11px 14px;border-top:1px solid var(--line);color:var(--muted);font-size:11px}
+  .compile-layout{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(300px,.8fr);gap:18px;align-items:start}
+  .compile-stack{display:grid;gap:18px}.compile-card{background:rgba(255,253,248,.86);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 12px 30px rgba(23,38,56,.05)}
+  .compile-card h3{margin:0;color:var(--accent);font-size:16px}.compile-kicker{margin:0 0 5px;color:var(--muted);font-size:10px;font-weight:800;letter-spacing:.12em}.compile-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px}
+  .compile-dropzone{display:grid;place-items:center;min-height:158px;padding:24px;border:1.5px dashed var(--line-strong);border-radius:16px;background:rgba(191,216,238,.14);color:var(--accent);text-align:center;cursor:pointer;transition:.18s}.compile-dropzone.dragover{border-color:var(--sky);background:rgba(191,216,238,.3);transform:translateY(-1px)}.compile-dropzone strong{display:block;margin-top:7px;font-size:14px}.compile-dropzone span{display:block;margin-top:4px;color:var(--muted);font-size:11px}.compile-dropzone input{display:none}
+  .compile-file-list{display:grid;gap:9px;margin-top:13px}.compile-file{display:grid;grid-template-columns:28px 42px minmax(0,1fr) 32px;gap:10px;align-items:center;padding:8px;border:1px solid var(--line);border-radius:13px;background:#fffefa}.compile-file[draggable=true]{cursor:grab}.compile-drag{color:var(--muted);font-size:15px;text-align:center}.compile-thumb{width:42px;height:42px;overflow:hidden;border-radius:10px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-size:10px;font-weight:800}.compile-thumb img{width:100%;height:100%;object-fit:cover}.compile-file-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px;font-weight:750}.compile-file-meta{margin-top:2px;color:var(--muted);font-size:10px}.compile-remove{width:30px;height:30px;border:0;border-radius:9px;background:#f6ece9;color:var(--danger);font-size:17px}
+  .compile-modes,.compile-presets{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.compile-option{border:1px solid var(--line);border-radius:11px;padding:10px 8px;background:#fffefa;color:var(--text);font-size:11px;font-weight:750}.compile-option.active{background:var(--accent);border-color:var(--accent);color:#fff}.compile-help{margin:10px 0 0;color:var(--muted);font-size:11px;line-height:1.5}.compile-fields{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}.compile-field{display:grid;gap:6px;color:#33475e;font-size:11px;font-weight:750}.compile-field input,.compile-field select{width:100%;border:1px solid var(--line-strong);border-radius:10px;padding:9px;background:#fffefa;color:var(--text)}.compile-range{margin-top:14px}.compile-range label{display:flex;justify-content:space-between;color:#33475e;font-size:11px;font-weight:750}.compile-range input{width:100%;accent-color:var(--coral)}
+  .compile-preview{min-height:245px;display:grid;place-items:center;overflow:hidden;border-radius:14px;background:#edf2f5;color:var(--muted);font-size:12px;text-align:center}.compile-preview canvas{max-width:100%;height:auto;display:none;box-shadow:0 10px 24px rgba(23,38,56,.15)}.compile-status{display:none;margin-top:12px;padding:11px 12px;border-radius:12px;background:rgba(191,216,238,.25);color:#445069;font-size:11px}.compile-status.show{display:block}.compile-progress{height:7px;margin-top:8px;overflow:hidden;border-radius:999px;background:rgba(36,78,122,.13)}.compile-progress i{display:block;width:0;height:100%;background:linear-gradient(90deg,var(--sky),var(--coral));transition:width .15s}
+  .compile-actions{display:grid;grid-template-columns:1fr 1.25fr;gap:10px;margin-top:14px}.compile-actions .btn{border-radius:12px}.compile-summary{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.compile-pill{padding:6px 9px;border-radius:999px;background:rgba(191,216,238,.25);color:var(--muted);font-size:10px}.compile-switch{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:14px;color:#33475e;font-size:11px;font-weight:750}.compile-switch input{accent-color:var(--accent)}
 
   .dropzone{
-    border:1.5px dashed #9aa5b5;border-radius:12px;padding:24px;text-align:center;background:#fafbfc
+    border:1.5px dashed rgba(36,78,122,.42);border-radius:16px;padding:24px;text-align:center;background:rgba(191,216,238,.16)
   }
-  .dropzone.drag{background:#eef3fb;border-color:#556b8d}
+  .dropzone.drag{background:rgba(191,216,238,.44);border-color:var(--accent)}
   .dropzone strong{display:block;margin-bottom:5px}
   .dropzone span{font-size:12px;color:var(--muted)}
   .dropzone input{display:none}
@@ -116,39 +217,68 @@
   .editor-shell{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:18px}
   .document-editor{display:grid;gap:13px}
   .block{
-    border:1px solid var(--line);background:#fff;border-radius:12px;padding:14px;position:relative
+    border:1px solid var(--line);background:rgba(255,253,248,.92);border-radius:16px;padding:14px;position:relative
   }
   .block-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
   .block-type{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:800}
   .block-actions{display:flex;gap:6px}
   .icon-btn{
-    border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 8px;font-size:11px;color:#4b5563
+    border:1px solid var(--line);background:#fffdf8;border-radius:999px;padding:6px 9px;font-size:11px;color:var(--accent)
   }
   .block [contenteditable="true"]{
     outline:none;border:1px solid transparent;border-radius:7px;padding:7px 8px;margin:-7px -8px
   }
-  .block [contenteditable="true"]:focus{border-color:#9facbe;background:#fbfcfe}
+  .block [contenteditable="true"]:focus{border-color:var(--sky);background:#fffdf8}
   .edit-heading{font-family:var(--body-font);font-weight:700}
   .edit-paragraph{font-family:var(--body-font);font-size:15px;line-height:1.6}
   .editor-side{display:grid;gap:14px;align-content:start;position:sticky;top:88px;height:max-content}
 
-  .mini-table-wrap{overflow:auto;border:1px solid var(--line);border-radius:9px}
+  .mini-table-wrap{overflow:auto;border:1px solid var(--line);border-radius:14px}
   table.mini-table{border-collapse:collapse;width:100%;font-family:var(--body-font);font-size:13px}
   .mini-table th,.mini-table td{border:1px solid #c9cdd4;padding:7px 8px;min-width:90px}
-  .mini-table th{background:#f5f6f8;font-weight:700}
+  .mini-table th{background:rgba(191,216,238,.28);font-weight:700}
   .mini-table td[contenteditable="true"],.mini-table th[contenteditable="true"]{outline:none}
   .mini-table td[contenteditable="true"]:focus,.mini-table th[contenteditable="true"]:focus{background:#fffbe9}
 
   .preview-toolbar{
     display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap
   }
-  .paper-stage{overflow:auto;padding:22px;background:#e8eaee;border:1px solid #d4d8df;border-radius:14px}
+  .paper-stage{overflow:auto;padding:22px;background:linear-gradient(145deg,rgba(191,216,238,.50),rgba(255,253,248,.78));border:1px solid var(--line);border-radius:20px}
   .paper{
     width:var(--paper-width);min-height:var(--paper-min-height);margin:0 auto;background:white;
     box-shadow:0 7px 26px rgba(0,0,0,.14);
-    padding:var(--margin-top) var(--margin-right) var(--margin-bottom) var(--margin-left);
+    padding:0;
     font-family:var(--body-font);font-size:var(--body-size);line-height:var(--body-line);color:#000
   }
+  .academic-cover,.document-body{
+    padding:var(--margin-top) var(--margin-right) var(--margin-bottom) var(--margin-left)
+  }
+  .academic-cover{
+    width:100%;height:var(--paper-min-height);padding:22mm 25mm 18mm;
+    display:grid;grid-template-rows:auto 1fr auto;align-items:start;text-align:center;
+    break-after:page;page-break-after:always;line-height:1.35;position:relative
+  }
+  .cover-header{width:100%;display:flex;flex-direction:column;align-items:center}
+  .cover-kicker{font-size:17pt;font-weight:700;text-transform:uppercase;margin:0 0 10mm}
+  .cover-main-title{font-weight:700;text-transform:uppercase;max-width:155mm;margin:0 0 8mm;line-height:1.35}
+  .cover-purpose{font-size:12pt;margin:0 0 5mm}
+  .cover-course{font-size:13pt;margin:0 0 6mm}
+  .cover-lecturer{font-size:12pt;font-weight:700;margin:0}
+  .cover-center{width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6mm 0 4mm}
+  .cover-logo{display:block;object-fit:contain;margin:0 auto var(--cover-logo-gap,8mm);max-height:50mm}
+  .cover-logo-placeholder{
+    width:42mm;height:42mm;border:1px dashed #999;display:grid;place-items:center;
+    color:#777;font:10pt Arial,sans-serif;margin:0 auto var(--cover-logo-gap,8mm)
+  }
+  .cover-authors-title{font-size:12pt;font-weight:700;margin-bottom:4mm}
+  .cover-authors{width:min(118mm,100%);display:grid;grid-template-columns:38mm minmax(0,1fr);gap:3mm 7mm;text-align:left;font-size:12pt;line-height:1.35}
+  .cover-author-id{text-align:right;font-variant-numeric:tabular-nums}
+  .cover-author-name{text-align:left}
+  .cover-institution{width:100%;font-size:14pt;font-weight:700;text-transform:uppercase;line-height:1.65;align-self:end}
+  .academic-cover.cover-overflow{box-shadow:inset 0 0 0 2px #b42318}
+  .cover-overflow-note{display:none;position:absolute;right:8mm;bottom:6mm;color:#b42318;font:700 9pt Arial,sans-serif}
+  .academic-cover.cover-overflow .cover-overflow-note{display:block}
+  .document-body{min-height:var(--paper-min-height)}
   .paper .title{text-align:center;font-size:14pt;font-weight:700;text-transform:uppercase;margin:0 0 28px}
   .paper .subtitle{text-align:center;margin:-18px 0 26px;font-size:12pt}
   .paper h1{
@@ -180,6 +310,7 @@
   .paper blockquote{margin:10px 0 10px 18px;padding-left:12px;border-left:2px solid #666}
   .paper .page-break{break-before:page;page-break-before:always;height:0}
   .paper .references p{text-indent:0;padding-left:1.25cm;text-indent:-1.25cm;margin-bottom:6px}
+  .paper .references{margin-top:8px}
 
   .settings-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
   .range-row{display:grid;grid-template-columns:1fr 90px;gap:10px;align-items:end}
@@ -190,16 +321,25 @@
   }
 
   .schema{
-    font-family:"SFMono-Regular",Consolas,monospace;font-size:11px;background:#f7f8fa;border:1px solid var(--line);
-    padding:12px;border-radius:10px;white-space:pre-wrap;line-height:1.5;color:#374151
+    font-family:"SFMono-Regular",Consolas,monospace;font-size:11px;background:rgba(191,216,238,.17);border:1px solid var(--line);
+    padding:12px;border-radius:14px;white-space:pre-wrap;line-height:1.5;color:#33475e
   }
+  .asset-panel{display:grid;grid-template-columns:150px 1fr;gap:16px;align-items:start}
+  .logo-preview{
+    min-height:145px;border:1px dashed var(--line-strong);border-radius:16px;background:rgba(191,216,238,.15);
+    display:grid;place-items:center;padding:12px;text-align:center;color:var(--muted);font-size:11px
+  }
+  .logo-preview img{display:block;max-width:100%;max-height:125px;object-fit:contain}
 
   @media(max-width:1050px){
     .app{grid-template-columns:1fr}
     .sidebar{position:static;height:auto}
     .nav{grid-template-columns:repeat(5,minmax(120px,1fr));overflow:auto}
+    .product-subnav{grid-template-columns:1fr;overflow:visible}
     .sidebar-foot{display:none}
     .editor-shell,.grid-2{grid-template-columns:1fr}
+    .standard-layout,.standard-import-grid,.asset-row,.standard-workbench,.compile-layout{grid-template-columns:1fr}
+    .standard-preview{position:static}
     .editor-side{position:static}
   }
   @media(max-width:700px){
@@ -208,6 +348,7 @@
     .grid-3,.settings-grid{grid-template-columns:1fr}
     .paper-stage{padding:10px}
     .paper{transform-origin:top left}
+    .asset-panel{grid-template-columns:1fr}
   }
 
   @page{
@@ -225,22 +366,44 @@
       width:auto;min-height:auto;margin:0;box-shadow:none;padding:0;
       font-family:"Times New Roman", Times, serif
     }
+    .academic-cover,.document-body{padding:0}
+    .academic-cover{height:calc(297mm - 60mm);grid-template-rows:auto 1fr auto}
+    .cover-logo-placeholder,.cover-overflow-note{display:none!important}
+    .academic-cover.cover-overflow{box-shadow:none}
   }
 </style>
 </head>
 <body>
 <div class="app">
-  <aside class="sidebar">
+  <aside class="sidebar" id="appSidebar">
     <div class="brand">
-      <h1>Academic Paper Studio</h1>
-      <p>Generator makalah akademik berbasis XML dengan preview A4 dan style Times New Roman.</p>
+      <span class="brand-mark" aria-hidden="true">r.</span>
+      <h1>RipiDoc</h1>
+      <button class="sidebar-toggle" id="sidebarToggle" type="button" aria-controls="appSidebar" aria-expanded="true" aria-label="Minimalkan sidebar" title="Minimalkan sidebar">‹</button>
     </div>
-    <nav class="nav">
-      <button class="active" data-view="import"><span class="num">1</span>Import XML</button>
-      <button data-view="editor"><span class="num">2</span>Editor</button>
-      <button data-view="preview"><span class="num">3</span>Preview</button>
-      <button data-view="style"><span class="num">4</span>Style & Page</button>
-      <button data-view="xml"><span class="num">5</span>XML Output</button>
+    <div class="subbrand">MAKALAH &amp; SLIDE WORKSPACE</div>
+    <div class="nav-label">RUANG KERJA</div>
+    <nav class="product-nav" aria-label="Pilih jenis dokumen">
+      <div class="product-menu">
+        <button type="button" class="active" data-product="paper" aria-controls="product-paper paperNav" aria-expanded="true" aria-selected="true" title="Makalah"><span data-short="M">Makalah</span><span class="nav-caret" aria-hidden="true">⌄</span></button>
+        <div class="nav product-subnav" id="paperNav" aria-label="Submenu makalah">
+          <button class="active" data-view="import"><span class="num">1</span>Import XML</button>
+          <button data-view="editor"><span class="num">2</span>Editor</button>
+          <button data-view="preview"><span class="num">3</span>Preview</button>
+          <button data-view="style"><span class="num">4</span>Style & Page</button>
+          <button data-view="xml"><span class="num">5</span>XML Output</button>
+        </div>
+      </div>
+      <div class="product-menu">
+        <button type="button" data-product="slides" aria-controls="product-slides slidesNav" aria-expanded="false" aria-selected="false" title="Slide"><span data-short="S">Slide</span><span class="nav-caret" aria-hidden="true">⌄</span></button>
+        <div class="nav product-subnav" id="slidesNav" aria-label="Submenu slide" hidden>
+          <button type="button" class="active" data-slide-view="standard" aria-controls="slide-standard" aria-current="page"><span class="num">1</span>Standard</button>
+          <button type="button" data-slide-view="dynamic" aria-controls="slide-dynamic"><span class="num">2</span>Dynamic</button>
+        </div>
+      </div>
+      <div class="product-menu">
+        <button type="button" data-product="compile" aria-controls="product-compile" aria-expanded="false" aria-selected="false" title="Compile"><span data-short="C">Compile</span></button>
+      </div>
     </nav>
     <div class="sidebar-foot">
       Data tetap diproses di browser. Tidak ada upload ke server pada file standalone ini.
@@ -248,6 +411,7 @@
   </aside>
 
   <main class="main">
+    <section class="product-workspace active" id="product-paper" aria-label="Makalah">
     <header class="topbar">
       <div class="topbar-left">
         <h2 id="topTitle">Import XML</h2>
@@ -294,8 +458,24 @@
     &lt;title&gt;Judul Makalah&lt;/title&gt;
     &lt;subtitle&gt;Opsional&lt;/subtitle&gt;
     &lt;course&gt;Mata Kuliah&lt;/course&gt;
+    &lt;lecturer&gt;Nama Dosen&lt;/lecturer&gt;
     &lt;institution&gt;STIESIA&lt;/institution&gt;
+    &lt;city&gt;Surabaya&lt;/city&gt;
+    &lt;year&gt;2026&lt;/year&gt;
+    &lt;coverTitle&gt;RINGKASAN MATA KULIAH&lt;/coverTitle&gt;
+    &lt;purpose&gt;Disusun untuk memenuhi tugas mata kuliah&lt;/purpose&gt;
+    &lt;authors&gt;
+      &lt;author&gt;&lt;id&gt;NIM&lt;/id&gt;&lt;name&gt;Nama&lt;/name&gt;&lt;/author&gt;
+    &lt;/authors&gt;
   &lt;/meta&gt;
+
+  &lt;assets&gt;
+    &lt;asset id="institution_logo" type="logo" src="" /&gt;
+  &lt;/assets&gt;
+  &lt;settings&gt;
+    &lt;cover show="true" logoWidth="42" logoColor="original" titleSize="16" logoGap="8" /&gt;
+    &lt;pagination heading1PageBreak="true" /&gt;
+  &lt;/settings&gt;
 
   &lt;content&gt;
     &lt;heading level="1"&gt;BAB I PENDAHULUAN&lt;/heading&gt;
@@ -360,7 +540,26 @@
                 <label class="field">Institusi
                   <input id="metaInstitution" />
                 </label>
+                <label class="field">Dosen Pengampu
+                  <input id="metaLecturer" />
+                </label>
+                <label class="field">Kota
+                  <input id="metaCity" />
+                </label>
+                <label class="field">Tahun
+                  <input id="metaYear" type="number" min="2000" max="2100" />
+                </label>
+                <label class="field">Judul bagian atas cover
+                  <input id="metaCoverTitle" placeholder="RINGKASAN MATA KULIAH" />
+                </label>
+                <label class="field">Tujuan penulisan pada cover
+                  <input id="metaPurpose" placeholder="Disusun untuk memenuhi tugas mata kuliah" />
+                </label>
               </div>
+              <label class="field" style="margin-top:12px">Daftar Penyusun
+                <textarea id="metaAuthors" placeholder="NIM | Nama&#10;26109400831 | Moh Rendra Baihaqqi"></textarea>
+                <small>Satu anggota per baris dengan format NIM | Nama.</small>
+              </label>
             </div>
             <div class="document-editor" id="blockEditor"></div>
           </div>
@@ -498,6 +697,41 @@
             </label>
           </div>
         </div>
+
+        <div class="card" style="margin-top:18px">
+          <h4>Logo dan Cover</h4>
+          <p class="help">Logo ditampilkan pada cover, di antara informasi dosen dan daftar penyusun.</p>
+          <div class="asset-panel">
+            <div class="logo-preview" id="logoPreview">Belum ada logo</div>
+            <div class="stack">
+              <input id="logoFile" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" hidden>
+              <div class="row">
+                <button class="btn" id="btnChooseLogo">Pilih Logo</button>
+                <button class="btn danger" id="btnRemoveLogo">Hapus Logo</button>
+              </div>
+              <label class="field">Lebar logo pada cover
+                <div class="range-row">
+                  <input id="logoWidth" type="range" min="25" max="60" value="42">
+                  <input id="logoWidthNumber" type="number" min="25" max="60" value="42">
+                </div>
+                <small>Satuan milimeter. Ukuran awal mengikuti proporsi cover referensi.</small>
+              </label>
+              <label class="field">Mode warna
+                <select id="logoColorMode"><option value="original">Warna asli</option><option value="grayscale">Grayscale</option></select>
+              </label>
+              <div class="grid-2">
+                <label class="field">Ukuran judul utama
+                  <select id="coverTitleSize"><option value="14">14 pt</option><option value="16" selected>16 pt</option><option value="18">18 pt</option></select>
+                </label>
+                <label class="field">Jarak setelah logo
+                  <select id="logoGap"><option value="5">5 mm</option><option value="8" selected>8 mm</option><option value="11">11 mm</option></select>
+                </label>
+              </div>
+              <label class="row" style="font-size:12px"><input id="showCover" type="checkbox" checked> Tampilkan halaman cover</label>
+              <label class="row" style="font-size:12px"><input id="h1PageBreak" type="checkbox" checked> Heading level 1 selalu mulai halaman baru</label>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section class="view" id="view-xml">
@@ -515,6 +749,108 @@
       </section>
 
     </div>
+    </section>
+
+    <section class="product-workspace" id="product-slides" aria-label="Slide">
+      <header class="topbar">
+        <div class="topbar-left">
+          <h2 id="slidesTitle">Standard</h2>
+          <p id="slidesDesc">Ruang kerja presentasi Standard.</p>
+        </div>
+      </header>
+      <div class="workspace">
+        <section class="standard-studio" id="slide-standard" data-slide-panel aria-labelledby="slideStandardHeading">
+          <div class="standard-intro">
+            <div>
+              <h3 id="slideStandardHeading">Standard XML Slide Importer</h3>
+              <p>Impor struktur presentasi XML. Setiap <code>type</code> menentukan layout Bandeng, batas konten, dan susunan elemen slide.</p>
+            </div>
+            <a class="btn" href="/slides/bandeng-evaluasi-lingkungan-eksternal.html" target="_blank" rel="noopener">Lihat contoh Bandeng</a>
+          </div>
+          <div class="standard-workbench">
+            <div class="standard-settings">
+              <div class="standard-import-grid">
+                <section class="standard-panel">
+                  <h4>XML presentasi</h4>
+                  <p>Gunakan root <code>&lt;presentation version="1"&gt;</code>. Konten yang melewati batas akan diringkas otomatis oleh AI.</p>
+                  <textarea class="slide-xml" id="slidesXml" spellcheck="false" aria-label="XML presentasi"></textarea>
+                  <div class="row" style="margin-top:12px">
+                    <a class="btn" href="/slides/standard-template.xml" download>Download template XML</a>
+                    <button type="button" class="btn" id="btnLoadSlideSample">Muat contoh</button>
+                    <button type="button" class="btn primary" id="btnImportSlides">Import XML menjadi deck</button>
+                  </div>
+                </section>
+                <aside class="standard-panel">
+                  <h4>Layout dan batas</h4>
+                  <p>Template unduhan memuat semua layout ini beserta komentar aturan di dalam XML.</p>
+                  <div class="standard-rules" id="standardRules"></div>
+                </aside>
+              </div>
+              <div class="standard-feedback" id="standardFeedback" role="status"></div>
+              <aside class="asset-library" aria-label="Aset visual Bandeng">
+                <h4>Aset visual bawaan</h4>
+                <p>Gunakan atribut <code>asset</code> pada <code>&lt;slide&gt;</code>: <code>udang-batik</code>, <code>ikan-biru-melengkung</code>, atau <code>ikan-biru-panjang</code>.</p>
+                <div class="asset-row">
+                  <a class="asset-card" href="/slides/assets/udang-batik.png" download><img src="/slides/assets/udang-batik.png" alt="Ilustrasi udang batik merah dan biru"><span><strong>Udang batik</strong>Merah dan biru</span></a>
+                  <a class="asset-card" href="/slides/assets/ikan-biru-melengkung.png" download><img src="/slides/assets/ikan-biru-melengkung.png" alt="Ilustrasi ikan biru melengkung"><span><strong>Ikan melengkung</strong>Biru, ombak, dan bunga</span></a>
+                  <a class="asset-card" href="/slides/assets/ikan-biru-panjang.png" download><img src="/slides/assets/ikan-biru-panjang.png" alt="Ilustrasi ikan biru panjang"><span><strong>Ikan panjang</strong>Biru, ombak, dan bunga</span></a>
+                </div>
+              </aside>
+            </div>
+            <div class="standard-preview">
+              <iframe id="standardDeckFrame" title="Pratinjau deck Standard" src="/slides/standard-deck.html"></iframe>
+              <div class="standard-preview-foot">Pratinjau deck menggunakan ← → atau Space. Tekan ☷ untuk overview dan ⛶ untuk fullscreen.</div>
+            </div>
+          </div>
+        </section>
+        <section class="slides-empty" id="slide-dynamic" data-slide-panel aria-labelledby="slideDynamicHeading" hidden>
+          <div class="slides-icon" aria-hidden="true">
+            <svg viewBox="0 0 64 40" width="56" height="36" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 20c10-13 30-13 40 0-10 13-30 13-40 0Z" fill="rgba(127,174,214,.25)"/>
+              <path d="M12 20 3 12v16l9-8Z" fill="#f3aaa0"/>
+              <circle cx="43" cy="17" r="1.8" fill="currentColor" stroke="none"/>
+              <path d="M22 14c4 4 8 5 13 0M21 23c5 4 10 4 15 0" stroke="#7faed6" stroke-width="2"/>
+            </svg>
+          </div>
+          <h3 id="slideDynamicHeading">Slide Dynamic</h3>
+          <p>Ruang kerja Dynamic sudah disiapkan. Fitur penyusunan presentasi akan ditambahkan pada tahap berikutnya.</p>
+        </section>
+      </div>
+    </section>
+
+    <section class="product-workspace" id="product-compile" aria-label="Compile">
+      <header class="topbar">
+        <div class="topbar-left">
+          <h2>Compile</h2>
+          <p>Siapkan hasil akhir dokumen dan presentasi.</p>
+        </div>
+      </header>
+      <div class="workspace">
+        <div class="compile-layout">
+          <div class="compile-stack">
+            <section class="compile-card">
+              <div class="compile-card-head"><div><p class="compile-kicker">01 · UPLOAD & ORGANIZE</p><h3>File Queue</h3></div><button class="btn danger" type="button" id="compileClear">Hapus semua</button></div>
+              <label class="compile-dropzone" id="compileDropzone" for="compileFiles"><div aria-hidden="true" style="font-size:25px">＋</div><strong>Tarik PDF atau gambar ke sini</strong><span>PDF, JPG, PNG, dan WebP · atau klik untuk memilih beberapa file</span><input id="compileFiles" type="file" accept="application/pdf,image/jpeg,image/png,image/webp" multiple></label>
+              <div class="compile-file-list" id="compileFileList" aria-live="polite"></div>
+              <p class="compile-help">Tarik item pada daftar untuk menentukan urutan halaman dalam PDF akhir.</p>
+              <div class="compile-summary"><span class="compile-pill" id="compileFileCount">0 file</span><span class="compile-pill" id="compileOriginalSize">0 MB asli</span><span class="compile-pill" id="compileEstimate">Estimasi: 0 MB</span></div>
+            </section>
+            <section class="compile-card">
+              <div class="compile-card-head"><div><p class="compile-kicker">02 · COMPRESS</p><h3>Strategi kompresi</h3></div></div>
+              <div class="compile-modes" id="compileModes"><button class="compile-option active" type="button" data-mode="smart">Smart</button><button class="compile-option" type="button" data-mode="preserve">Preserve Text</button><button class="compile-option" type="button" data-mode="raster">Maximum</button></div>
+              <p class="compile-help" id="compileModeHelp">Smart mempertahankan PDF dan mengoptimalkan gambar yang ditambahkan.</p>
+              <div class="compile-presets" id="compilePresets" style="margin-top:12px"><button class="compile-option" type="button" data-quality=".90" data-scale="2">High</button><button class="compile-option active" type="button" data-quality=".76" data-scale="1.6">Balanced</button><button class="compile-option" type="button" data-quality=".58" data-scale="1.25">Small</button></div>
+              <div class="compile-range"><label for="compileQuality"><span>Image quality</span><span id="compileQualityLabel">76%</span></label><input id="compileQuality" type="range" min="35" max="95" value="76"></div>
+              <div class="compile-fields"><label class="compile-field">Render scale<select id="compileScale"><option value="1">1.0×</option><option value="1.25">1.25×</option><option value="1.6" selected>1.6×</option><option value="2">2.0×</option></select></label><label class="compile-field">Target size<select id="compileTarget"><option value="0">Tidak dibatasi</option><option value="5">&lt; 5 MB</option><option value="10" selected>&lt; 10 MB</option><option value="20">&lt; 20 MB</option></select></label></div>
+            </section>
+          </div>
+          <aside class="compile-stack">
+            <section class="compile-card"><div class="compile-card-head"><div><p class="compile-kicker">03 · PREVIEW</p><h3>Halaman pertama</h3></div><button class="btn" type="button" id="compilePreviewIcon">Preview</button></div><div class="compile-preview" id="compilePreview"><span id="compilePreviewEmpty">Tambahkan file lalu klik Preview.</span><canvas id="compileCanvas"></canvas></div><p class="compile-help" id="compilePreviewLabel">Belum ada preview</p></section>
+            <section class="compile-card"><div class="compile-card-head"><div><p class="compile-kicker">04 · EXPORT</p><h3>Final PDF</h3></div></div><label class="compile-field">Nama file<input id="compileOutputName" type="text" value="RipiDoc_Compiled.pdf"></label><label class="compile-switch"><span>Optimalkan gambar</span><input id="compileOptimizeImages" type="checkbox" checked></label><label class="compile-switch"><span>Flatten PDF untuk ukuran minimum</span><input id="compileFlatten" type="checkbox"></label><div class="compile-actions"><button class="btn" type="button" id="compilePreviewAction">Preview</button><button class="btn primary" type="button" id="compileExport">Merge & Compress</button></div><div class="compile-status" id="compileStatus" role="status"><span id="compileStatusText">Menyiapkan dokumen…</span><div class="compile-progress"><i id="compileProgress"></i></div></div></section>
+          </aside>
+        </div>
+      </div>
+    </section>
   </main>
 </div>
 
@@ -525,8 +861,16 @@
       title: "Judul Makalah",
       subtitle: "",
       course: "",
-      institution: "STIESIA"
+      institution: "STIESIA",
+      lecturer: "",
+      city: "Surabaya",
+      year: String(new Date().getFullYear()),
+      coverTitle: "RINGKASAN MATA KULIAH",
+      purpose: "Disusun untuk memenuhi tugas mata kuliah",
+      authors: []
     },
+    cover: {show:true,logoSrc:"",logoName:"",logoWidth:42,logoColor:"original",titleSize:16,logoGap:8},
+    heading1PageBreak: true,
     blocks: [],
     references: []
   };
@@ -537,8 +881,21 @@
     <title>ANALISIS PENGANGGARAN MODAL DAN PENCIPTAAN NILAI</title>
     <subtitle>Makalah Akademik</subtitle>
     <course>Manajemen Keuangan Lanjutan</course>
+    <lecturer>Prof. Dr. Wahidahwati, SE., M.Si. Ak., CA.</lecturer>
     <institution>STIESIA</institution>
+    <city>Surabaya</city>
+    <year>2026</year>
+    <coverTitle>RINGKASAN MATA KULIAH</coverTitle>
+    <purpose>Disusun untuk memenuhi tugas mata kuliah</purpose>
+    <authors>
+      <author><id>26109400831</id><name>Moh Rendra Baihaqqi</name></author>
+      <author><id>26109400859</id><name>Evan Wibowo</name></author>
+    </authors>
   </meta>
+  <settings>
+    <cover show="true" logoWidth="42" logoColor="original" titleSize="16" logoGap="8" />
+    <pagination heading1PageBreak="true" />
+  </settings>
   <content>
     <heading level="1">BAB I PENDAHULUAN</heading>
     <heading level="2">1.1 Latar Belakang</heading>
@@ -588,6 +945,19 @@
   const $ = (q, root=document) => root.querySelector(q);
   const $$ = (q, root=document) => [...root.querySelectorAll(q)];
 
+  const sidebarToggle = $("#sidebarToggle");
+  const appShell = $(".app");
+  function setSidebarCollapsed(collapsed){
+    appShell.classList.toggle("sidebar-collapsed", collapsed);
+    sidebarToggle.setAttribute("aria-expanded", String(!collapsed));
+    const label = collapsed ? "Perluas sidebar" : "Minimalkan sidebar";
+    sidebarToggle.setAttribute("aria-label", label);
+    sidebarToggle.title = label;
+    try { localStorage.setItem("ripidoc-sidebar-collapsed", String(collapsed)); } catch (_) {}
+  }
+  try { setSidebarCollapsed(localStorage.getItem("ripidoc-sidebar-collapsed") === "true"); } catch (_) {}
+  sidebarToggle.addEventListener("click", () => setSidebarCollapsed(!appShell.classList.contains("sidebar-collapsed")));
+
   const viewMeta = {
     import: ["Import XML", "Masukkan struktur makalah dari file atau teks XML."],
     editor: ["Structured Editor", "Edit isi, heading, daftar, dan tabel secara langsung."],
@@ -595,6 +965,163 @@
     style: ["Style & Page Setup", "Atur tipografi, margin, dan format tabel."],
     xml: ["XML Output", "Salin atau unduh XML hasil editing."]
   };
+
+  function switchProduct(name){
+    $$(".product-nav > .product-menu > button").forEach(button => {
+      const active = button.dataset.product === name;
+      const submenu = button.parentElement.querySelector(".product-subnav");
+      button.classList.toggle("active", active);
+      button.setAttribute("aria-selected", String(active));
+      button.setAttribute("aria-expanded", String(active && Boolean(submenu)));
+      if(submenu) submenu.hidden = !active;
+    });
+    $$(".product-workspace").forEach(workspace => {
+      workspace.classList.toggle("active", workspace.id === `product-${name}`);
+    });
+  }
+
+  $$(".product-nav > .product-menu > button").forEach(button => {
+    button.addEventListener("click", () => switchProduct(button.dataset.product));
+  });
+
+  const slideViewMeta = {
+    standard: ["Standard", "Ruang kerja presentasi Standard."],
+    dynamic: ["Dynamic", "Ruang kerja presentasi Dynamic."]
+  };
+
+  function switchSlideView(name){
+    $$("#slidesNav button").forEach(button => {
+      const active = button.dataset.slideView === name;
+      button.classList.toggle("active", active);
+      if(active) button.setAttribute("aria-current", "page");
+      else button.removeAttribute("aria-current");
+    });
+    $$("#product-slides [data-slide-panel]").forEach(view => {
+      view.hidden = view.id !== `slide-${name}`;
+    });
+    $("#slidesTitle").textContent = slideViewMeta[name][0];
+    $("#slidesDesc").textContent = slideViewMeta[name][1];
+  }
+
+  $$("#slidesNav button").forEach(button => {
+    button.addEventListener("click", () => switchSlideView(button.dataset.slideView));
+  });
+
+  const standardSampleXml = `<?xml version="1.0" encoding="UTF-8"?>
+<presentation version="1">
+  <meta>
+    <title>Evaluasi Lingkungan Eksternal</title>
+    <course>Manajemen Stratejik</course>
+    <author>Nama Penyaji</author>
+  </meta>
+  <slides>
+    <slide type="cover" asset="ikan-biru-panjang">
+      <kicker>MANAJEMEN STRATEJIK</kicker>
+      <title>Evaluasi Lingkungan Eksternal</title>
+      <subtitle>Bagaimana perusahaan membaca perubahan sebelum menjadi ancaman.</subtitle>
+    </slide>
+    <slide type="cards">
+      <kicker>01 · PERTANYAAN UTAMA</kicker>
+      <title>Mengapa perusahaan sukses dapat kehilangan relevansi?</title>
+      <cards>
+        <card><title>Teknologi</title><body>Cara menciptakan nilai berubah.</body></card>
+        <card><title>Pelanggan</title><body>Kebutuhan dan pilihan ikut bergeser.</body></card>
+        <card><title>Regulasi</title><body>Aturan menentukan ruang gerak baru.</body></card>
+      </cards>
+    </slide>
+    <slide type="framework">
+      <kicker>02 · PESTEL</kicker>
+      <title>Perubahan besar dibaca melalui enam lensa.</title>
+      <items>
+        <item><title>Politik</title><body>Kebijakan dan stabilitas.</body></item>
+        <item><title>Ekonomi</title><body>Inflasi, kurs, dan bunga.</body></item>
+        <item><title>Sosial</title><body>Demografi serta gaya hidup.</body></item>
+      </items>
+      <body>Pilih faktor yang paling mengubah industri.</body>
+    </slide>
+    <slide type="process">
+      <kicker>03 · MEMBACA PERUBAHAN</kicker>
+      <title>Dari sinyal menuju respons strategi.</title>
+      <steps>
+        <step><label>Scan</label><body>Amati perubahan awal.</body></step>
+        <step><label>Signal</label><body>Temukan pola penting.</body></step>
+        <step><label>Forecast</label><body>Proyeksikan arah tren.</body></step>
+        <step><label>Respond</label><body>Siapkan pilihan strategi.</body></step>
+      </steps>
+    </slide>
+    <slide type="closing">
+      <kicker>KESIMPULAN</kicker>
+      <insights>
+        <insight><title>Lihat perubahan</title><body>Amati sebelum terlihat jelas.</body></insight>
+        <insight><title>Pahami dampak</title><body>Hubungkan dengan industri.</body></insight>
+        <insight><title>Adaptasi strategi</title><body>Sesuaikan pilihan perusahaan.</body></insight>
+      </insights>
+      <quote>Strategi yang baik dimulai dari kemampuan melihat perubahan.</quote>
+    </slide>
+  </slides>
+</presentation>`;
+
+  const standardRuleData = [
+    ["cover", "kicker ≤ 42 · judul ≤ 72 · subjudul ≤ 150 · 0–1 aset"],
+    ["chapter", "nomor ≤ 8 · judul ≤ 64 · subjudul ≤ 140"],
+    ["statement", "judul ≤ 130 · isi ≤ 180 · tanpa poin"],
+    ["cards", "3–4 kartu · judul kartu ≤ 32 · isi ≤ 100"],
+    ["framework", "3–6 item · nama ≤ 24 · isi ≤ 70"],
+    ["process", "4–6 langkah · label ≤ 22 · isi ≤ 70"],
+    ["comparison", "2–3 kolom · maksimal 3 poin per kolom"],
+    ["case", "konteks ≤ 180 · tepat 3 kartu"],
+    ["table", "2–3 kolom · 3–6 baris · sel ≤ 45"],
+    ["closing", "tepat 3 insight · isi ≤ 90 · kutipan ≤ 140"]
+  ];
+  let standardDeck = null;
+
+  function showStandardFeedback(kind, title, details=[]){
+    const box = $("#standardFeedback");
+    box.className = `standard-feedback show ${kind}`;
+    box.replaceChildren();
+    const heading = document.createElement("strong");
+    heading.textContent = title;
+    box.append(heading);
+    if(details.length){
+      const list = document.createElement("ul");
+      details.forEach(detail => { const item = document.createElement("li"); item.textContent = detail; list.append(item); });
+      box.append(list);
+    }
+  }
+
+  function sendStandardDeck(){
+    if(standardDeck) $("#standardDeckFrame").contentWindow?.postMessage({type:"ripidoc-slide-deck", deck:standardDeck}, location.origin);
+  }
+
+  async function importStandardSlides(){
+    const source = $("#slidesXml").value.trim();
+    if(!source){ showStandardFeedback("error", "Tempel XML presentasi sebelum mengimpor."); return; }
+    showStandardFeedback("warn", "Memvalidasi struktur dan aturan slide…");
+    try{
+      const response = await fetch("/api/slides/import", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({source})});
+      const result = await response.json();
+      if(!response.ok){
+        showStandardFeedback("error", result.error || "XML presentasi tidak dapat diimpor.", [...(result.structural || []).map(item => `${item.path}: harus ${item.limit}; saat ini ${item.value}.`), ...(result.warnings || [])]);
+        return;
+      }
+      standardDeck = result.deck;
+      localStorage.setItem("standard-slides-xml-draft", source);
+      sendStandardDeck();
+      const notes = [...(result.adjustments || []), ...(result.warnings || [])];
+      showStandardFeedback(notes.length ? "warn" : "ok", notes.length ? "Deck dibuat dengan penyesuaian AI." : "Deck berhasil dibuat tanpa penyesuaian.", notes);
+    }catch(error){ showStandardFeedback("error", error.message || "XML presentasi tidak dapat diimpor."); }
+  }
+
+  $("#standardRules").replaceChildren(...standardRuleData.map(([type, rule]) => {
+    const item = document.createElement("div"); item.className = "standard-rule";
+    const heading = document.createElement("strong"); heading.textContent = type;
+    const detail = document.createElement("span"); detail.textContent = rule;
+    item.append(heading, detail); return item;
+  }));
+  $("#slidesXml").value = localStorage.getItem("standard-slides-xml-draft") || standardSampleXml;
+  $("#btnLoadSlideSample").addEventListener("click", ()=>{ $("#slidesXml").value = standardSampleXml; showStandardFeedback("ok", "Contoh XML dimuat. Edit konten lalu import menjadi deck."); });
+  $("#btnImportSlides").addEventListener("click", importStandardSlides);
+  $("#standardDeckFrame").addEventListener("load", sendStandardDeck);
 
   function escapeHtml(str=""){
     return String(str)
@@ -618,15 +1145,15 @@
   }
 
   function switchView(name){
-    $$(".nav button").forEach(b => b.classList.toggle("active", b.dataset.view === name));
-    $$(".view").forEach(v => v.classList.toggle("active", v.id === `view-${name}`));
+    $$("#paperNav button").forEach(b => b.classList.toggle("active", b.dataset.view === name));
+    $$("#product-paper .view").forEach(v => v.classList.toggle("active", v.id === `view-${name}`));
     $("#topTitle").textContent = viewMeta[name][0];
     $("#topDesc").textContent = viewMeta[name][1];
     if(name === "preview") renderPreview();
     if(name === "xml") syncXmlOutput();
   }
 
-  $$(".nav button").forEach(b => b.addEventListener("click", () => switchView(b.dataset.view)));
+  $$("#paperNav button").forEach(b => b.addEventListener("click", () => switchView(b.dataset.view)));
 
   function childText(parent, tag, fallback=""){
     const el = parent?.querySelector(`:scope > ${tag}`);
@@ -659,19 +1186,42 @@
     const err = doc.querySelector("parsererror");
     if(err) throw new Error(err.textContent.replace(/\s+/g," ").trim());
 
-    const paper = doc.documentElement?.tagName.toLowerCase() === "paper" ? doc.documentElement : null;
-    if(!paper) throw new Error("Root <paper> tidak ditemukan.");
+    const rootName = doc.documentElement?.tagName.toLowerCase();
+    const paper = ["paper", "ripidoc"].includes(rootName) ? doc.documentElement : null;
+    if(!paper) throw new Error("Root XML harus <paper> atau <ripidoc>.");
 
     const meta = paper.querySelector(":scope > meta");
     state.meta = {
       title: childText(meta,"title","Judul Makalah"),
       subtitle: childText(meta,"subtitle",""),
       course: childText(meta,"course",""),
-      institution: childText(meta,"institution","")
+      institution: childText(meta,"institution",""),
+      lecturer: childText(meta,"lecturer",""),
+      city: childText(meta,"city",""),
+      year: childText(meta,"year",String(new Date().getFullYear())),
+      coverTitle: childText(meta,"coverTitle","RINGKASAN MATA KULIAH"),
+      purpose: childText(meta,"purpose","Disusun untuk memenuhi tugas mata kuliah"),
+      authors: [...(meta?.querySelectorAll(":scope > authors > author") || [])].map(author => ({
+        id: childText(author,"id",""), name: childText(author,"name","")
+      }))
     };
 
+    const logoAsset = paper.querySelector(':scope > assets > asset[type="logo"]');
+    const coverSettings = paper.querySelector(":scope > settings > cover, :scope > meta > settings > cover");
+    const paginationSettings = paper.querySelector(":scope > settings > pagination, :scope > meta > settings > pagination");
+    state.cover = {
+      show: coverSettings?.getAttribute("show") !== "false",
+      logoSrc: logoAsset?.getAttribute("src") || "",
+      logoName: logoAsset?.getAttribute("name") || logoAsset?.getAttribute("id") || "",
+      logoWidth: Math.max(25, Math.min(60, Number(coverSettings?.getAttribute("logoWidth") || 42))),
+      logoColor: coverSettings?.getAttribute("logoColor") === "grayscale" ? "grayscale" : "original",
+      titleSize: Math.max(14, Math.min(18, Number(coverSettings?.getAttribute("titleSize") || 16))),
+      logoGap: Math.max(5, Math.min(11, Number(coverSettings?.getAttribute("logoGap") || 8)))
+    };
+    state.heading1PageBreak = paginationSettings?.getAttribute("heading1PageBreak") !== "false";
+
     state.blocks = [];
-    const content = paper.querySelector(":scope > content");
+    const content = paper.querySelector(":scope > content, :scope > document");
     if(content){
       [...content.children].forEach(el => {
         const tag = el.tagName.toLowerCase();
@@ -683,11 +1233,15 @@
             breakBefore: el.getAttribute("breakBefore") === "true"
           });
         }else if(tag === "paragraph"){
-          state.blocks.push({
-            type:"paragraph",
-            text: el.textContent.trim(),
-            noIndent: el.getAttribute("noIndent") === "true"
-          });
+          const paragraphText = el.textContent.trim();
+          const paragraphRole = (el.getAttribute("role") || "").toLowerCase();
+          if(paragraphRole !== "presenter" && !/^penyaji\s*:/i.test(paragraphText)){
+            state.blocks.push({
+              type:"paragraph",
+              text: paragraphText,
+              noIndent: el.getAttribute("noIndent") === "true"
+            });
+          }
         }else if(tag === "list"){
           state.blocks.push({
             type:"list",
@@ -704,7 +1258,7 @@
       });
     }
 
-    const refs = paper.querySelector(":scope > references");
+    const refs = paper.querySelector(":scope > references, :scope > document > references");
     state.references = refs ? [...refs.querySelectorAll(":scope > reference")].map(r => r.textContent.trim()) : [];
 
     hydrateMetaInputs();
@@ -719,15 +1273,45 @@
     $("#metaSubtitle").value = state.meta.subtitle || "";
     $("#metaCourse").value = state.meta.course || "";
     $("#metaInstitution").value = state.meta.institution || "";
+    $("#metaLecturer").value = state.meta.lecturer || "";
+    $("#metaCity").value = state.meta.city || "";
+    $("#metaYear").value = state.meta.year || "";
+    $("#metaCoverTitle").value = state.meta.coverTitle || "";
+    $("#metaPurpose").value = state.meta.purpose || "";
+    $("#metaAuthors").value = (state.meta.authors || []).map(a => `${a.id}${a.id && a.name ? " | " : ""}${a.name}`).join("\n");
+    hydrateCoverInputs();
   }
 
-  ["metaTitle","metaSubtitle","metaCourse","metaInstitution"].forEach(id => {
+  function hydrateCoverInputs(){
+    $("#showCover").checked = state.cover.show;
+    $("#logoWidth").value = state.cover.logoWidth;
+    $("#logoWidthNumber").value = state.cover.logoWidth;
+    $("#logoColorMode").value = state.cover.logoColor;
+    $("#coverTitleSize").value = String(state.cover.titleSize);
+    $("#logoGap").value = String(state.cover.logoGap);
+    $("#h1PageBreak").checked = state.heading1PageBreak;
+    const preview = $("#logoPreview");
+    if(/^(data:image\/|https?:\/\/|\/)/i.test(state.cover.logoSrc || "")){
+      preview.innerHTML = `<img src="${escapeHtml(state.cover.logoSrc)}" alt="Preview logo">`;
+    }else{
+      preview.textContent = state.cover.logoSrc ? `Logo eksternal: ${state.cover.logoSrc}. Upload ulang agar tersimpan dalam XML.` : "Belum ada logo";
+    }
+  }
+
+  ["metaTitle","metaSubtitle","metaCourse","metaInstitution","metaLecturer","metaCity","metaYear","metaCoverTitle","metaPurpose"].forEach(id => {
     $("#" + id).addEventListener("input", e => {
-      const map = {metaTitle:"title",metaSubtitle:"subtitle",metaCourse:"course",metaInstitution:"institution"};
+      const map = {metaTitle:"title",metaSubtitle:"subtitle",metaCourse:"course",metaInstitution:"institution",metaLecturer:"lecturer",metaCity:"city",metaYear:"year",metaCoverTitle:"coverTitle",metaPurpose:"purpose"};
       state.meta[map[id]] = e.target.value;
       renderPreview();
       syncXmlOutput();
     });
+  });
+  $("#metaAuthors").addEventListener("input", e => {
+    state.meta.authors = e.target.value.split("\n").map(line => {
+      const [id, ...name] = line.split("|");
+      return {id:(id || "").trim(),name:name.join("|").trim()};
+    }).filter(a => a.id || a.name);
+    renderPreview(); syncXmlOutput();
   });
 
   function moveBlock(i, dir){
@@ -942,40 +1526,89 @@
     `;
   }
 
+  function renderCover(){
+    if(!state.cover.show) return "";
+    const authors = (state.meta.authors || []).map(a =>
+      `<span class="cover-author-id">${escapeHtml(a.id)}</span><span class="cover-author-name">${escapeHtml(a.name)}</span>`
+    ).join("");
+    const canRenderLogo = /^(data:image\/|https?:\/\/|\/)/i.test(state.cover.logoSrc || "");
+    const logo = canRenderLogo
+      ? `<img class="cover-logo" src="${escapeHtml(state.cover.logoSrc)}" alt="Logo institusi" style="width:${state.cover.logoWidth}mm;${state.cover.logoColor === "grayscale" ? "filter:grayscale(1)" : ""}">`
+      : `<div class="cover-logo-placeholder">${state.cover.logoSrc ? "Upload ulang logo" : "Logo institusi"}</div>`;
+    return `<section class="academic-cover" style="--cover-logo-gap:${state.cover.logoGap}mm">
+      <div class="cover-header">
+        <div class="cover-kicker">${escapeHtml(state.meta.coverTitle || "RINGKASAN MATA KULIAH")}</div>
+        <div class="cover-main-title" style="font-size:${state.cover.titleSize}pt">${escapeHtml(state.meta.title || "JUDUL MAKALAH")}</div>
+        <div class="cover-purpose">${escapeHtml(state.meta.purpose || "Disusun untuk memenuhi tugas mata kuliah")}</div>
+        <div class="cover-course">${escapeHtml(state.meta.course || "")}</div>
+        <div class="cover-lecturer">Dosen Pengampu: ${escapeHtml(state.meta.lecturer || "")}</div>
+      </div>
+      <div class="cover-center">
+        ${logo}
+        <div class="cover-authors-title">Disusun Oleh:</div>
+        <div class="cover-authors">${authors}</div>
+      </div>
+      <div class="cover-institution">${escapeHtml(state.meta.institution || "")}<br>${escapeHtml(state.meta.city || "")}<br>${escapeHtml(state.meta.year || "")}</div>
+      <div class="cover-overflow-note">Cover melebihi satu halaman</div>
+    </section>`;
+  }
+
   function renderPreview(){
     const p = $("#paperPreview");
     let html = "";
-    if(state.meta.title) html += `<div class="title">${escapeHtml(state.meta.title)}</div>`;
-    if(state.meta.subtitle) html += `<div class="subtitle">${escapeHtml(state.meta.subtitle)}</div>`;
-    if(state.meta.course || state.meta.institution){
+    let hasBodyContent = false;
+    let lastWasPageBreak = false;
+    if(!state.cover.show && state.meta.title) html += `<div class="title">${escapeHtml(state.meta.title)}</div>`;
+    if(!state.cover.show && state.meta.subtitle) html += `<div class="subtitle">${escapeHtml(state.meta.subtitle)}</div>`;
+    if(!state.cover.show && (state.meta.course || state.meta.institution)){
       const line = [state.meta.course,state.meta.institution].filter(Boolean).join(" — ");
       html += `<p class="no-indent" style="text-align:center;margin-bottom:22px">${escapeHtml(line)}</p>`;
     }
 
     state.blocks.forEach(b => {
       if(b.type === "heading"){
-        if(b.breakBefore) html += `<div class="page-break"></div>`;
+        const needsBreak = b.breakBefore || (state.heading1PageBreak && b.level === 1 && hasBodyContent);
+        if(needsBreak && !lastWasPageBreak) html += `<div class="page-break"></div>`;
         html += `<h${b.level}>${escapeHtml(b.text)}</h${b.level}>`;
+        hasBodyContent = true; lastWasPageBreak = false;
       }else if(b.type === "paragraph"){
         html += `<p class="${b.noIndent?"no-indent":""}">${escapeHtml(b.text)}</p>`;
+        hasBodyContent = true; lastWasPageBreak = false;
       }else if(b.type === "blockquote"){
         html += `<blockquote>${escapeHtml(b.text)}</blockquote>`;
+        hasBodyContent = true; lastWasPageBreak = false;
       }else if(b.type === "list"){
         const tag = b.listType === "number" ? "ol" : "ul";
         html += `<${tag}>${b.items.map(x=>`<li>${escapeHtml(x)}</li>`).join("")}</${tag}>`;
+        hasBodyContent = true; lastWasPageBreak = false;
       }else if(b.type === "table"){
         html += renderTable(b);
+        hasBodyContent = true; lastWasPageBreak = false;
       }else if(b.type === "pagebreak"){
-        html += `<div class="page-break"></div>`;
+        if(!lastWasPageBreak) html += `<div class="page-break"></div>`;
+        lastWasPageBreak = true;
       }
     });
 
+    const hasReferencesHeading = state.blocks.some(b => b.type === "heading" && b.level === 1 && /^(daftar pustaka|daftar rujukan)$/i.test(b.text.trim()));
     if(state.references.length){
-      html += `<h1>DAFTAR PUSTAKA</h1><div class="references">`;
+      if(!hasReferencesHeading){
+        if(!lastWasPageBreak && hasBodyContent) html += `<div class="page-break"></div>`;
+        html += `<h1>DAFTAR PUSTAKA</h1>`;
+      }
+      html += `<div class="references">`;
       state.references.forEach(r => html += `<p>${escapeHtml(r)}</p>`);
       html += `</div>`;
     }
-    p.innerHTML = html || `<p class="no-indent" style="text-align:center;color:#666">Belum ada isi dokumen.</p>`;
+    const body = html || `<p class="no-indent" style="text-align:center;color:#666">Belum ada isi dokumen.</p>`;
+    p.innerHTML = renderCover() + `<section class="document-body">${body}</section>`;
+    requestAnimationFrame(() => {
+      const cover = p.querySelector(".academic-cover");
+      if(!cover) return;
+      const overflowing = cover.scrollHeight > cover.clientHeight + 2;
+      cover.classList.toggle("cover-overflow", overflowing);
+      if(overflowing) setStatus("Cover melebihi satu halaman");
+    });
   }
 
   function buildXml(){
@@ -988,8 +1621,30 @@
     add(2, `<title>${escapeXml(state.meta.title)}</title>`);
     add(2, `<subtitle>${escapeXml(state.meta.subtitle)}</subtitle>`);
     add(2, `<course>${escapeXml(state.meta.course)}</course>`);
+    add(2, `<lecturer>${escapeXml(state.meta.lecturer)}</lecturer>`);
     add(2, `<institution>${escapeXml(state.meta.institution)}</institution>`);
+    add(2, `<city>${escapeXml(state.meta.city)}</city>`);
+    add(2, `<year>${escapeXml(state.meta.year)}</year>`);
+    add(2, `<coverTitle>${escapeXml(state.meta.coverTitle)}</coverTitle>`);
+    add(2, `<purpose>${escapeXml(state.meta.purpose)}</purpose>`);
+    if(state.meta.authors.length){
+      add(2, `<authors>`);
+      state.meta.authors.forEach(author => {
+        add(3, `<author>`);
+        add(4, `<id>${escapeXml(author.id)}</id>`);
+        add(4, `<name>${escapeXml(author.name)}</name>`);
+        add(3, `</author>`);
+      });
+      add(2, `</authors>`);
+    }
     add(1, `</meta>`);
+    add(1, `<assets>`);
+    add(2, `<asset id="institution_logo" type="logo" name="${escapeXml(state.cover.logoName)}" src="${escapeXml(state.cover.logoSrc)}" />`);
+    add(1, `</assets>`);
+    add(1, `<settings>`);
+    add(2, `<cover show="${state.cover.show}" logoWidth="${state.cover.logoWidth}" logoColor="${state.cover.logoColor}" titleSize="${state.cover.titleSize}" logoGap="${state.cover.logoGap}" />`);
+    add(2, `<pagination heading1PageBreak="${state.heading1PageBreak}" />`);
+    add(1, `</settings>`);
     add(1, `<content>`);
 
     state.blocks.forEach(b => {
@@ -1035,6 +1690,13 @@
       }
     });
 
+    const hasReferencesHeading = state.blocks.some(b => b.type === "heading" && b.level === 1 && /^(daftar pustaka|daftar rujukan)$/i.test(b.text.trim()));
+    if(state.references.length && !hasReferencesHeading){
+      const lastBlock = state.blocks[state.blocks.length - 1];
+      if(lastBlock?.type !== "pagebreak") add(2, `<pagebreak />`);
+      add(2, `<heading level="1">DAFTAR PUSTAKA</heading>`);
+    }
+
     add(1, `</content>`);
     if(state.references.length){
       add(1, `<references>`);
@@ -1046,7 +1708,9 @@
   }
 
   function syncXmlOutput(){
-    $("#xmlOutput").value = buildXml();
+    const xml = buildXml();
+    $("#xmlOutput").value = xml;
+    try { localStorage.setItem("academic-paper-xml-draft", xml); } catch {}
   }
 
   function download(name, content, type="application/xml"){
@@ -1116,7 +1780,9 @@
   });
 
   $("#btnReset").addEventListener("click", ()=>{
-    state.meta = {title:"Judul Makalah",subtitle:"",course:"",institution:"STIESIA"};
+    state.meta = {title:"Judul Makalah",subtitle:"",course:"",institution:"STIESIA",lecturer:"",city:"Surabaya",year:String(new Date().getFullYear()),coverTitle:"RINGKASAN MATA KULIAH",purpose:"Disusun untuk memenuhi tugas mata kuliah",authors:[]};
+    state.cover = {show:true,logoSrc:"",logoName:"",logoWidth:42,logoColor:"original",titleSize:16,logoGap:8};
+    state.heading1PageBreak = true;
     state.blocks = [];
     state.references = [];
     $("#xmlPaste").value = "";
@@ -1143,6 +1809,54 @@
   $("#btnApplyStyle").addEventListener("click", applyStyle);
   ["bodySize","lineHeight","firstIndent","tableSize","mLeft","mRight","mTop","mBottom","numberFormat"].forEach(id => {
     $("#" + id).addEventListener("change", applyStyle);
+  });
+
+  $("#btnChooseLogo").addEventListener("click", ()=>$("#logoFile").click());
+  $("#logoFile").addEventListener("change", e => {
+    const file = e.target.files?.[0];
+    if(!file) return;
+    if(file.size > 3 * 1024 * 1024){
+      setStatus("Logo maksimal 3 MB");
+      e.target.value = "";
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      state.cover.logoSrc = String(reader.result || "");
+      state.cover.logoName = file.name;
+      hydrateCoverInputs(); renderPreview(); syncXmlOutput();
+      setStatus("Logo dimuat");
+    };
+    reader.readAsDataURL(file);
+  });
+  $("#btnRemoveLogo").addEventListener("click", ()=>{
+    state.cover.logoSrc = ""; state.cover.logoName = "";
+    $("#logoFile").value = "";
+    hydrateCoverInputs(); renderPreview(); syncXmlOutput();
+    setStatus("Logo dihapus");
+  });
+  function setLogoWidth(value){
+    state.cover.logoWidth = Math.max(25, Math.min(60, Number(value) || 42));
+    $("#logoWidth").value = state.cover.logoWidth;
+    $("#logoWidthNumber").value = state.cover.logoWidth;
+    renderPreview(); syncXmlOutput();
+  }
+  $("#logoWidth").addEventListener("input", e => setLogoWidth(e.target.value));
+  $("#logoWidthNumber").addEventListener("change", e => setLogoWidth(e.target.value));
+  $("#logoColorMode").addEventListener("change", e => {
+    state.cover.logoColor = e.target.value; renderPreview(); syncXmlOutput();
+  });
+  $("#coverTitleSize").addEventListener("change", e => {
+    state.cover.titleSize = Number(e.target.value) || 16; renderPreview(); syncXmlOutput();
+  });
+  $("#logoGap").addEventListener("change", e => {
+    state.cover.logoGap = Number(e.target.value) || 8; renderPreview(); syncXmlOutput();
+  });
+  $("#showCover").addEventListener("change", e => {
+    state.cover.show = e.target.checked; renderPreview(); syncXmlOutput();
+  });
+  $("#h1PageBreak").addEventListener("change", e => {
+    state.heading1PageBreak = e.target.checked; renderPreview(); syncXmlOutput();
   });
 
   $("#btnFormatNumbers").addEventListener("click", ()=>{
@@ -1204,6 +1918,166 @@
   $("#xmlOutput").addEventListener("change", ()=>{
     // Deliberately not auto-imported to avoid accidental data loss.
   });
+
+  const compileState = { files: [], mode: "smart", quality: .76, scale: 1.6, dragIndex: null };
+  const compile = id => document.getElementById(id);
+  const compileFmt = bytes => {
+    if (!bytes) return "0 MB";
+    const mb = bytes / 1024 / 1024;
+    return mb < 1 ? `${Math.round(bytes / 1024)} KB` : `${mb.toFixed(mb < 10 ? 1 : 0)} MB`;
+  };
+  const compileEscape = value => String(value).replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[char]));
+  const compileId = () => Math.random().toString(36).slice(2) + Date.now().toString(36);
+  const compileReady = () => typeof PDFLib !== "undefined" && typeof pdfjsLib !== "undefined";
+
+  function compileSetStatus(message, progress = 0){
+    compile("compileStatus").classList.add("show");
+    compile("compileStatusText").textContent = message;
+    compile("compileProgress").style.width = `${progress}%`;
+  }
+  function compileHideStatus(){ compile("compileStatus").classList.remove("show"); }
+  function compileUpdateSummary(){
+    const original = compileState.files.reduce((total, item) => total + item.file.size, 0);
+    let factor = compileState.mode === "preserve" ? .95 : compileState.mode === "raster" ? Math.max(.16, .24 + compileState.quality * .36) * Math.min(1.15, compileState.scale / 1.6) : .72 + (compileState.quality - .35) * .35;
+    compile("compileFileCount").textContent = `${compileState.files.length} file`;
+    compile("compileOriginalSize").textContent = `${compileFmt(original)} asli`;
+    compile("compileEstimate").textContent = `Estimasi: ${compileFmt(original * factor)}`;
+  }
+  function compileRenderFiles(){
+    const list = compile("compileFileList");
+    list.replaceChildren();
+    compileState.files.forEach((item, index) => {
+      const card = document.createElement("div");
+      card.className = "compile-file"; card.draggable = true; card.dataset.index = index;
+      card.innerHTML = `<span class="compile-drag" aria-hidden="true">⋮⋮</span><span class="compile-thumb">${item.thumb ? `<img src="${item.thumb}" alt="">` : item.file.type === "application/pdf" ? "PDF" : "IMG"}</span><span><span class="compile-file-name">${compileEscape(item.file.name)}</span><span class="compile-file-meta">${item.pages || "…"} halaman · ${compileFmt(item.file.size)}</span></span><button class="compile-remove" type="button" aria-label="Hapus ${compileEscape(item.file.name)}">×</button>`;
+      card.querySelector(".compile-remove").addEventListener("click", () => compileRemove(index));
+      card.addEventListener("dragstart", () => { compileState.dragIndex = index; card.style.opacity = ".45"; });
+      card.addEventListener("dragend", () => { compileState.dragIndex = null; card.style.opacity = "1"; });
+      card.addEventListener("dragover", event => event.preventDefault());
+      card.addEventListener("drop", event => {
+        event.preventDefault();
+        if (compileState.dragIndex === null || compileState.dragIndex === index) return;
+        const [moved] = compileState.files.splice(compileState.dragIndex, 1);
+        compileState.files.splice(index, 0, moved); compileRenderFiles();
+      });
+      list.append(card);
+    });
+    compileUpdateSummary();
+  }
+  function compileRemove(index){
+    const [removed] = compileState.files.splice(index, 1);
+    if (removed?.objectUrl) URL.revokeObjectURL(removed.objectUrl);
+    compileRenderFiles();
+  }
+  async function compileAddFiles(fileList){
+    const accepted = [...fileList].filter(file => file.type === "application/pdf" || file.type.startsWith("image/"));
+    if (!accepted.length) { compileSetStatus("Pilih file PDF atau gambar yang didukung.", 0); return; }
+    for (const file of accepted) {
+      const item = { id: compileId(), file, pages: 1, thumb: "", objectUrl: "" };
+      if (file.type === "application/pdf" && compileReady()) {
+        try {
+          const pdf = await pdfjsLib.getDocument({ data: (await file.arrayBuffer()).slice(0) }).promise;
+          item.pages = pdf.numPages;
+          const page = await pdf.getPage(1), viewport = page.getViewport({ scale: .2 });
+          const canvas = document.createElement("canvas"); canvas.width = viewport.width; canvas.height = viewport.height;
+          await page.render({ canvasContext: canvas.getContext("2d"), viewport }).promise;
+          item.thumb = canvas.toDataURL("image/jpeg", .7);
+        } catch { item.pages = "?"; }
+      } else if (file.type.startsWith("image/")) { item.objectUrl = URL.createObjectURL(file); item.thumb = item.objectUrl; }
+      compileState.files.push(item); compileRenderFiles();
+    }
+    compile("compileFiles").value = "";
+  }
+  async function compileImageToJpeg(file, quality, maxDimension){
+    const bitmap = await createImageBitmap(file);
+    const ratio = Math.min(1, maxDimension / Math.max(bitmap.width, bitmap.height));
+    const width = Math.round(bitmap.width * ratio), height = Math.round(bitmap.height * ratio);
+    const canvas = document.createElement("canvas"); canvas.width = width; canvas.height = height;
+    const context = canvas.getContext("2d"); context.fillStyle = "#fff"; context.fillRect(0, 0, width, height); context.drawImage(bitmap, 0, 0, width, height);
+    const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/jpeg", quality));
+    if (!blob) throw new Error("Gambar tidak dapat dikompres.");
+    return { bytes: await blob.arrayBuffer(), width, height };
+  }
+  async function compileRasterizePdf(file, quality, scale, onProgress){
+    const source = await pdfjsLib.getDocument({ data: (await file.arrayBuffer()).slice(0) }).promise;
+    const output = await PDFLib.PDFDocument.create();
+    for (let pageNumber = 1; pageNumber <= source.numPages; pageNumber++) {
+      const page = await source.getPage(pageNumber), viewport = page.getViewport({ scale });
+      const canvas = document.createElement("canvas"); canvas.width = Math.ceil(viewport.width); canvas.height = Math.ceil(viewport.height);
+      const context = canvas.getContext("2d", { alpha: false }); context.fillStyle = "#fff"; context.fillRect(0, 0, canvas.width, canvas.height);
+      await page.render({ canvasContext: context, viewport }).promise;
+      const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/jpeg", quality));
+      if (!blob) throw new Error("Halaman tidak dapat dirender.");
+      const image = await output.embedJpg(await blob.arrayBuffer()), next = output.addPage([viewport.width / scale, viewport.height / scale]);
+      next.drawImage(image, { x: 0, y: 0, width: next.getWidth(), height: next.getHeight() }); onProgress?.(pageNumber / source.numPages);
+    }
+    return output.save({ useObjectStreams: true });
+  }
+  async function compileBuildPdf(forPreview = false){
+    if (!compileReady()) throw new Error("Mesin PDF belum tersedia. Periksa koneksi internet lalu coba lagi.");
+    if (!compileState.files.length) throw new Error("Tambahkan minimal satu file.");
+    const output = await PDFLib.PDFDocument.create();
+    for (let index = 0; index < compileState.files.length; index++) {
+      const item = compileState.files[index], base = Math.round(index / compileState.files.length * 85);
+      compileSetStatus(`Memproses ${item.file.name}`, base);
+      if (item.file.type === "application/pdf") {
+        if (compileState.mode === "raster" || compile("compileFlatten").checked) {
+          const bytes = await compileRasterizePdf(item.file, compileState.quality, compileState.scale, fraction => compileSetStatus(`Merender ${item.file.name}`, Math.round(base + fraction * 85 / compileState.files.length)));
+          const source = await PDFLib.PDFDocument.load(bytes), pages = await output.copyPages(source, source.getPageIndices()); pages.forEach(page => output.addPage(page));
+        } else {
+          const source = await PDFLib.PDFDocument.load(await item.file.arrayBuffer(), { ignoreEncryption: true });
+          const pages = await output.copyPages(source, source.getPageIndices()); pages.forEach(page => output.addPage(page));
+        }
+      } else {
+        let image, width, height;
+        if (compile("compileOptimizeImages").checked || item.file.type !== "image/png") {
+          ({ bytes: image, width, height } = await compileImageToJpeg(item.file, compileState.quality, 2600 * compileState.scale / 1.6));
+          image = await output.embedJpg(image);
+        } else { image = await output.embedPng(await item.file.arrayBuffer()); width = image.width; height = image.height; }
+        const page = output.addPage([595.28, 841.89]), fit = Math.min(page.getWidth() / width, page.getHeight() / height);
+        page.drawImage(image, { x: (page.getWidth() - width * fit) / 2, y: (page.getHeight() - height * fit) / 2, width: width * fit, height: height * fit });
+      }
+    }
+    compileSetStatus(forPreview ? "Preview siap" : "Finalisasi PDF", 100);
+    return output.save({ useObjectStreams: true, addDefaultPage: false });
+  }
+  async function compilePreview(){
+    try {
+      const bytes = await compileBuildPdf(true), pdf = await pdfjsLib.getDocument({ data: bytes.slice(0) }).promise, page = await pdf.getPage(1), viewport = page.getViewport({ scale: 1.05 });
+      const canvas = compile("compileCanvas"); canvas.width = viewport.width; canvas.height = viewport.height;
+      await page.render({ canvasContext: canvas.getContext("2d"), viewport }).promise;
+      canvas.style.display = "block"; compile("compilePreviewEmpty").hidden = true; compile("compilePreviewLabel").textContent = `Halaman 1 dari ${pdf.numPages}`;
+      setTimeout(compileHideStatus, 500);
+    } catch (error) { compileSetStatus(`Gagal membuat preview: ${error.message}`, 0); }
+  }
+  async function compileExport(){
+    const button = compile("compileExport"); button.disabled = true; compile("compilePreviewAction").disabled = true;
+    try {
+      let bytes = await compileBuildPdf(), target = Number(compile("compileTarget").value);
+      if (target && bytes.byteLength / 1024 / 1024 > target && compileState.mode === "raster") {
+        const originalQuality = compileState.quality;
+        for (let attempt = 0; attempt < 2 && bytes.byteLength / 1024 / 1024 > target && compileState.quality > .4; attempt++) { compileState.quality = Math.max(.4, compileState.quality - .12); bytes = await compileBuildPdf(); }
+        compileState.quality = originalQuality;
+      }
+      const url = URL.createObjectURL(new Blob([bytes], { type: "application/pdf" })), anchor = document.createElement("a");
+      let name = compile("compileOutputName").value.trim() || "RipiDoc_Compiled.pdf"; if (!name.toLowerCase().endsWith(".pdf")) name += ".pdf";
+      anchor.href = url; anchor.download = name; anchor.click(); setTimeout(() => URL.revokeObjectURL(url), 3000);
+      compileSetStatus(`Selesai · ${compileFmt(bytes.byteLength)} · ${name}`, 100);
+    } catch (error) { compileSetStatus(`Gagal: ${error.message}`, 0); }
+    finally { button.disabled = false; compile("compilePreviewAction").disabled = false; }
+  }
+  if (compileReady()) pdfjsLib.GlobalWorkerOptions.workerSrc = "/vendor/pdf.worker.min.js";
+  compile("compileFiles").addEventListener("change", event => compileAddFiles(event.target.files));
+  const compileDropzone = compile("compileDropzone");
+  ["dragenter", "dragover"].forEach(type => compileDropzone.addEventListener(type, event => { event.preventDefault(); compileDropzone.classList.add("dragover"); }));
+  ["dragleave", "drop"].forEach(type => compileDropzone.addEventListener(type, event => { event.preventDefault(); compileDropzone.classList.remove("dragover"); }));
+  compileDropzone.addEventListener("drop", event => compileAddFiles(event.dataTransfer.files));
+  compile("compileClear").addEventListener("click", () => { compileState.files.forEach(item => item.objectUrl && URL.revokeObjectURL(item.objectUrl)); compileState.files = []; compileRenderFiles(); compile("compileCanvas").style.display = "none"; compile("compilePreviewEmpty").hidden = false; compile("compilePreviewLabel").textContent = "Belum ada preview"; });
+  document.querySelectorAll("#compileModes button").forEach(button => button.addEventListener("click", () => { document.querySelectorAll("#compileModes button").forEach(item => item.classList.toggle("active", item === button)); compileState.mode = button.dataset.mode; compile("compileFlatten").checked = compileState.mode === "raster"; compile("compileModeHelp").textContent = compileState.mode === "preserve" ? "Mempertahankan teks dan elemen vektor PDF; pengurangan ukuran bisa lebih kecil." : compileState.mode === "raster" ? "Merender setiap halaman sebagai gambar terkompresi untuk ukuran paling kecil." : "Smart mempertahankan PDF dan mengoptimalkan gambar yang ditambahkan."; compileUpdateSummary(); }));
+  document.querySelectorAll("#compilePresets button").forEach(button => button.addEventListener("click", () => { document.querySelectorAll("#compilePresets button").forEach(item => item.classList.toggle("active", item === button)); compileState.quality = Number(button.dataset.quality); compileState.scale = Number(button.dataset.scale); compile("compileQuality").value = Math.round(compileState.quality * 100); compile("compileQualityLabel").textContent = `${Math.round(compileState.quality * 100)}%`; compile("compileScale").value = String(compileState.scale); compileUpdateSummary(); }));
+  compile("compileQuality").addEventListener("input", event => { compileState.quality = Number(event.target.value) / 100; compile("compileQualityLabel").textContent = `${event.target.value}%`; document.querySelectorAll("#compilePresets button").forEach(button => button.classList.remove("active")); compileUpdateSummary(); });
+  compile("compileScale").addEventListener("change", event => { compileState.scale = Number(event.target.value); compileUpdateSummary(); });
+  compile("compilePreviewIcon").addEventListener("click", compilePreview); compile("compilePreviewAction").addEventListener("click", compilePreview); compile("compileExport").addEventListener("click", compileExport); compileUpdateSummary();
 
   // Initial document: restore the last valid draft when available.
   const savedDraft = localStorage.getItem("academic-paper-xml-draft");

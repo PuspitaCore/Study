@@ -20,6 +20,6 @@ export default function Home() {
 
   return <main className="shell">
     <div className="db-status">{message}</div>
-    <iframe ref={frame} title="Academic Paper Studio" src="/academic_paper_studio_xml_multiview.html" />
+    <iframe ref={frame} title="RipiDoc Studio" src="/academic_paper_studio_xml_multiview.html" />
   </main>;
 }

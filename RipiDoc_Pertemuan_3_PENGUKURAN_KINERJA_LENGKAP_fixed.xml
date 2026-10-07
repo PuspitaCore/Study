@@ -1,0 +1,1184 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ripidoc version="1.2">
+  <meta>
+    <documentType>ringkasan-mata-kuliah</documentType>
+    <title>Pengukuran Kinerja Perusahaan Keseluruhan</title>
+    <subtitle>Pertemuan 3</subtitle>
+    <course>Manajemen Keuangan Lanjutan</course>
+    <lecturer>Prof. Dr. Wahidahwati, SE., M.Si. Ak., CA.</lecturer>
+    <institution>Pendidikan Program Profesi Akuntan - Sekolah Tinggi Ilmu Ekonomi Indonesia (STIESIA)</institution>
+    <city>Surabaya</city>
+    <year>2026</year>
+    <template>Academic Formal</template>
+    <authors>
+      <author>
+        <id>26109400831</id>
+        <name>Moh Rendra Baihaqqi</name>
+      </author>
+      <author>
+        <id>26109400859</id>
+        <name>Evan Wibowo</name>
+      </author>
+      <author>
+        <id>26109400862</id>
+        <name>Novan Ario Ramadhan</name>
+      </author>
+      <author>
+        <id>26109400910</id>
+        <name>Fahmi Mayasari</name>
+      </author>
+      <author>
+        <id>26109400917</id>
+        <name>Puspita Dewi Rahmawati</name>
+      </author>
+      <author>
+        <id>26109400918</id>
+        <name>Deni Aprilianto</name>
+      </author>
+    </authors>
+    <settings>
+      <toc>true</toc>
+      <pageNumber>true</pageNumber>
+      <cover>true</cover>
+      <pagination heading1PageBreak="true" />
+    </settings>
+    <sourceInfo>
+      <primarySource>W3(1).docx</primarySource>
+      <sourceTitle>RINGKASAN MATA KULIAH — Pengukuran kinerja perusahaan keseluruhan</sourceTitle>
+      <preservation>Materi, angka, contoh, tabel, rumus, dan analisis yang tersedia pada dokumen sumber dipertahankan dalam struktur RipiDoc. Format visual sumber dinormalisasi menjadi elemen semantik.</preservation>
+    </sourceInfo>
+    <materialAssignment>
+      <item number="1">
+        <topic>TSR</topic>
+        <presenter>Puspita Dewi Rahmawati</presenter>
+      </item>
+      <item number="2">
+        <topic>WAI</topic>
+        <presenter>Moh Rendra Baihaqqi</presenter>
+      </item>
+      <item number="3">
+        <topic>MVA</topic>
+        <presenter>Fahmi Mayasari</presenter>
+      </item>
+      <item number="4">
+        <topic>ER</topic>
+        <presenter>Evan Wibowo</presenter>
+      </item>
+      <item number="5">
+        <topic>MBR</topic>
+        <presenter>Novan Ario Ramadhan</presenter>
+      </item>
+      <item number="6">
+        <topic>Studi Kasus Flinder Valves and Controls Inc. — Case 50, hal. 715</topic>
+        <presenter>Deni Aprilianto</presenter>
+      </item>
+    </materialAssignment>
+    <editorialPolicy>
+      <rule>Tidak mengurangi materi sumber.</rule>
+      <rule>Bagian yang belum lengkap ditambahkan sebagai materi pelengkap, terutama pembahasan mandiri TSR dan MVA, interpretasi, keterbatasan, dan hubungan antarmetrik.</rule>
+      <rule>Koreksi konseptual atau normalisasi istilah tidak menghapus data sumber; klarifikasi diberi penanda editorial.</rule>
+    </editorialPolicy>
+  </meta>
+  <assets>
+    <asset id="institution_logo" type="logo" src="assets/logo.png"/>
+  </assets>
+  <styles>
+    <page size="A4" marginTop="30mm" marginRight="30mm" marginBottom="30mm" marginLeft="40mm"/>
+    <body fontFamily="Times New Roman" fontSize="12pt" lineHeight="1.5" align="justify" firstLineIndent="1.25cm"/>
+    <heading level="1" fontFamily="Times New Roman" fontSize="14pt" bold="true" align="center" uppercase="true" keepWithNext="true"/>
+    <heading level="2" fontFamily="Times New Roman" fontSize="12pt" bold="true" align="left" keepWithNext="true"/>
+    <heading level="3" fontFamily="Times New Roman" fontSize="12pt" bold="true" align="left" keepWithNext="true"/>
+    <table fontFamily="Times New Roman" fontSize="10.5pt" border="full" repeatHeader="true" numericAlign="right" textAlign="left"/>
+    <caption fontFamily="Times New Roman" fontSize="11pt" bold="true"/>
+    <equation fontFamily="Times New Roman" fontSize="12pt" align="center"/>
+  </styles>
+  <document>
+    <heading level="1">KATA PENGANTAR</heading>
+    <paragraph>Makalah ini disusun untuk memenuhi tugas mata kuliah Manajemen Keuangan Lanjutan pada Pertemuan 3 dengan topik Pengukuran Kinerja Perusahaan Keseluruhan. Pembahasan difokuskan pada lima ukuran penciptaan nilai dan kinerja pemegang saham, yaitu Total Shareholder Return (TSR), Wealth Added Index (WAI), Market Value Added (MVA), Excess Return (ER), dan Market-to-Book Ratio (MBR), serta penerapannya pada studi kasus Flinder Valves and Controls Inc. dan RSE International Corporation.</paragraph>
+    <paragraph>Materi yang telah tersedia pada dokumen awal dipertahankan dan ditata ulang agar alurnya lebih sistematis. Bagian yang belum memiliki pembahasan mandiri, khususnya TSR dan MVA, dilengkapi dengan pengertian, formula, interpretasi, contoh perhitungan, serta keterkaitannya dengan penciptaan nilai. Struktur judul dan subjudul menggunakan hierarki heading agar dapat digunakan dalam Table of Contents.</paragraph>
+    <paragraph>Penyusun menyadari bahwa pengukuran kinerja perusahaan tidak dapat bergantung pada satu indikator saja. Oleh karena itu, makalah ini menempatkan setiap ukuran sesuai fungsi analitisnya dan menutup pembahasan dengan perbandingan antarmetrik serta implikasinya terhadap keputusan akuisisi.</paragraph>
+    <pageBreak before="next"/>
+    <heading level="1">BAB I PENDAHULUAN</heading>
+    <heading level="2">1.1 Latar Belakang</heading>
+    <paragraph>Pengukuran kinerja perusahaan secara keseluruhan tidak cukup hanya menggunakan laba akuntansi. Laba dapat menunjukkan hasil periode berjalan, tetapi belum selalu menjelaskan apakah perusahaan benar-benar menciptakan nilai setelah mempertimbangkan biaya modal, risiko, perubahan nilai pasar, dan kekayaan yang diterima pemegang saham. Karena itu, analisis keuangan lanjutan menggunakan ukuran berbasis pasar dan nilai ekonomis untuk melengkapi ukuran akuntansi tradisional.</paragraph>
+    <paragraph>TSR menilai imbal hasil total yang diterima pemegang saham, WAI mengukur kekayaan yang tercipta di atas tingkat pengembalian yang diharapkan, MVA menunjukkan selisih antara nilai pasar dan modal yang telah ditanamkan, ER menguji apakah return aktual atau operasional melampaui benchmark atau biaya modal, sedangkan MBR membandingkan penilaian pasar terhadap nilai buku ekuitas. Kelima ukuran tersebut menjawab pertanyaan yang berbeda sehingga penggunaannya secara bersama-sama memberikan gambaran kinerja yang lebih utuh.</paragraph>
+    <paragraph>Studi kasus Flinder Valves and Controls Inc. (FVC) dan RSE International Corporation memperlihatkan bagaimana indikator-indikator tersebut dapat digunakan untuk menilai penciptaan nilai, efisiensi, risiko, valuasi, dan kelayakan premium dalam keputusan akuisisi.</paragraph>
+    <heading level="2">1.2 Rumusan Masalah</heading>
+    <list type="bullet">
+      <item>Bagaimana konsep, komponen, formula, dan interpretasi Total Shareholder Return (TSR)?</item>
+      <item>Bagaimana Wealth Added Index (WAI) mengukur penciptaan kekayaan pemegang saham di atas tingkat pengembalian yang diharapkan?</item>
+      <item>Bagaimana Market Value Added (MVA) digunakan untuk menilai penciptaan nilai dibandingkan modal yang diinvestasikan?</item>
+      <item>Bagaimana Excess Return (ER) digunakan dari perspektif pasar modal, kinerja operasional, dan akumulasi kekayaan investor?</item>
+      <item>Bagaimana Market-to-Book Ratio (MBR) mencerminkan penilaian pasar terhadap nilai buku perusahaan?</item>
+      <item>Bagaimana TSR, WAI, MVA, ER, dan MBR digunakan untuk menganalisis kasus Flinder Valves and Controls Inc. dan RSE International Corporation?</item>
+    </list>
+    <heading level="2">1.3 Tujuan Penulisan</heading>
+    <list type="bullet">
+      <item>Menjelaskan konsep dan perhitungan TSR, WAI, MVA, ER, dan MBR secara sistematis.</item>
+      <item>Menjelaskan cara membaca hasil setiap ukuran sebagai indikator penciptaan atau penghancuran nilai.</item>
+      <item>Menunjukkan keterkaitan antarmetrik agar analisis tidak hanya bertumpu pada satu indikator.</item>
+      <item>Menerapkan ukuran kinerja pada studi kasus Flinder Valves and Controls Inc. dan RSE International Corporation.</item>
+      <item>Menilai implikasi hasil pengukuran terhadap valuasi dan keputusan akuisisi.</item>
+    </list>
+    <heading level="2">1.4 Sistematika Pembahasan</heading>
+    <paragraph>Pembahasan dibagi sesuai materi Pertemuan 3 dan pembagian penyaji berikut.</paragraph>
+    <table source="Diolah kelompok" caption="Tabel 1. Pembagian Materi dan Penyaji">
+      <thead>
+        <row>
+          <cell role="header" align="center">No.</cell>
+          <cell role="header" align="center">Materi</cell>
+          <cell role="header" align="center">Penyaji</cell>
+        </row>
+      </thead>
+      <tbody>
+        <row>
+          <cell align="left">1</cell>
+          <cell align="left">Total Shareholder Return (TSR)</cell>
+          <cell align="left">Puspita Dewi Rahmawati</cell>
+        </row>
+        <row>
+          <cell align="left">2</cell>
+          <cell align="left">Wealth Added Index (WAI)</cell>
+          <cell align="left">Moh Rendra Baihaqqi</cell>
+        </row>
+        <row>
+          <cell align="left">3</cell>
+          <cell align="left">Market Value Added (MVA)</cell>
+          <cell align="left">Fahmi Mayasari</cell>
+        </row>
+        <row>
+          <cell align="left">4</cell>
+          <cell align="left">Excess Return (ER)</cell>
+          <cell align="left">Evan Wibowo</cell>
+        </row>
+        <row>
+          <cell align="left">5</cell>
+          <cell align="left">Market-to-Book Ratio (MBR)</cell>
+          <cell align="left">Novan Ario Ramadhan</cell>
+        </row>
+        <row>
+          <cell align="left">6</cell>
+          <cell align="left">Studi Kasus Flinder Valves and Controls Inc. - Case 50, hal. 715</cell>
+          <cell align="left">Deni Aprilianto</cell>
+        </row>
+      </tbody>
+    </table>
+    <pageBreak before="next"/>
+    <heading level="1">BAB II PEMBAHASAN</heading>
+    <heading level="2" origin="supplemental" reason="topik tercantum dalam pembagian materi dan studi kasus, tetapi tidak memiliki pembahasan mandiri lengkap pada dokumen sumber">2.1 Total Shareholder Return (TSR)</heading>
+    <heading level="3">2.1.1 Pengertian TSR</heading>
+    <paragraph>Total Shareholder Return (TSR) merupakan ukuran total imbal hasil yang diterima pemegang saham selama suatu periode. TSR menggabungkan perubahan harga saham dengan distribusi kas kepada pemegang saham, terutama dividen. Dengan demikian, TSR tidak hanya menilai capital gain atau capital loss, tetapi juga manfaat ekonomi yang diterima investor selama memegang saham.</paragraph>
+    <paragraph>TSR relevan untuk mengevaluasi kinerja perusahaan dari perspektif pemegang saham karena hasil akhirnya dapat dibandingkan dengan periode sebelumnya, perusahaan sejenis, indeks pasar, atau tingkat return yang disyaratkan. TSR yang tinggi menunjukkan bahwa kombinasi apresiasi harga dan distribusi kas memberikan hasil yang kuat bagi investor, tetapi interpretasinya tetap perlu memperhatikan risiko dan kondisi pasar.</paragraph>
+    <heading level="3">2.1.2 Komponen dan Formula TSR</heading>
+    <paragraph>Komponen utama TSR adalah harga saham awal periode (P0), harga saham akhir periode (P1), dan dividen per saham yang diterima selama periode (D). Jika terdapat distribusi lain kepada pemegang saham, komponen tersebut dapat disesuaikan agar mencerminkan keseluruhan manfaat ekonomi yang diterima.</paragraph>
+    <equation align="center">TSR = ((P₁ − P₀) + D) / P₀ × 100%</equation>
+    <paragraph>Secara konseptual, kenaikan harga saham mencerminkan capital gain, sedangkan dividen mencerminkan cash yield. Jika harga saham turun, dividen dapat mengurangi dampak penurunan tersebut. Untuk horizon lebih dari satu tahun, return dapat dianalisis secara tahunan atau diannualisasi dengan memperhatikan efek penggandaan (compounding).</paragraph>
+    <heading level="3">2.1.3 Interpretasi TSR</heading>
+    <list type="bullet">
+      <item>TSR positif menunjukkan pemegang saham memperoleh total return positif selama periode pengukuran.</item>
+      <item>TSR negatif menunjukkan penurunan nilai investasi setelah memperhitungkan perubahan harga dan distribusi kas.</item>
+      <item>TSR yang lebih tinggi daripada benchmark menunjukkan kinerja pasar yang lebih kuat secara relatif, tetapi belum otomatis berarti perusahaan memiliki efisiensi operasional atau economic profit yang lebih tinggi.</item>
+      <item>TSR perlu dibaca bersama ukuran risiko karena return tinggi dapat dihasilkan dari eksposur risiko yang lebih besar.</item>
+    </list>
+    <heading level="3">2.1.4 Kelebihan dan Keterbatasan TSR</heading>
+    <table source="Diolah kelompok" caption="Tabel 2. Kelebihan dan Keterbatasan TSR">
+      <thead>
+        <row>
+          <cell role="header" align="center">Aspek</cell>
+          <cell role="header" align="center">Penjelasan</cell>
+        </row>
+      </thead>
+      <tbody>
+        <row>
+          <cell align="left">Kelebihan</cell>
+          <cell align="left">Langsung menggambarkan pengalaman ekonomi pemegang saham melalui perubahan harga saham dan dividen.</cell>
+        </row>
+        <row>
+          <cell align="left">Kelebihan</cell>
+          <cell align="left">Mudah dibandingkan antarperiode, antarsaham, atau terhadap indeks pasar.</cell>
+        </row>
+        <row>
+          <cell align="left">Keterbatasan</cell>
+          <cell align="left">Dipengaruhi sentimen pasar dan faktor makro yang tidak sepenuhnya berada dalam kendali manajemen.</cell>
+        </row>
+        <row>
+          <cell align="left">Keterbatasan</cell>
+          <cell align="left">Tidak secara langsung mengukur apakah return telah melampaui biaya modal atau menciptakan economic profit.</cell>
+        </row>
+        <row>
+          <cell align="left">Keterbatasan</cell>
+          <cell align="left">Perbandingan lintas perusahaan perlu mempertimbangkan perbedaan risiko, horizon, dan kebijakan dividen.</cell>
+        </row>
+      </tbody>
+    </table>
+    <heading level="3">2.1.5 Contoh Perhitungan TSR</heading>
+    <paragraph>Misalkan harga saham pada awal tahun sebesar Rp10.000 per lembar, harga akhir tahun Rp11.500, dan dividen yang diterima Rp500 per lembar. TSR dihitung sebagai berikut.</paragraph>
+    <equation align="center">TSR = ((Rp11.500 − Rp10.000) + Rp500) / Rp10.000 × 100% = 20%</equation>
+    <paragraph>Hasil 20% berarti pemegang saham memperoleh total imbal hasil sebesar 20% selama periode tersebut, yang terdiri atas capital gain 15% dan dividend yield 5%.</paragraph>
+    <heading level="2">2.2 Wealth Added Index (WAI)</heading>
+    <heading level="3">2.2.1 Pengertian dan Prinsip Utama WAI</heading>
+    <paragraph>Ringkasan Wealth Added Index (WAI)</paragraph>
+    <paragraph>Pengertian: Wealth Added Index (WAI) mengukur total arus kekayaan selama satu periode tertentu (arus kas untuk pemegang saham yang berasal dari kenaikan nilai pasar ekuitas, dividen, dan pembelian kembali saham, serta nilai bersih dari penerbitan ekuitas baru) di atas tingkat pengembalian yang diharapkan (expected return) dari nilai pasar ekuitas perusahaan saham.</paragraph>
+    <paragraph>Prinsip Utama: Proxy dari tingkat pengembalian yang diharapkan adalah biaya ekuitas (cost of equity). Perusahaan menciptakan nilai untuk pemegang sahamnya hanya apabila tingkat pengembalian untuk pemegang saham (yang berasal dari pembagian dividen dan kenaikan harga saham) lebih besar dari biaya ekuitasnya.</paragraph>
+    <paragraph>Inti WAI adalah membandingkan kekayaan aktual pemegang saham dengan kekayaan minimum yang seharusnya diperoleh jika modal menghasilkan return sesuai cost of equity. Oleh karena itu, WAI positif menunjukkan penciptaan kekayaan di atas ekspektasi, sedangkan WAI negatif menunjukkan bahwa hasil aktual belum menutup opportunity cost pemegang saham.</paragraph>
+    <heading level="3">2.2.2 Formula dan Komponen WAI</heading>
+    <paragraph>Formula Wealth Added Index:</paragraph>
+    <equation align="center">WAI = Δ Kapitalisasi Pasar + Dividen + Pembelian Kembali Saham − Penerbitan Saham Baru − Expected Return</equation>
+    <paragraph role="label" noIndent="true">Keterangan:</paragraph>
+    <list type="bullet">
+      <item>Kapitalisasi pasar adalah jumlah saham beredar dikalikan dengan harga pasar saham.</item>
+      <item>Δ Kapitalisasi pasar adalah kapitalisasi pasar akhir tahun dikurangi kapitalisasi pasar awal tahun.</item>
+      <item>Tingkat pengembalian yang diharapkan adalah kapitalisasi pasar awal tahun dikalikan dengan biaya ekuitas.</item>
+    </list>
+    <paragraph>Expected return umumnya dihitung dari nilai pasar ekuitas awal dikalikan cost of equity untuk horizon yang relevan. Jika analisis dilakukan beberapa tahun, cost of equity perlu diakumulasikan dengan prinsip compounding agar basis perbandingan konsisten dengan horizon pengukuran.</paragraph>
+    <heading level="3">2.2.3 Contoh Perhitungan WAI: Vodafone Group plc</heading>
+    <paragraph>Contoh Perhitungan Wealth Added Index (WAI)</paragraph>
+    <paragraph>Studi Kasus: Vodafone Group plc</paragraph>
+    <paragraph>Vodafone memiliki kapitalisasi pasar sebesar 61.685.000.000 m pada tanggal 18 September 2002. Lima tahun kemudian kapitalisasi pasar meningkat menjadi 88.291.000.000. Selama lima tahun tersebut pemegang saham membeli saham baru perusahaan sebesar 802.000.000. Dividen yang dibagikan kepada pemegang saham selama lima tahun bernilai 31.278.000.000. Tingkat bunga bebas risiko adalah sebesar 4,41%, beta perusahaan diperkirakan sebesar 1, dan market risk premium sebesar 5%.</paragraph>
+    <paragraph>Pertanyaan: Berapakah Wealth Added Index Vodafone selama lima tahun?</paragraph>
+    <paragraph>Tingkat pengembalian yang dipersyaratkan (k) menggunakan pendekatan CAPM: k = rf + β(Rm - rf) = 4,41% + 1(5%) = 9,41%.</paragraph>
+    <paragraph>Akumulasi k selama lima tahun: (1 + 9,41%)^5 - 1 = 57%.</paragraph>
+    <table source="Diolah kelompok" caption="Tabel 3. Perhitungan Wealth Added Index Vodafone Group plc">
+      <thead>
+        <row>
+          <cell role="header" align="center">Komponen Perhitungan</cell>
+          <cell role="header" align="center">Nilai (m / Juta GBP)</cell>
+        </row>
+      </thead>
+      <tbody>
+        <row>
+          <cell align="left">Penambahan dalam kapitalisasi pasar (88.291.000.000 - 61.685.000.000)</cell>
+          <cell type="number" align="right">26.606.000.000</cell>
+        </row>
+        <row>
+          <cell align="left">Penjualan saham ke pemegang saham</cell>
+          <cell type="number" align="right">-802.000.000</cell>
+        </row>
+        <row>
+          <cell align="left">Dividen dan pembelian kembali saham</cell>
+          <cell type="number" align="right">31.278.000.000</cell>
+        </row>
+        <row>
+          <cell align="left">Tingkat pengembalian yang dipersyaratkan (-35.160.000.000= 61.685.000.000 x 57%)</cell>
+          <cell type="number" align="right">-35.160.000.000</cell>
+        </row>
+        <row>
+          <cell align="left">Wealth Added Index</cell>
+          <cell type="number" align="right">21.292.000.000</cell>
+        </row>
+      </tbody>
+    </table>
+    <paragraph>Berdasarkan perhitungan pada materi awal, Wealth Added Index Vodafone selama lima tahun sebesar 21.292.000.000. Nilai positif menunjukkan bahwa kenaikan kapitalisasi pasar dan distribusi kepada pemegang saham melebihi tingkat pengembalian yang dipersyaratkan setelah memperhitungkan penerbitan saham baru.</paragraph>
+    <heading level="2" origin="supplemental" reason="topik tercantum dalam pembagian materi dan studi kasus, tetapi tidak memiliki pembahasan mandiri lengkap pada dokumen sumber">2.3 Market Value Added (MVA)</heading>
+    <heading level="3">2.3.1 Pengertian MVA</heading>
+    <paragraph>Market Value Added (MVA) mengukur selisih antara nilai yang diberikan pasar kepada perusahaan dan modal yang telah disediakan oleh investor. Secara ekonomi, MVA menunjukkan seberapa besar perusahaan berhasil meningkatkan atau justru mengurangi nilai modal yang ditanamkan.</paragraph>
+    <paragraph>MVA merupakan ukuran kumulatif penciptaan nilai. Berbeda dengan ukuran profitabilitas satu periode, MVA merefleksikan ekspektasi pasar atas kemampuan perusahaan menghasilkan arus kas dan economic profit di masa depan. Oleh karena itu, MVA dapat berubah meskipun laba akuntansi periode berjalan belum berubah secara material.</paragraph>
+    <heading level="3">2.3.2 Formula dan Komponen MVA</heading>
+    <equation align="center">MVA = Market Value of Capital − Invested Capital</equation>
+    <paragraph>Dalam pendekatan yang hanya berfokus pada ekuitas, MVA dapat diperkirakan sebagai kapitalisasi pasar ekuitas dikurangi nilai buku ekuitas. Dalam pendekatan perusahaan secara keseluruhan, nilai pasar seluruh sumber pendanaan dibandingkan dengan total invested capital. Pemilihan formula harus konsisten dengan data yang digunakan.</paragraph>
+    <list type="bullet">
+      <item>Market value mencerminkan penilaian pasar terhadap klaim investor pada perusahaan.</item>
+      <item>Invested capital mencerminkan modal yang ditanamkan untuk membiayai operasi perusahaan.</item>
+      <item>MVA positif berarti pasar menilai perusahaan lebih tinggi daripada modal yang ditanamkan.</item>
+      <item>MVA negatif berarti nilai pasar belum menutup modal yang telah diinvestasikan.</item>
+    </list>
+    <heading level="3">2.3.3 Interpretasi MVA</heading>
+    <table source="Diolah kelompok" caption="Tabel 4. Interpretasi Market Value Added">
+      <thead>
+        <row>
+          <cell role="header" align="center">Kondisi</cell>
+          <cell role="header" align="center">Interpretasi</cell>
+        </row>
+      </thead>
+      <tbody>
+        <row>
+          <cell align="left">MVA &gt; 0</cell>
+          <cell align="left">Perusahaan menciptakan nilai kumulatif bagi penyedia modal.</cell>
+        </row>
+        <row>
+          <cell align="left">MVA = 0</cell>
+          <cell align="left">Nilai pasar kurang lebih sama dengan modal yang diinvestasikan.</cell>
+        </row>
+        <row>
+          <cell align="left">MVA &lt; 0</cell>
+          <cell align="left">Perusahaan mengalami value destruction secara kumulatif karena nilai pasar berada di bawah modal yang ditanamkan.</cell>
+        </row>
+      </tbody>
+    </table>
+    <heading level="3">2.3.4 Keterkaitan MVA dengan Penciptaan Nilai</heading>
+    <paragraph>MVA berkaitan erat dengan economic profit seperti EVA atau excess return operasional. Secara konseptual, apabila perusahaan mampu mempertahankan return atas invested capital di atas biaya modal, pasar akan mengkapitalisasi ekspektasi economic profit tersebut sehingga MVA cenderung positif. Sebaliknya, return yang terus berada di bawah biaya modal dapat menekan valuasi dan menghasilkan MVA negatif.</paragraph>
+    <paragraph>Karena MVA berbasis nilai pasar, hasilnya juga dipengaruhi ekspektasi, risiko, pertumbuhan, dan sentimen. Oleh sebab itu, MVA sebaiknya dibaca bersama ukuran periodik seperti ER atau EVA untuk membedakan penciptaan nilai operasional dari perubahan persepsi pasar.</paragraph>
+    <heading level="3">2.3.5 Contoh Perhitungan MVA</heading>
+    <paragraph>Misalkan suatu perusahaan memiliki nilai pasar modal sebesar Rp800 miliar dan invested capital sebesar Rp600 miliar. MVA perusahaan adalah:</paragraph>
+    <equation align="center">MVA = Rp800 miliar − Rp600 miliar = Rp200 miliar</equation>
+    <paragraph>MVA positif Rp200 miliar menunjukkan bahwa pasar menilai perusahaan Rp200 miliar lebih tinggi daripada modal yang telah ditanamkan. Nilai tersebut merupakan indikasi bahwa pasar mengharapkan perusahaan mampu menghasilkan return di atas biaya modal secara berkelanjutan.</paragraph>
+    <heading level="2">2.4 Excess Return (ER)</heading>
+    <heading level="3">2.4.1 Pengertian dan Klasifikasi ER</heading>
+    <paragraph>Excess Return (Imbal Hasil Kelebihan) secara teoritis merupakan selisih atau margin kelebihan antara tingkat pengembalian aktual (actual return) yang dihasilkan oleh suatu perusahaan, aset, atau portofolio investasi dibandingkan dengan tingkat pengembalian acuan (benchmark return / required rate of return) pada tingkat risiko yang setara.</paragraph>
+    <paragraph>Excess Return menjadi ukuran kunci untuk menentukan keunggulan bersaing (competitive advantage) serta penciptaan nilai ekonomis. Nilai Excess Return dapat dikategorikan ke dalam tiga kondisi:</paragraph>
+    <list type="bullet">
+      <item>Excess Return Positif (ER &gt; 0):</item>
+    </list>
+    <paragraph>Perusahaan berhasil menghasilkan pengembalian melebihi biaya modal / ekspektasi risiko. Terjadi Penciptaan Nilai Ekonomis (Value Creation / Abnormal Return / Alpha positif).</paragraph>
+    <list type="bullet">
+      <item>Excess Return Nol (ER = 0):</item>
+    </list>
+    <paragraph>Perusahaan menghasilkan pengembalian yang tepat sama dengan biaya modal yang disyaratkan. Perusahaan menutup seluruh biaya operasi dan biaya modal, namun tidak menghasilkan nilai tambah ekstra.</paragraph>
+    <list type="bullet">
+      <item>Excess Return Negatif (ER &lt; 0):</item>
+    </list>
+    <paragraph>Perusahaan gagal menutup biaya modal yang ditanggung. Terjadi Penghancuran Nilai Ekonomis (Value Destruction), meskipun laporan keuangan akuntansi mungkin mencatat laba bersih positif.</paragraph>
+    <heading level="3">2.4.2 Perspektif Pasar Modal dan Portofolio</heading>
+    <paragraph>Terdapat tiga metode yang digunakan untuk menguji Excess Return secara komprehensif:</paragraph>
+    <list type="bullet">
+      <item>Berdasar Perspektif Pasar Modal &amp; Portofolio (Market Perspective)</item>
+    </list>
+    <paragraph>Mengukur kinerja return saham perusahaan bagi investor pasar modal:</paragraph>
+    <paragraph>a) Simple Excess Return: Selisih return saham (Ri) terhadap suku bunga bebas risiko (Rb).</paragraph>
+    <equation align="center">Simple Excess Return = Rᵢ − R_b</equation>
+    <paragraph>b) Risk-Adjusted Excess Return (Jensen's Alpha / α): Mengukur kelebihan return yang telah disesuaikan dengan risiko sistematis pasar (Beta / β) berbasis CAPM.</paragraph>
+    <paragraph>Formula CAPM:</paragraph>
+    <equation align="center">E(Rᵢ) = R_f + βᵢ × (R_m − R_f)</equation>
+    <paragraph>Formula Alpha:</paragraph>
+    <equation align="center">α = Rᵢ − [R_f + βᵢ × (R_m − R_f)]</equation>
+    <heading level="3">2.4.3 Perspektif Kinerja Operasional Perusahaan</heading>
+    <list type="bullet">
+      <item>Berdasar Perspektif Kinerja Operasional Perusahaan (Corporate Performance Perspective)</item>
+    </list>
+    <paragraph>Mengevaluasi efisiensi internal perusahaan dalam mengelola modal (Invested Capital):</paragraph>
+    <paragraph>a) Excess Return Spread: Selisih persentase Return on Invested Capital (ROIC) terhadap Weighted Average Cost of Capital (WACC).</paragraph>
+    <equation align="center">Spread = ROIC − WACC</equation>
+    <paragraph>b) Economic Value Added (EVA): Pengukuran nominal rupiah nilai tambah ekonomis.</paragraph>
+    <equation align="center">EVA = Invested Capital × (ROIC − WACC)</equation>
+    <equation align="center">EVA = NOPAT − (Invested Capital × WACC)</equation>
+    <heading level="3">2.4.4 Pendekatan Akumulasi Kekayaan Investor</heading>
+    <list type="bullet">
+      <item>Berdasar Pendekatan Akumulasi Kekayaan Investor (Shareholder Wealth Accumulation Approach)</item>
+    </list>
+    <paragraph>Pendekatan ini mengukur akumulasi kekayaan investor dalam kurun waktu n-tahun dengan memperhitungkan re-investasi arus kas dividen dan nilai pasar saham saat ini:</paragraph>
+    <list type="bullet">
+      <item>Total Kekayaan Aktual (Actual Wealth / AW):</item>
+    </list>
+    <equation align="center">Actual Wealth = Σ[Dividend_t × (1 + k)^(n − t)] + Nilai Pasar Saham Saat Ini</equation>
+    <list type="bullet">
+      <item>Kekayaan yang Diharapkan (Expected Wealth / EW):</item>
+    </list>
+    <equation align="center">Expected Wealth = Modal Awal Ekuitas × (1 + k)^n</equation>
+    <list type="bullet">
+      <item>Akumulasi Kekayaan:</item>
+    </list>
+    <equation align="center">Excess Return = Actual Wealth − Expected Wealth</equation>
+    <heading level="3">2.4.5 Contoh Perhitungan ER</heading>
+    <paragraph>Berikut adalah contoh perhitungan Excess Return</paragraph>
+    <paragraph>1. Kombinasi Perusahaan &amp; Pasar Modal</paragraph>
+    <table source="Diolah kelompok" caption="Tabel 5. Parameter Keuangan Contoh Excess Return">
+      <thead>
+        <row>
+          <cell role="header" align="center">Parameter Keuangan</cell>
+          <cell role="header" align="center">Nilai Angka</cell>
+        </row>
+      </thead>
+      <tbody>
+        <row>
+          <cell align="left">Laba Operasional Bersih Setelah Pajak (NOPAT)</cell>
+          <cell type="number" align="right">Rp 180.000.000.000</cell>
+        </row>
+        <row>
+          <cell align="left">Total Modal Diinvestasikan (Invested Capital)</cell>
+          <cell type="number" align="right">Rp 1.000.000.000.000</cell>
+        </row>
+        <row>
+          <cell align="left">Biaya Modal Rata-Rata Tertimbang (WACC)</cell>
+          <cell type="number" align="right">10,50%</cell>
+        </row>
+        <row>
+          <cell align="left">Return Saham Aktual (R_i)</cell>
+          <cell type="number" align="right">17,50%</cell>
+        </row>
+        <row>
+          <cell align="left">Suku Bunga Bebas Risiko (R_f)</cell>
+          <cell type="number" align="right">6,50%</cell>
+        </row>
+        <row>
+          <cell align="left">Return Pasar / IHSG (R_m)</cell>
+          <cell type="number" align="right">12,50%</cell>
+        </row>
+        <row>
+          <cell align="left">Beta Saham Perusahaan (β_i)</cell>
+          <cell type="number" align="right">1,25</cell>
+        </row>
+      </tbody>
+    </table>
+    <paragraph>Perhitungan &amp; Hasil Analisis Kasus 1:</paragraph>
+    <list type="bullet">
+      <item>ROIC = NOPAT / Invested Capital = Rp 180M / Rp 1.000M = 18,00%</item>
+      <item>Excess Return Spread = ROIC - WACC = 18,00% - 10,50% = +7,50%</item>
+      <item>EVA (Nilai Tambah Nominal) = Invested Capital × Spread = Rp 1.000M × 7,50% = Rp 75 Miliar</item>
+      <item>Return Ekspektasi CAPM = 6,50% + 1,25 × (12,50% - 6,50%) = 14,00%</item>
+      <item>Jensen's Alpha (α) = Return Saham Aktual - Return CAPM = 17,50% - 14,00% = +3,50%</item>
+    </list>
+    <paragraph>2. Pendekatan Akumulasi Kekayaan Investor</paragraph>
+    <table source="Diolah kelompok" caption="Tabel 6. Parameter Akumulasi Kekayaan Investor">
+      <thead>
+        <row>
+          <cell role="header" align="center">Parameter Keuangan</cell>
+          <cell role="header" align="center">Nilai Angka</cell>
+        </row>
+      </thead>
+      <tbody>
+        <row>
+          <cell align="left">Modal Awal Ekuitas (Tahun 0)</cell>
+          <cell type="number" align="right">Rp 10.000.000.000</cell>
+        </row>
+        <row>
+          <cell align="left">Tingkat Pengembalian Disyaratkan (k)</cell>
+          <cell align="left">10% / tahun</cell>
+        </row>
+        <row>
+          <cell align="left">Dividen Tahun ke-2 (t=2)</cell>
+          <cell type="number" align="right">Rp 1.000.000.000</cell>
+        </row>
+        <row>
+          <cell align="left">Dividen Tahun ke-3 (t=3)</cell>
+          <cell type="number" align="right">Rp 1.000.000.000</cell>
+        </row>
+        <row>
+          <cell align="left">Nilai Pasar Saham Saat Ini (Tahun ke-5)</cell>
+          <cell type="number" align="right">Rp 11.000.000.000</cell>
+        </row>
+        <row>
+          <cell align="left">Return Pasar / IHSG (R_m)</cell>
+          <cell type="number" align="right">12,50%</cell>
+        </row>
+      </tbody>
+    </table>
+    <paragraph>Perhitungan Langkah demi Langkah Kasus PT RST:</paragraph>
+    <paragraph>a. Akumulasi Future Value (FV) Dividen:</paragraph>
+    <list type="bullet">
+      <item>FV Dividen Th 2 = Rp 1 Miliar × (1 + 0,10)^3 = Rp 1,331 Miliar</item>
+      <item>FV Dividen Th 3 = Rp 1 Miliar × (1 + 0,10)^2 = Rp 1,210 Miliar</item>
+    </list>
+    <paragraph>b. Total Kekayaan Aktual (Actual Wealth) = Rp 1,331M + Rp 1,210M + Rp 11,000M = Rp 13,541 Miliar (Rp 13,54 Miliar)</paragraph>
+    <paragraph>c. Kekayaan yang Diharapkan (Expected Wealth) = Rp 10 Miliar × (1 + 0,10)^5 = Rp 16,10 Miliar</paragraph>
+    <paragraph>d. Excess Return (ER) = Actual Wealth - Expected Wealth = Rp 13,54 Miliar - Rp 16,10 Miliar = -Rp 2,56 Miliar (atau -Rp 2,599 Miliar pada lembar soal)</paragraph>
+    <paragraph>Sehingga dapat dikatakan perusahaan mencetak laba bersih akuntansi pada tahun ke-2 dan ke-3 serta mengalami kenaikan nilai ekuitas menjadi Rp 11 Miliar. Namun, karena Excess Return bernilai negatif (-Rp 2,56 Miliar), secara ekonomis perusahaan sebenarnya mengalami Penghancuran Nilai (Value Destruction). Keuntungan yang dihasilkan tidak mampu menutup Opportunity Cost dari modal investor.</paragraph>
+    <heading level="2">2.5 Market-to-Book Ratio (MBR)</heading>
+    <heading level="3">2.5.1 Pengertian MBR</heading>
+    <paragraph>Market To Book Ratio (rasio nilai pasar dengan nilai buku) adalah rasio dari nilai per lembar saham biasa atas nilai buku perlembar ekuitas. Nilai pasar per lembar saham mencerminkan kinerja perusahaan di masyarakat umum, dimana nilai pasar pada suatu saat dapat dipengaruhi oleh pilihan dan tingkah laku dari mereka yang terlibat di pasar, suasana psikologi yang ada di pasar, sengitnya perang pengambilalihan, perubahan ekonomi, perkembangan industri, kondisi politik, dan sebagainya (Helfert, 1997 : 290). Sedangkan nilai buku perlembar ekuitas mencerminkan nilai ekuitas pemilik yang tercatat pada neraca perusahaan, dan mencerminkan klaim pemilik yang tersisa atas suatu aktiva (Helfert, 1997 : 326). Bila market to book ratio relatif tinggi dibandingkan rata-rata industri maka hal itu menunjukkan bahwa perusahaan dapat lebih efisien menggunakan asetnya untuk menciptakan nilai.</paragraph>
+    <paragraph>MBR adalah nilai pasar ekuitas perusahaan dibagi dengan nilai buku dari ekuitasnya. Nilai pasar ekuitas perusahaan diperoleh dengan cara mengalikan harga pasar saham per lembar dikalikan dengan jumlah saham yang beredar. Nilai buku ekuitas diperoleh dari total ekuitas dikurangi dengan saham preferen yang ada di Laporan Posisi Keuangan.</paragraph>
+    <heading level="3">2.5.2 Formula MBR</heading>
+    <equation align="center">MBR = Market Capitalization / Book Value of Equity</equation>
+    <equation align="center">atau, per saham: MBR = Nilai Pasar Ekuitas per Saham / Nilai Buku Ekuitas per Saham</equation>
+    <heading level="3">2.5.3 Interpretasi MBR</heading>
+    <paragraph>Semakin optimis investor akan pertumbuhan perusahaan di masa depan, semakin tinggi nilai market-to-book rasionya. Rasio ini digunakan sebagai ukuran dari nilai relatif. Saham perusahaan dengan nilai rasio market-to-book yang rendah dianggap sebagai value stock, sedangkan saham perusahaan dengan rasio yang tinggi dianggap sebagai growth stock.</paragraph>
+    <paragraph>MBR di atas 1 kali umumnya menunjukkan pasar memberi nilai di atas nilai buku ekuitas, sedangkan MBR di bawah 1 kali menunjukkan nilai pasar berada di bawah nilai buku. Namun, rasio tinggi tidak selalu berarti saham murah atau perusahaan lebih baik karena rasio juga dipengaruhi prospek pertumbuhan, profitabilitas, risiko, kualitas aset, dan intensitas aset takberwujud.</paragraph>
+    <heading level="3">2.5.4 Contoh Perhitungan MBR</heading>
+    <paragraph>Contoh pada materi awal: PT XYZ memiliki kapitalisasi pasar sebesar Rp50 miliar dan nilai buku ekuitas sebesar Rp16 miliar.</paragraph>
+    <equation align="center">MBR = Rp50 miliar / Rp16 miliar = 3,125×</equation>
+    <paragraph>Hasil 3,125× berarti pasar menilai ekuitas PT XYZ sekitar 3,125 kali nilai buku ekuitasnya.</paragraph>
+    <note type="editorial-clarification" origin="supplemental">Catatan klarifikasi: dokumen sumber menuliskan hasil contoh MBR sebagai “Rp3.125 milyar”. Karena MBR merupakan rasio antara nilai pasar dan nilai buku ekuitas, satuan rupiah saling menghapus sehingga hasil yang tepat dinyatakan sebagai 3,125×.</note>
+    <heading level="3" role="supplemental-synthesis" origin="supplemental">Ringkasan Keterkaitan Lima Metrik</heading>
+    <paragraph origin="supplemental">Kelima ukuran tidak saling menggantikan karena masing-masing menjawab pertanyaan yang berbeda. TSR berfokus pada return aktual pemegang saham, WAI pada kekayaan yang tercipta setelah expected return, MVA pada nilai pasar yang tercipta di atas modal yang ditanamkan, ER pada kelebihan return terhadap benchmark atau biaya modal, dan MBR pada bagaimana pasar menilai ekuitas relatif terhadap nilai bukunya.</paragraph>
+    <table caption="Tabel 7. Peta Konseptual TSR, WAI, MVA, ER, dan MBR" source="Sintesis konseptual sebagai materi pelengkap" orientation="landscape" origin="supplemental">
+      <thead>
+        <row>
+          <cell role="header" align="center">Metrik</cell>
+          <cell role="header" align="center">Pertanyaan Utama</cell>
+          <cell role="header" align="center">Basis</cell>
+          <cell role="header" align="center">Output</cell>
+          <cell role="header" align="center">Keterbatasan Utama</cell>
+        </row>
+      </thead>
+      <tbody>
+        <row>
+          <cell align="left">TSR</cell>
+          <cell align="left">Berapa total return yang benar-benar diterima pemegang saham?</cell>
+          <cell align="left">Perubahan harga saham + dividen/distribusi</cell>
+          <cell align="center">Persentase return</cell>
+          <cell align="left">Dipengaruhi sentimen pasar dan tidak langsung mengukur biaya modal</cell>
+        </row>
+        <row>
+          <cell align="left">WAI</cell>
+          <cell align="left">Apakah kekayaan pemegang saham bertambah di atas return yang disyaratkan?</cell>
+          <cell align="left">Perubahan kapitalisasi pasar + distribusi − penerbitan ekuitas − expected return</cell>
+          <cell align="center">Nilai nominal wealth added</cell>
+          <cell align="left">Sensitif terhadap horizon, cost of equity, dan perubahan jumlah saham</cell>
+        </row>
+        <row>
+          <cell align="left">MVA</cell>
+          <cell align="left">Berapa nilai pasar yang tercipta di atas modal yang telah ditanamkan?</cell>
+          <cell align="left">Market value of capital dibanding invested capital</cell>
+          <cell align="center">Nilai nominal</cell>
+          <cell align="left">Dipengaruhi ekspektasi pasar dan skala perusahaan</cell>
+        </row>
+        <row>
+          <cell align="left">ER</cell>
+          <cell align="left">Apakah return melebihi benchmark atau biaya modal?</cell>
+          <cell align="left">Actual return vs benchmark, atau ROIC vs WACC</cell>
+          <cell align="center">Persentase spread atau nilai ekonomi</cell>
+          <cell align="left">Hasil tergantung definisi return, benchmark, dan estimasi biaya modal</cell>
+        </row>
+        <row>
+          <cell align="left">MBR</cell>
+          <cell align="left">Seberapa tinggi pasar menilai ekuitas dibanding nilai bukunya?</cell>
+          <cell align="left">Market capitalization / book value of equity</cell>
+          <cell align="center">Rasio kali (×)</cell>
+          <cell align="left">Dipengaruhi prospek, aset takberwujud, industri, dan kebijakan akuntansi</cell>
+        </row>
+      </tbody>
+    </table>
+    <paragraph origin="supplemental">Karena unit pengukuran berbeda, perbandingan antarmetrik harus dilakukan dengan hati-hati. WAI dan MVA merupakan ukuran nominal yang sangat dipengaruhi skala perusahaan, sedangkan TSR, ER, dan MBR lebih cocok digunakan untuk membaca kinerja relatif, efisiensi, atau valuasi. Analisis yang kuat menggunakan kelimanya secara komplementer.</paragraph>
+    <heading level="2">2.6 Studi Kasus Flinder Valves and Controls Inc. (FVC) vs. RSE International Corporation</heading>
+    <paragraph>Analisis kasus menggunakan TSR, WAI, MVA, ER, dan MBR. Kelima indikator dipakai secara bersama-sama untuk membandingkan kinerja FVC sebagai perusahaan target dan RSE International Corporation sebagai calon pengakuisisi, kemudian menilai implikasinya terhadap premium, struktur transaksi, dan penciptaan nilai.</paragraph>
+    <heading level="3">2.6.1 Analisis TSR</heading>
+    <paragraph>Definisi: TSR mengukur total return yang diterima pemegang saham, mencakup apresiasi harga saham + dividen yang dinyatakan dalam persentase.</paragraph>
+    <paragraph>Perhitungan TSR FVC (2003–2008)</paragraph>
+    <table source="Diolah kelompok" caption="Tabel 8. Total Shareholder Return FVC 2003–2008">
+      <thead>
+        <row>
+          <cell role="header" align="center">Tahun</cell>
+          <cell role="header" align="center">Harga Saham (Akhir Tahun)</cell>
+          <cell role="header" align="center">Dividen per Saham</cell>
+          <cell role="header" align="center">TSR</cell>
+        </row>
+      </thead>
+      <tbody>
+        <row>
+          <cell align="left">2003</cell>
+          <cell type="number" align="right">$15,00</cell>
+          <cell align="left">-</cell>
+          <cell align="left">-</cell>
+        </row>
+        <row>
+          <cell align="left">2004</cell>
+          <cell type="number" align="right">$22,63</cell>
+          <cell type="number" align="right">$0,82¹</cell>
+          <cell type="number" align="right">56,3%</cell>
+        </row>
+        <row>
+          <cell align="left">2005</cell>
+          <cell type="number" align="right">$22,25</cell>
+          <cell type="number" align="right">$0,83¹</cell>
+          <cell type="number" align="right">2,0%</cell>
+        </row>
+        <row>
+          <cell align="left">2006</cell>
+          <cell type="number" align="right">$21,00</cell>
+          <cell type="number" align="right">$0,94¹</cell>
+          <cell type="number" align="right">-1,4%</cell>
+        </row>
+        <row>
+          <cell align="left">2007</cell>
+          <cell type="number" align="right">$28,50</cell>
+          <cell type="number" align="right">$0,94¹</cell>
+          <cell type="number" align="right">40,2%</cell>
+        </row>
+        <row>
+          <cell align="left">2008 (Mei)</cell>
+          <cell type="number" align="right">$39,75</cell>
+          <cell type="number" align="right">$0,31²</cell>
+          <cell type="number" align="right">40,5%</cell>
+        </row>
+      </tbody>
+    </table>
+    <paragraph role="note" noIndent="true">¹ Estimasi berdasarkan dividen 2007 ($2.304 juta / 2,44 juta saham = $0,94) ² Dividen Q1 2008 ($753 ribu / 2,44 juta = $0,31)</paragraph>
+    <paragraph>TSR Rata-rata FVC (2004–2008): 27,5% per tahun</paragraph>
+    <paragraph>Perhitungan TSR RSE (2003–2008)</paragraph>
+    <table source="Diolah kelompok" caption="Tabel 9. Total Shareholder Return RSE 2003–2008">
+      <thead>
+        <row>
+          <cell role="header" align="center">Tahun</cell>
+          <cell role="header" align="center">Harga Saham (Akhir Tahun)</cell>
+          <cell role="header" align="center">Dividen per Saham</cell>
+          <cell role="header" align="center">TSR</cell>
+        </row>
+      </thead>
+      <tbody>
+        <row>
+          <cell align="left">2003</cell>
+          <cell type="number" align="right">$11,88</cell>
+          <cell type="number" align="right">$1,37¹</cell>
+          <cell align="left">-</cell>
+        </row>
+        <row>
+          <cell align="left">2004</cell>
+          <cell type="number" align="right">$13,16</cell>
+          <cell type="number" align="right">$1,23¹</cell>
+          <cell type="number" align="right">21,1%</cell>
+        </row>
+        <row>
+          <cell align="left">2005</cell>
+          <cell type="number" align="right">$11,13</cell>
+          <cell type="number" align="right">$0,85¹</cell>
+          <cell type="number" align="right">-9,0%</cell>
+        </row>
+        <row>
+          <cell align="left">2006</cell>
+          <cell type="number" align="right">$11,87</cell>
+          <cell type="number" align="right">$1,23¹</cell>
+          <cell type="number" align="right">17,7%</cell>
+        </row>
+        <row>
+          <cell align="left">2007</cell>
+          <cell type="number" align="right">$16,78</cell>
+          <cell type="number" align="right">$1,47¹</cell>
+          <cell type="number" align="right">53,8%</cell>
+        </row>
+        <row>
+          <cell align="left">2008 (Mei)</cell>
+          <cell type="number" align="right">$21,98</cell>
+          <cell type="number" align="right">$0,37²</cell>
+          <cell type="number" align="right">33,2%</cell>
+        </row>
+      </tbody>
+    </table>
+    <paragraph role="note" noIndent="true">¹ Dividen tahunan RSE (Exhibit 5): 2003 = $85,754/62,694 = $1,37; 2004 = $77,052/62,694 = $1,23; 2005 = $53,116/62,694 = $0,85; 2006 = $77,340/62,694 = $1,23; 2007 = $92,238/62,694 = $1,47 ² Dividen Q1 2008 (estimasi)</paragraph>
+    <paragraph>TSR Rata-rata RSE (2004–2008): 23,4% per tahun</paragraph>
+    <paragraph role="label" noIndent="true">Interpretasi TSR:</paragraph>
+    <paragraph>FVC: TSR 27,5% menunjukkan kinerja superior, terutama didorong oleh kenaikan harga saham dari $15 ke $39,75 (2003–2008)</paragraph>
+    <paragraph>RSE: TSR 23,4% juga kuat, tetapi lebih volatil</paragraph>
+    <paragraph>Implikasi: Pemegang saham FVC memiliki ekspektasi return tinggi; akuisisi harus memberikan premium yang memadai</paragraph>
+    <heading level="3">2.6.2 Analisis WAI</heading>
+    <paragraph>Definisi: WAI mengukur nilai kekayaan yang diciptakan (atau dihancurkan) bagi pemegang saham di atas return yang diharapkan, dihitung sebagai:</paragraph>
+    <equation align="center">WAI (pendekatan tahunan pada analisis kasus) = (TSR − Cost of Equity) × Market Capitalization</equation>
+    <paragraph>Catatan metodologis: formula tahunan di atas merupakan pendekatan sederhana untuk mengestimasi wealth added berdasarkan excess shareholder return pada setiap tahun. Untuk horizon multi-periode, pendekatan WAI penuh perlu memperhitungkan perubahan kapitalisasi pasar, distribusi kas, penerbitan ekuitas, dan expected return secara konsisten.</paragraph>
+    <paragraph role="label" noIndent="true">Perhitungan WAI FVC</paragraph>
+    <paragraph role="label" noIndent="true">Asumsi:</paragraph>
+    <paragraph>Cost of Equity FVC = Risk-free rate + Beta × Market Risk Premium</paragraph>
+    <paragraph>Risk-free rate (30-year Treasury, Mei 2008) = 4,52%</paragraph>
+    <paragraph>Market Risk Premium = 7,2% (arithmetic average, Exhibit 9)</paragraph>
+    <paragraph>Beta FVC = 1,00</paragraph>
+    <equation align="center">K_e FVC = 4,52% + (1,00 × 7,2%) = 11,72%</equation>
+    <table source="Diolah kelompok" caption="Tabel 10. Wealth Added Index FVC 2004–2008" orientation="landscape">
+      <thead>
+        <row>
+          <cell role="header" align="center">Tahun</cell>
+          <cell role="header" align="center">TSR</cell>
+          <cell role="header" align="center">Cost of Equity</cell>
+          <cell role="header" align="center">Excess Return</cell>
+          <cell role="header" align="center">Market Cap</cell>
+          <cell role="header" align="center">WAI</cell>
+        </row>
+      </thead>
+      <tbody>
+        <row>
+          <cell align="left">2004</cell>
+          <cell type="number" align="right">56,3%</cell>
+          <cell type="number" align="right">11,72%</cell>
+          <cell type="number" align="right">44,58%</cell>
+          <cell type="number" align="right">$55,2 juta¹</cell>
+          <cell type="number" align="right">$24,6 juta</cell>
+        </row>
+        <row>
+          <cell align="left">2005</cell>
+          <cell type="number" align="right">2,0%</cell>
+          <cell type="number" align="right">11,72%</cell>
+          <cell type="number" align="right">-9,72%</cell>
+          <cell type="number" align="right">$54,3 juta</cell>
+          <cell type="number" align="right">-$5,3 juta</cell>
+        </row>
+        <row>
+          <cell align="left">2006</cell>
+          <cell type="number" align="right">-1,4%</cell>
+          <cell type="number" align="right">11,72%</cell>
+          <cell type="number" align="right">-13,12%</cell>
+          <cell type="number" align="right">$51,2 juta</cell>
+          <cell type="number" align="right">-$6,7 juta</cell>
+        </row>
+        <row>
+          <cell align="left">2007</cell>
+          <cell type="number" align="right">40,2%</cell>
+          <cell type="number" align="right">11,72%</cell>
+          <cell type="number" align="right">28,48%</cell>
+          <cell type="number" align="right">$69,5 juta</cell>
+          <cell type="number" align="right">$19,8 juta</cell>
+        </row>
+        <row>
+          <cell align="left">2008</cell>
+          <cell type="number" align="right">40,5%</cell>
+          <cell type="number" align="right">11,72%</cell>
+          <cell type="number" align="right">28,78%</cell>
+          <cell type="number" align="right">$97,0 juta</cell>
+          <cell type="number" align="right">$27,9 juta</cell>
+        </row>
+      </tbody>
+    </table>
+    <paragraph role="note" noIndent="true">¹ Market Cap = Harga saham × 2,44 juta saham</paragraph>
+    <paragraph>Total WAI FVC (2004–2008): $60,3 juta</paragraph>
+    <paragraph role="label" noIndent="true">Perhitungan WAI RSE</paragraph>
+    <paragraph role="label" noIndent="true">Asumsi:</paragraph>
+    <paragraph>Beta RSE = 1,25</paragraph>
+    <equation align="center">K_e RSE = 4,52% + (1,25 × 7,2%) = 13,52%</equation>
+    <table source="Diolah kelompok" caption="Tabel 11. Wealth Added Index RSE 2004–2008">
+      <thead>
+        <row>
+          <cell role="header" align="center">Tahun</cell>
+          <cell role="header" align="center">TSR</cell>
+          <cell role="header" align="center">Cost of Equity</cell>
+          <cell role="header" align="center">Excess Return</cell>
+          <cell role="header" align="center">Market Cap</cell>
+          <cell role="header" align="center">WAI</cell>
+        </row>
+      </thead>
+      <tbody>
+        <row>
+          <cell align="left">2004</cell>
+          <cell type="number" align="right">21,1%</cell>
+          <cell type="number" align="right">13,52%</cell>
+          <cell type="number" align="right">7,58%</cell>
+          <cell type="number" align="right">$825 juta¹</cell>
+          <cell type="number" align="right">$62,5 juta</cell>
+        </row>
+        <row>
+          <cell align="left">2005</cell>
+          <cell type="number" align="right">-9,0%</cell>
+          <cell type="number" align="right">13,52%</cell>
+          <cell type="number" align="right">-22,52%</cell>
+          <cell type="number" align="right">$698 juta</cell>
+          <cell type="number" align="right">-$157,2 juta</cell>
+        </row>
+        <row>
+          <cell align="left">2006</cell>
+          <cell type="number" align="right">17,7%</cell>
+          <cell type="number" align="right">13,52%</cell>
+          <cell type="number" align="right">4,18%</cell>
+          <cell type="number" align="right">$744 juta</cell>
+          <cell type="number" align="right">$31,1 juta</cell>
+        </row>
+        <row>
+          <cell align="left">2007</cell>
+          <cell type="number" align="right">53,8%</cell>
+          <cell type="number" align="right">13,52%</cell>
+          <cell type="number" align="right">40,28%</cell>
+          <cell type="number" align="right">$1.052 juta</cell>
+          <cell type="number" align="right">$423,7 juta</cell>
+        </row>
+        <row>
+          <cell align="left">2008</cell>
+          <cell type="number" align="right">33,2%</cell>
+          <cell type="number" align="right">13,52%</cell>
+          <cell type="number" align="right">19,68%</cell>
+          <cell type="number" align="right">$1.378 juta</cell>
+          <cell type="number" align="right">$271,2 juta</cell>
+        </row>
+      </tbody>
+    </table>
+    <paragraph role="note" noIndent="true">¹ Market Cap = Harga saham × 62,694 juta saham</paragraph>
+    <paragraph>Total WAI RSE (2004–2008): $631,3 juta</paragraph>
+    <paragraph role="label" noIndent="true">Interpretasi WAI:</paragraph>
+    <paragraph>FVC: WAI positif $60,3 juta menunjukkan penciptaan nilai, meskipun fluktuatif</paragraph>
+    <paragraph>RSE: WAI positif $631,3 juta menunjukkan penciptaan nilai yang jauh lebih besar</paragraph>
+    <paragraph>Implikasi: RSE memiliki track record penciptaan nilai yang lebih kuat; namun FVC memiliki potensi upside yang belum tercermin dalam harga</paragraph>
+    <heading level="3">2.6.3 Analisis MVA</heading>
+    <paragraph>Definisi: MVA adalah selisih antara nilai pasar perusahaan (market capitalization) dengan modal yang diinvestasikan (invested capital).</paragraph>
+    <equation align="center">MVA = Market Capitalization − Invested Capital</equation>
+    <paragraph role="label" noIndent="true">Perhitungan MVA FVC (2007)</paragraph>
+    <table source="Diolah kelompok" caption="Tabel 12. Market Value Added FVC 2007">
+      <thead>
+        <row>
+          <cell role="header" align="center">Komponen</cell>
+          <cell role="header" align="center">Nilai</cell>
+        </row>
+      </thead>
+      <tbody>
+        <row>
+          <cell align="left">Market Capitalization</cell>
+          <cell type="number" align="right">$69,5 juta¹</cell>
+        </row>
+        <row>
+          <cell align="left">Total Equity (Book)</cell>
+          <cell type="number" align="right">$36,76 juta</cell>
+        </row>
+        <row>
+          <cell align="left">Total Debt</cell>
+          <cell type="number" align="right">$0</cell>
+        </row>
+        <row>
+          <cell align="left">Invested Capital</cell>
+          <cell type="number" align="right">$36,76 juta</cell>
+        </row>
+        <row>
+          <cell align="left">MVA</cell>
+          <cell type="number" align="right">$32,74 juta</cell>
+        </row>
+      </tbody>
+    </table>
+    <paragraph role="note" noIndent="true">¹ $28,50 × 2,44 juta saham</paragraph>
+    <paragraph>MVA FVC (Mei 2008):</paragraph>
+    <paragraph>Market Cap: $97,0 juta</paragraph>
+    <paragraph>Invested Capital: $36,76 juta</paragraph>
+    <paragraph>MVA: $60,24 juta</paragraph>
+    <paragraph role="label" noIndent="true">Perhitungan MVA RSE (2007)</paragraph>
+    <table source="Diolah kelompok" caption="Tabel 13. Market Value Added RSE 2007">
+      <thead>
+        <row>
+          <cell role="header" align="center">Komponen</cell>
+          <cell role="header" align="center">Nilai</cell>
+        </row>
+      </thead>
+      <tbody>
+        <row>
+          <cell align="left">Market Capitalization</cell>
+          <cell type="number" align="right">$1.052 juta¹</cell>
+        </row>
+        <row>
+          <cell align="left">Total Equity (Book)</cell>
+          <cell type="number" align="right">$939,9 juta</cell>
+        </row>
+        <row>
+          <cell align="left">Total Debt</cell>
+          <cell type="number" align="right">$154,9 juta</cell>
+        </row>
+        <row>
+          <cell align="left">Invested Capital</cell>
+          <cell type="number" align="right">$1.094,8 juta</cell>
+        </row>
+        <row>
+          <cell align="left">MVA</cell>
+          <cell type="number" align="right">-$42,8 juta</cell>
+        </row>
+      </tbody>
+    </table>
+    <paragraph role="note" noIndent="true">¹ $16,78 × 62,694 juta saham</paragraph>
+    <paragraph>MVA RSE (Mei 2008):</paragraph>
+    <paragraph>Market Cap: $1.378 juta</paragraph>
+    <paragraph>Invested Capital: $1.094,8 juta</paragraph>
+    <paragraph>MVA: $283,2 juta</paragraph>
+    <paragraph role="label" noIndent="true">Interpretasi MVA:</paragraph>
+    <paragraph>FVC: MVA positif dan meningkat signifikan dari sekitar $32,7 juta pada 2007 menjadi $60,2 juta pada Mei 2008, yang menunjukkan penciptaan nilai.</paragraph>
+    <paragraph>RSE: MVA negatif pada 2007, namun positif pada Mei 2008 ($283,2 juta)</paragraph>
+    <paragraph>Implikasi: FVC adalah perusahaan kecil yang efisien; RSE memiliki skala besar tetapi baru saja menciptakan nilai</paragraph>
+    <heading level="3">2.6.4 Analisis ER</heading>
+    <paragraph>Definisi: ER mengukur return ekonomi di atas biaya modal, sering dihitung sebagai:</paragraph>
+    <equation align="center">ER = ROIC − WACC</equation>
+    <paragraph role="label" noIndent="true">Perhitungan ER FVC</paragraph>
+    <paragraph>ROIC (Return on Invested Capital):</paragraph>
+    <equation align="center">ROIC = NOPAT / Invested Capital</equation>
+    <table source="Diolah kelompok" caption="Tabel 14. Return on Invested Capital FVC">
+      <thead>
+        <row>
+          <cell role="header" align="center">Tahun</cell>
+          <cell role="header" align="center">NOPAT¹</cell>
+          <cell role="header" align="center">Invested Capital²</cell>
+          <cell role="header" align="center">ROIC</cell>
+        </row>
+      </thead>
+      <tbody>
+        <row>
+          <cell align="left">2007</cell>
+          <cell type="number" align="right">$5,77 juta</cell>
+          <cell type="number" align="right">$36,76 juta</cell>
+          <cell type="number" align="right">15,7%</cell>
+        </row>
+        <row>
+          <cell align="left">2008E</cell>
+          <cell type="number" align="right">$7,45 juta</cell>
+          <cell type="number" align="right">$42,39 juta</cell>
+          <cell type="number" align="right">17,6%</cell>
+        </row>
+      </tbody>
+    </table>
+    <paragraph role="note" noIndent="true">¹ NOPAT = Net Income (2007: $5,575; 2008E: $7,447) ² Invested Capital = Total Equity + Total Debt</paragraph>
+    <paragraph role="label" noIndent="true">WACC FVC:</paragraph>
+    <paragraph>Cost of Equity = 11,72%</paragraph>
+    <paragraph>Cost of Debt = 0% (tidak ada debt)</paragraph>
+    <paragraph>WACC = 11,72%</paragraph>
+    <paragraph role="label" noIndent="true">ER FVC:</paragraph>
+    <paragraph>2007: 15,7% - 11,72% = 3,98%</paragraph>
+    <paragraph>2008E: 17,6% - 11,72% = 5,88%</paragraph>
+    <paragraph role="label" noIndent="true">Perhitungan ER RSE</paragraph>
+    <paragraph role="label" noIndent="true">ROIC:</paragraph>
+    <table source="Diolah kelompok" caption="Tabel 15. Return on Invested Capital RSE">
+      <thead>
+        <row>
+          <cell role="header" align="center">Tahun</cell>
+          <cell role="header" align="center">NOPAT¹</cell>
+          <cell role="header" align="center">Invested Capital²</cell>
+          <cell role="header" align="center">ROIC</cell>
+        </row>
+      </thead>
+      <tbody>
+        <row>
+          <cell align="left">2007</cell>
+          <cell type="number" align="right">$164,04 juta</cell>
+          <cell type="number" align="right">$1.094,8 juta</cell>
+          <cell type="number" align="right">15,0%</cell>
+        </row>
+        <row>
+          <cell align="left">2008E</cell>
+          <cell type="number" align="right">$167,70 juta</cell>
+          <cell type="number" align="right">$1.120,4 juta</cell>
+          <cell type="number" align="right">15,0%</cell>
+        </row>
+      </tbody>
+    </table>
+    <paragraph role="note" noIndent="true">¹ NOPAT = Net Income (2007: $164,041; 2008E: $167,701) ² Invested Capital = Total Equity + Total Debt</paragraph>
+    <paragraph role="label" noIndent="true">WACC RSE:</paragraph>
+    <paragraph>Cost of Equity = 13,52%</paragraph>
+    <paragraph>Cost of Debt = 6,48% × (1-40%) = 3,89%</paragraph>
+    <paragraph>Debt/Total Capital = $154,9 juta / $1.094,8 juta = 14,1%</paragraph>
+    <paragraph>Equity/Total Capital = 85,9%</paragraph>
+    <paragraph>WACC = (0,141 × 3,89%) + (0,859 × 13,52%) = 12,16%</paragraph>
+    <paragraph role="label" noIndent="true">ER RSE:</paragraph>
+    <paragraph>2007: 15,0% - 12,16% = 2,84%</paragraph>
+    <paragraph>2008E: 15,0% - 12,16% = 2,84%</paragraph>
+    <paragraph role="label" noIndent="true">Interpretasi ER:</paragraph>
+    <paragraph>FVC: ER positif dan meningkat dari 3,98% menjadi 5,88%, menunjukkan penciptaan nilai ekonomi yang semakin kuat.</paragraph>
+    <paragraph>RSE: ER positif stabil (2,84%) tetapi lebih rendah dari FVC</paragraph>
+    <paragraph>Implikasi: FVC lebih efisien dalam menciptakan return di atas biaya modal</paragraph>
+    <heading level="3">2.6.5 Analisis MBR</heading>
+    <paragraph>Definisi: MBR membandingkan nilai pasar ekuitas dengan nilai buku ekuitas.</paragraph>
+    <equation align="center">MBR = Market Capitalization / Book Value of Equity</equation>
+    <paragraph>Perhitungan MBR FVC</paragraph>
+    <table source="Diolah kelompok" caption="Tabel 16. Market-to-Book Ratio FVC 2003–2008">
+      <thead>
+        <row>
+          <cell role="header" align="center">Tahun</cell>
+          <cell role="header" align="center">Market Cap</cell>
+          <cell role="header" align="center">Book Equity</cell>
+          <cell role="header" align="center">MBR</cell>
+        </row>
+      </thead>
+      <tbody>
+        <row>
+          <cell align="left">2003</cell>
+          <cell type="number" align="right">$36,6 juta¹</cell>
+          <cell type="number" align="right">$15,8 juta</cell>
+          <cell type="number" align="right">2,32x</cell>
+        </row>
+        <row>
+          <cell align="left">2004</cell>
+          <cell type="number" align="right">$55,2 juta</cell>
+          <cell type="number" align="right">$18,4 juta</cell>
+          <cell type="number" align="right">3,00x</cell>
+        </row>
+        <row>
+          <cell align="left">2005</cell>
+          <cell type="number" align="right">$54,3 juta</cell>
+          <cell type="number" align="right">$23,4 juta</cell>
+          <cell type="number" align="right">2,32x</cell>
+        </row>
+        <row>
+          <cell align="left">2006</cell>
+          <cell type="number" align="right">$51,2 juta</cell>
+          <cell type="number" align="right">$30,1 juta²</cell>
+          <cell type="number" align="right">1,70x</cell>
+        </row>
+        <row>
+          <cell align="left">2007</cell>
+          <cell type="number" align="right">$69,5 juta</cell>
+          <cell type="number" align="right">$36,8 juta</cell>
+          <cell type="number" align="right">1,89x</cell>
+        </row>
+        <row>
+          <cell align="left">2008 (Mei)</cell>
+          <cell type="number" align="right">$97,0 juta</cell>
+          <cell type="number" align="right">$36,8 juta</cell>
+          <cell type="number" align="right">2,64x</cell>
+        </row>
+      </tbody>
+    </table>
+    <paragraph role="note" noIndent="true">¹ $15,00 × 2,44 juta saham ² Estimasi berdasarkan pertumbuhan equity</paragraph>
+    <paragraph>MBR Rata-rata FVC (2003–2008): 2,31x</paragraph>
+    <paragraph>Perhitungan MBR RSE</paragraph>
+    <table source="Diolah kelompok" caption="Tabel 17. Market-to-Book Ratio RSE 2003–2008">
+      <thead>
+        <row>
+          <cell role="header" align="center">Tahun</cell>
+          <cell role="header" align="center">Market Cap</cell>
+          <cell role="header" align="center">Book Equity</cell>
+          <cell role="header" align="center">MBR</cell>
+        </row>
+      </thead>
+      <tbody>
+        <row>
+          <cell align="left">2003</cell>
+          <cell type="number" align="right">$744,8 juta¹</cell>
+          <cell type="number" align="right">$939,9 juta²</cell>
+          <cell type="number" align="right">0,79x</cell>
+        </row>
+        <row>
+          <cell align="left">2004</cell>
+          <cell type="number" align="right">$825,0 juta</cell>
+          <cell type="number" align="right">$939,9 juta</cell>
+          <cell type="number" align="right">0,88x</cell>
+        </row>
+        <row>
+          <cell align="left">2005</cell>
+          <cell type="number" align="right">$697,8 juta</cell>
+          <cell type="number" align="right">$939,9 juta</cell>
+          <cell type="number" align="right">0,74x</cell>
+        </row>
+        <row>
+          <cell align="left">2006</cell>
+          <cell type="number" align="right">$744,2 juta</cell>
+          <cell type="number" align="right">$939,9 juta</cell>
+          <cell type="number" align="right">0,79x</cell>
+        </row>
+        <row>
+          <cell align="left">2007</cell>
+          <cell type="number" align="right">$1.052,0 juta</cell>
+          <cell type="number" align="right">$939,9 juta</cell>
+          <cell type="number" align="right">1,12x</cell>
+        </row>
+        <row>
+          <cell align="left">2008 (Mei)</cell>
+          <cell type="number" align="right">$1.378,0 juta</cell>
+          <cell type="number" align="right">$939,9 juta</cell>
+          <cell type="number" align="right">1,47x</cell>
+        </row>
+      </tbody>
+    </table>
+    <paragraph role="note" noIndent="true">¹ $11,88 × 62,694 juta saham ² Book equity RSE 2007 (Exhibit 3): $939,897 ribu</paragraph>
+    <paragraph>MBR Rata-rata RSE (2003–2008): 0,97x</paragraph>
+    <paragraph role="label" noIndent="true">Interpretasi MBR:</paragraph>
+    <paragraph>FVC: MBR &gt; 1 (rata-rata 2,31x) menunjukkan pasar menghargai perusahaan di atas nilai buku, mencerminkan ekspektasi pertumbuhan dan intangible assets</paragraph>
+    <paragraph>RSE: MBR &lt; 1 (rata-rata 0,97x) menunjukkan pasar menghargai perusahaan di bawah atau setara nilai buku, mencerminkan kekhawatiran tentang prospek pertumbuhan</paragraph>
+    <paragraph>Implikasi: FVC memiliki valuasi premium; RSE undervalued relatif terhadap book value</paragraph>
+    <heading level="3">2.6.6 Ringkasan Perbandingan Metrik</heading>
+    <table source="Diolah kelompok" caption="Tabel 18. Ringkasan Perbandingan Metrik FVC dan RSE">
+      <thead>
+        <row>
+          <cell role="header" align="center">Metrik</cell>
+          <cell role="header" align="center">FVC</cell>
+          <cell role="header" align="center">RSE</cell>
+          <cell role="header" align="center">Interpretasi</cell>
+        </row>
+      </thead>
+      <tbody>
+        <row>
+          <cell align="left">TSR (2004–2008)</cell>
+          <cell type="number" align="right">27,5%</cell>
+          <cell type="number" align="right">23,4%</cell>
+          <cell align="left">FVC superior</cell>
+        </row>
+        <row>
+          <cell align="left">WAI (2004–2008)</cell>
+          <cell type="number" align="right">$60,3 juta</cell>
+          <cell type="number" align="right">$631,3 juta</cell>
+          <cell align="left">RSE lebih besar (skala)</cell>
+        </row>
+        <row>
+          <cell align="left">MVA (Mei 2008)</cell>
+          <cell type="number" align="right">$60,2 juta</cell>
+          <cell type="number" align="right">$283,2 juta</cell>
+          <cell align="left">RSE lebih besar</cell>
+        </row>
+        <row>
+          <cell align="left">ER (2007)</cell>
+          <cell type="number" align="right">3,98%</cell>
+          <cell type="number" align="right">2,84%</cell>
+          <cell align="left">FVC lebih efisien</cell>
+        </row>
+        <row>
+          <cell align="left">MBR (2007)</cell>
+          <cell type="number" align="right">1,89x</cell>
+          <cell type="number" align="right">1,12x</cell>
+          <cell align="left">FVC premium</cell>
+        </row>
+        <row>
+          <cell align="left">Beta</cell>
+          <cell type="number" align="right">1,00</cell>
+          <cell type="number" align="right">1,25</cell>
+          <cell align="left">FVC lebih rendah risiko</cell>
+        </row>
+        <row>
+          <cell align="left">Cost of Equity</cell>
+          <cell type="number" align="right">11,72%</cell>
+          <cell type="number" align="right">13,52%</cell>
+          <cell align="left">FVC lebih murah</cell>
+        </row>
+      </tbody>
+    </table>
+    <paragraph>Ringkasan tersebut menunjukkan bahwa ukuran berskala persentase dan rasio, seperti ER dan MBR, menonjolkan efisiensi serta premium valuasi FVC. Sebaliknya, ukuran nominal seperti WAI dan MVA menghasilkan nilai absolut yang jauh lebih besar pada RSE karena skala perusahaan lebih besar. Karena itu, perbandingan antarmetrik harus mempertimbangkan dimensi yang diukur dan skala perusahaan.</paragraph>
+    <heading level="3">2.6.7 Implikasi terhadap Akuisisi</heading>
+    <paragraph>Nilai Wajar FVC</paragraph>
+    <paragraph>Berdasarkan analisis MBR:</paragraph>
+    <paragraph>MBR FVC saat ini: 2,64x (Mei 2008)</paragraph>
+    <paragraph>Book equity: $36,8 juta</paragraph>
+    <paragraph>Implied Market Value: $97,0 juta (harga saat ini)</paragraph>
+    <paragraph>Jika RSE membayar premium 30-40% (standar akuisisi):</paragraph>
+    <paragraph>Equity Value: $126-136 juta</paragraph>
+    <paragraph>Per Share: $51,6-55,7</paragraph>
+    <paragraph role="label" noIndent="true">Dampak terhadap RSE</paragraph>
+    <paragraph role="label" noIndent="true">Sebelum Akuisisi:</paragraph>
+    <paragraph>MVA RSE: $283,2 juta</paragraph>
+    <paragraph>ER RSE: 2,84%</paragraph>
+    <paragraph>MBR RSE: 1,47x</paragraph>
+    <paragraph>Setelah Akuisisi (asumsi harga $130 juta, 50% cash + 50% stock):</paragraph>
+    <paragraph>MVA RSE: $283,2 + $60,2 (MVA FVC) - premium = $300 juta</paragraph>
+    <paragraph>ER RSE: (15,0% × $1.120 + 17,6% × $42,4) / $1.162 - 12,16% = 2,9%</paragraph>
+    <paragraph>MBR RSE setelah akuisisi diperkirakan sekitar 1,50× berdasarkan asumsi nilai pasar dan perubahan ekuitas yang digunakan dalam materi awal.</paragraph>
+    <paragraph role="label" noIndent="true">Justifikasi Premium</paragraph>
+    <paragraph>Premium yang wajar didasarkan pada:</paragraph>
+    <paragraph>Sinergi: $80 juta/tahun (PV $500-600 juta pada WACC 12%)</paragraph>
+    <paragraph>Kontrol: RSE mendapatkan kendali penuh</paragraph>
+    <paragraph>Efisiensi: FVC memiliki ER lebih tinggi (5,88% vs 2,84%)</paragraph>
+    <paragraph>Risiko: Beta FVC lebih rendah (1,00 vs 1,25)</paragraph>
+    <heading level="3">2.6.8 Kesimpulan Kasus</heading>
+    <table source="Diolah kelompok" caption="Tabel 19. Kesimpulan Analisis Kasus FVC dan RSE">
+      <thead>
+        <row>
+          <cell role="header" align="center">Aspek</cell>
+          <cell role="header" align="center">Kesimpulan</cell>
+        </row>
+      </thead>
+      <tbody>
+        <row>
+          <cell align="left">TSR</cell>
+          <cell align="left">FVC 27,5% &gt; RSE 23,4%; FVC menunjukkan kinerja shareholder return yang lebih tinggi.</cell>
+        </row>
+        <row>
+          <cell align="left">WAI</cell>
+          <cell align="left">RSE $631,3 juta &gt; FVC $60,3 juta; RSE menciptakan wealth added nominal lebih besar karena skala.</cell>
+        </row>
+        <row>
+          <cell align="left">MVA</cell>
+          <cell align="left">RSE $283,2 juta &gt; FVC $60,2 juta pada Mei 2008; secara nominal RSE lebih besar.</cell>
+        </row>
+        <row>
+          <cell align="left">ER</cell>
+          <cell align="left">FVC 3,98% pada 2007 &gt; RSE 2,84%; FVC lebih efisien menghasilkan return di atas biaya modal.</cell>
+        </row>
+        <row>
+          <cell align="left">MBR</cell>
+          <cell align="left">FVC 2,64× &gt; RSE 1,47× pada Mei 2008; FVC memperoleh valuasi premium dan RSE relatif lebih rendah terhadap book value.</cell>
+        </row>
+      </tbody>
+    </table>
+    <paragraph role="label" noIndent="true">Rekomendasi:</paragraph>
+    <paragraph>Harga wajar: $126-136 juta (premium 30-40% dari harga pasar)</paragraph>
+    <paragraph>Struktur: 50% cash + 50% stock untuk menjaga rating Baa RSE</paragraph>
+    <paragraph>Syarat: Retensi Bill Flinder, earn-out untuk sinergi, lock-up Auden Company</paragraph>
+    <paragraph>Justifikasi: Sinergi $80 juta/tahun, ER FVC lebih tinggi, beta lebih rendah</paragraph>
+    <paragraph>Keputusan: Akuisisi layak dilakukan pada harga $130-140 juta karena:</paragraph>
+    <paragraph>Menciptakan nilai bagi kedua pihak</paragraph>
+    <paragraph>Sinergi jelas dan terukur</paragraph>
+    <paragraph>Dapat dibiayai tanpa merusak struktur modal RSE</paragraph>
+    <paragraph>FVC memiliki ER dan MBR yang menunjukkan efisiensi dan potensi premium</paragraph>
+    <paragraph>Secara keseluruhan, keputusan akuisisi pada materi awal dinilai layak pada kisaran harga yang direkomendasikan sepanjang sinergi benar-benar dapat direalisasikan, struktur pembiayaan tidak merusak profil risiko RSE, dan asumsi valuasi diperbarui menggunakan informasi yang tersedia pada saat transaksi.</paragraph>
+    <pageBreak before="next"/>
+    <heading level="1">BAB III PENUTUP</heading>
+    <heading level="2">3.1 Kesimpulan</heading>
+    <paragraph>Pengukuran kinerja perusahaan keseluruhan memerlukan kombinasi indikator karena setiap ukuran menjelaskan dimensi yang berbeda. TSR menunjukkan total return aktual pemegang saham, WAI mengukur wealth added di atas expected return, MVA menunjukkan penciptaan nilai kumulatif yang tercermin dalam nilai pasar, ER mengukur return yang melampaui benchmark atau biaya modal, sedangkan MBR menunjukkan bagaimana pasar menilai ekuitas relatif terhadap nilai bukunya.</paragraph>
+    <paragraph>Penggunaan kelima ukuran secara bersama-sama membantu menghindari kesimpulan yang terlalu sempit. Perusahaan dapat memiliki WAI atau MVA nominal besar karena skala, tetapi memiliki ER yang lebih rendah. Sebaliknya, perusahaan yang lebih kecil dapat menunjukkan efisiensi dan premium valuasi yang lebih tinggi walaupun nilai tambah nominalnya lebih kecil. Dengan demikian, ukuran absolut, persentase, dan rasio harus dibaca secara saling melengkapi.</paragraph>
+    <paragraph>Pada studi kasus FVC dan RSE, FVC menunjukkan TSR, ER, dan MBR yang lebih kuat, sedangkan RSE memiliki WAI dan MVA nominal yang lebih besar. Hasil tersebut mendukung penggunaan analisis multi-metrik dalam mengevaluasi harga akuisisi, risiko, potensi sinergi, dan struktur transaksi.</paragraph>
+    <heading level="2">3.2 Implikasi Manajerial</heading>
+    <list type="bullet">
+      <item>Manajemen sebaiknya tidak menggunakan laba akuntansi sebagai satu-satunya ukuran keberhasilan karena penciptaan nilai harus memperhitungkan biaya modal dan reaksi pasar.</item>
+      <item>Perbandingan perusahaan dengan ukuran nominal seperti WAI dan MVA harus mempertimbangkan perbedaan skala, sehingga perlu dilengkapi ukuran relatif seperti ER, TSR, dan MBR.</item>
+      <item>Dalam akuisisi, premium harus didukung nilai sinergi yang realistis dan bukan hanya oleh kenaikan harga saham atau valuasi pasar jangka pendek.</item>
+      <item>Asumsi cost of equity, WACC, beta, nilai buku, dan data pasar perlu konsisten dengan tanggal penilaian karena perubahan asumsi dapat mengubah kesimpulan secara material.</item>
+      <item>Keputusan akhir sebaiknya menggabungkan indikator keuangan dengan faktor strategis, tata kelola, integrasi operasi, retensi manajemen kunci, dan kemampuan merealisasikan sinergi.</item>
+    </list>
+    <pageBreak before="next"/>
+    <heading level="1">DAFTAR PUSTAKA</heading>
+    <references role="bibliography" preserveSourceReferences="true" note="Referensi sumber dipertahankan; materi pelengkap berupa sintesis konseptual tidak menambahkan sitasi fiktif.">
+      <reference id="ref1">Arnold, G. (2008). Corporate Financial Management (4th ed.).</reference>
+      <reference id="ref2">Brealey, R. A., Myers, S. C., &amp; Allen, F. (2006). Corporate Finance (8th ed.).</reference>
+      <reference id="ref3">Brigham, E. F., &amp; Ehrhardt, M. C. (2005). Financial Management: Theory and Practice (11th ed.).</reference>
+      <reference id="ref4">Bruner, R. F. (2010). Case Studies in Finance. Bagian kasus Flinder Valves and Controls Inc.</reference>
+      <reference id="ref5">Helfert, E. A. (1997). Techniques of Financial Analysis: A Practical Guide to Managing and Measuring Business Performance (9th ed.).</reference>
+    </references>
+  </document>
+</ripidoc>
