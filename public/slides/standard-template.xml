@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  RipiDoc Standard XML Template
+  Setiap <slide> wajib memiliki atribut type.
+  Jangan melebihi batas yang dicatat di komentar setiap layout.
+-->
+<presentation version="1">
+  <meta>
+    <title>Judul Presentasi</title>
+    <course>Nama Mata Kuliah</course>
+    <author>Nama Penyaji</author>
+  </meta>
+
+  <slides>
+    <!-- cover: kicker ≤ 42, title ≤ 72, subtitle ≤ 150, asset opsional. -->
+    <slide type="cover" asset="ikan-biru-panjang">
+      <kicker>NAMA MATA KULIAH</kicker>
+      <title>Judul Utama Presentasi</title>
+      <subtitle>Ringkasan singkat yang menjelaskan arah utama presentasi.</subtitle>
+    </slide>
+
+    <!-- chapter: number ≤ 8, title ≤ 64, subtitle ≤ 140. -->
+    <slide type="chapter" asset="ikan-biru-melengkung">
+      <number>01</number>
+      <title>Nama Bab atau Bagian</title>
+      <subtitle>Pengantar singkat untuk bagian ini.</subtitle>
+    </slide>
+
+    <!-- statement: title ≤ 130, body ≤ 180. Tanpa poin atau kartu. -->
+    <slide type="statement">
+      <kicker>PERTANYAAN UTAMA</kicker>
+      <title>Bagaimana perubahan lingkungan memengaruhi pilihan strategi?</title>
+      <body>Gunakan slide ini untuk satu pernyataan atau pertanyaan besar yang perlu diingat audiens.</body>
+    </slide>
+
+    <!-- cards: 3–4 card; card title ≤ 32; card body ≤ 100. -->
+    <slide type="cards">
+      <kicker>IDE KUNCI</kicker>
+      <title>Tiga perubahan yang perlu diperhatikan.</title>
+      <cards>
+        <card><title>Teknologi</title><body>Inovasi mengubah cara nilai diciptakan.</body></card>
+        <card><title>Pelanggan</title><body>Kebutuhan dan cara membeli ikut bergeser.</body></card>
+        <card><title>Regulasi</title><body>Aturan menentukan ruang gerak baru.</body></card>
+      </cards>
+    </slide>
+
+    <!-- framework: 3–6 item; item title ≤ 24; item body ≤ 70; body ≤ 130. -->
+    <slide type="framework">
+      <kicker>KERANGKA ANALISIS</kicker>
+      <title>Gunakan beberapa lensa untuk membaca lingkungan.</title>
+      <items>
+        <item><title>Politik</title><body>Kebijakan dan stabilitas.</body></item>
+        <item><title>Ekonomi</title><body>Inflasi, kurs, dan bunga.</body></item>
+        <item><title>Sosial</title><body>Demografi serta gaya hidup.</body></item>
+      </items>
+      <body>Pilih faktor yang paling memengaruhi topik presentasi.</body>
+    </slide>
+
+    <!-- process: 4–6 step; label ≤ 22; body ≤ 70. -->
+    <slide type="process">
+      <kicker>ALUR KERJA</kicker>
+      <title>Dari observasi menuju respons strategi.</title>
+      <steps>
+        <step><label>Scan</label><body>Amati perubahan awal.</body></step>
+        <step><label>Signal</label><body>Temukan pola penting.</body></step>
+        <step><label>Forecast</label><body>Proyeksikan arah tren.</body></step>
+        <step><label>Respond</label><body>Siapkan pilihan strategi.</body></step>
+      </steps>
+    </slide>
+
+    <!-- comparison: 2–3 column; title ≤ 32; body ≤ 110; maksimal 3 point. -->
+    <slide type="comparison">
+      <kicker>PERBANDINGAN</kicker>
+      <title>Bandingkan dua pilihan secara ringkas.</title>
+      <columns>
+        <column><title>Pilihan A</title><body>Nilai utama dari pilihan pertama.</body><points><point>Kelebihan pertama</point><point>Risiko utama</point></points></column>
+        <column><title>Pilihan B</title><body>Nilai utama dari pilihan kedua.</body><points><point>Kelebihan pertama</point><point>Risiko utama</point></points></column>
+      </columns>
+    </slide>
+
+    <!-- case: title ≤ 80; context ≤ 180; tepat 3 card. -->
+    <slide type="case" asset="udang-batik">
+      <kicker>STUDI KASUS</kicker>
+      <title>Ketika perubahan pasar menjadi tekanan strategi.</title>
+      <context>Gunakan bagian ini untuk menjelaskan konteks kasus sebelum membagi analisis ke tiga poin penting.</context>
+      <cards>
+        <card><title>Perubahan</title><body>Hal utama yang terjadi.</body></card>
+        <card><title>Dampak</title><body>Konsekuensi bagi organisasi.</body></card>
+        <card><title>Respons</title><body>Tindakan yang disarankan.</body></card>
+      </cards>
+    </slide>
+
+    <!-- table: 2–3 head cell; 3–6 row; head ≤ 20; cell ≤ 45. -->
+    <slide type="table">
+      <kicker>DATA RINGKAS</kicker>
+      <title>Bandingkan data penting dalam tabel kecil.</title>
+      <table>
+        <head><cell>Faktor</cell><cell>Dampak</cell></head>
+        <body>
+          <row><cell>Teknologi</cell><cell>Proses lebih cepat</cell></row>
+          <row><cell>Pelanggan</cell><cell>Ekspektasi berubah</cell></row>
+          <row><cell>Regulasi</cell><cell>Kepatuhan diperlukan</cell></row>
+        </body>
+      </table>
+    </slide>
+
+    <!-- closing: tepat 3 insight; insight title ≤ 36; body ≤ 90; quote ≤ 140. -->
+    <slide type="closing">
+      <kicker>KESIMPULAN</kicker>
+      <insights>
+        <insight><title>Lihat perubahan</title><body>Amati sebelum terlihat jelas.</body></insight>
+        <insight><title>Pahami dampak</title><body>Hubungkan perubahan dengan konteks.</body></insight>
+        <insight><title>Adaptasi strategi</title><body>Siapkan respons yang sesuai.</body></insight>
+      </insights>
+      <quote>Strategi yang baik dimulai dari kemampuan melihat perubahan.</quote>
+    </slide>
+  </slides>
+</presentation>
